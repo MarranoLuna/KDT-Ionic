@@ -1,0 +1,34 @@
+.content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Alinea los elementos al inicio del contenedor */
+  align-items: center;
+  height: 100%;
+  padding-top: 20%; /* Añade un poco de espacio desde la parte superior para que no quede pegado */
+}
+
+.image-container {
+  margin-bottom: 40px; /* Aumenta el espacio entre la imagen y los botones */
+  
+  img {
+    max-width: 80%;
+    height: auto;
+  }
+}
+
+.buttons-container {
+  width: 80%;
+  
+  ion-button {
+    margin-bottom: 20px; /* Aumenta el espacio entre los botones */
+  }
+}
+
+ion-button {
+  // Cambia el color del texto a blanco
+  --color: #ffffff; 
+  
+  // Cambia la fuente y el peso (bold)
+  --font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+}

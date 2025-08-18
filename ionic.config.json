@@ -1,0 +1,7 @@
+{
+  "name": "KDT",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
