@@ -1,0 +1,28 @@
+.menu-header {
+  background: #f5a623; /* tu color de fondo */
+}
+
+.menu-user {
+  display: flex;
+  align-items: center;  /* Alinea verticalmente el avatar con el texto */
+  gap: 12px;            /* Espacio entre avatar y texto */
+}
+
+.menu-user ion-avatar {
+  width: 48px;
+  height: 48px;
+}
+
+.menu-user h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: #000;
+}
+
+
+.menu-footer {
+  margin-top: auto;
+  padding: 0;
+
+}

@@ -1,3 +1,65 @@
-<ion-app>
+<ion-menu content-id="main-content" side="start">
+  <ion-content>
+    <!-- HEADER del menú -->
+    <div class="menu-header ion-padding">
+  <div class="menu-user">
+    <ion-avatar>
+      <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Avatar">
+    </ion-avatar>
+    <ion-label>
+      <h2>Hola Patricio</h2>
+    </ion-label>
+  </div>
+</div>
+
+    <!-- ITEMS -->
+    <ion-list>
+      <ion-menu-toggle auto-hide="true">
+        <ion-item routerLink="/home" lines="none">
+          <ion-icon name="home-outline" slot="start"></ion-icon>
+          <ion-label>Inicio</ion-label>
+        </ion-item>
+
+        <ion-item routerLink="/">
+          <ion-icon name="notifications-outline" slot="start"></ion-icon>
+          <ion-label>Notificaciones</ion-label>
+        </ion-item>
+
+        <ion-item routerLink="/" lines="none">
+          <ion-icon name="newspaper-outline" slot="start"></ion-icon>
+          <ion-label>Solicitudes</ion-label>
+        </ion-item>
+
+        <ion-item routerLink="/" lines="none">
+          <ion-icon name="cube-outline" slot="start"></ion-icon>
+          <ion-label>Pedidos</ion-label>
+        </ion-item>
+
+        <ion-item routerLink="/">
+          <ion-icon name="location-outline" slot="start"></ion-icon>
+          <ion-label>Mis direcciones</ion-label>
+        </ion-item>
+
+        <ion-item routerLink="/">
+          <ion-icon name="exit-outline" slot="start"></ion-icon>
+          <ion-label>Cerrar Sesión</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+
+  <!-- FOOTER FIJO -->
+  <ion-footer>
+    <ion-toolbar>
+      <ion-button expand="block" color="warning">
+        <ion-icon name="rocket-outline" slot="start"></ion-icon>
+        ¡Ser KDT!
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</ion-menu>
+
+<!-- CONTENIDO PRINCIPAL -->
+<div class="ion-page" id="main-content">
   <ion-router-outlet></ion-router-outlet>
-</ion-app>
+</div>
