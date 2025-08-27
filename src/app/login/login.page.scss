@@ -1,0 +1,46 @@
+.content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Esto centrará el logo y el formulario verticalmente */
+  align-items: center;
+  height: 100%;
+}
+
+.image-container {
+  margin-bottom: 30px;
+  
+  img {
+    max-width: 70%;
+    height: auto;
+  }
+}
+
+.form-list {
+  margin: 10px auto;
+  width: 90%;
+  
+  ion-item {
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    margin-bottom: 30px;
+    
+    ion-label {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.buttons-container {
+  width: 80%;
+  
+  ion-button {
+    margin-bottom: 20px;
+  }
+}
+
+ion-button {
+  --color: #ffffff; 
+  --font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+}
