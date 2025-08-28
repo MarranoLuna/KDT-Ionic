@@ -23,11 +23,11 @@
 
 
   <ion-grid>
-    <ion-row>
+    <ion-row routerLink="/new-requests">
       <ion-col size="12">
         <ion-card button>
           <ion-card-header>
-            <ion-card-title class="highlight">Hacer Solicitud</ion-card-title>
+            <ion-card-title class="highlight">Nueva Solicitud</ion-card-title>
           </ion-card-header>
           <ion-card-content>
             <img src="https://docs-demo.ionic.io/assets/madison.jpg" alt="Solicitud" />
@@ -37,17 +37,17 @@
     </ion-row>
 
     <ion-row>
-      <ion-col size="6">
+      <ion-col size="6" routerLink="/requests">
         <ion-card button>
-          <ion-card-header>
-            <ion-card-title class="highlight2">Solicitudes</ion-card-title>
+          <ion-card-header >
+            <ion-card-title class="highlight2" >Solicitudes</ion-card-title>
           </ion-card-header>
           <ion-card-content>
             <img src="https://docs-demo.ionic.io/assets/madison.jpg" alt="Solicitudes" />
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col size="6">
+      <ion-col size="6" routerLink="/orders">
         <ion-card button>
           <ion-card-header>
             <ion-card-title class="highlight2">Pedidos</ion-card-title>
