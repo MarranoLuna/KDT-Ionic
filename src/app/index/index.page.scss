@@ -1,18 +1,21 @@
 .content-container {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Alinea los elementos al inicio del contenedor */
+  justify-content: center;
   align-items: center;
   height: 100%;
-  padding-top: 20%; /* Añade un poco de espacio desde la parte superior para que no quede pegado */
+  padding: 0 5%; 
 }
 
 .image-container {
-  margin-bottom: 40px; /* Aumenta el espacio entre la imagen y los botones */
-  
+  margin-bottom: 20px; 
+  /* Puedes incluso quitar max-width aquí y dejar que la imagen lo maneje */
+  width: 100%; /* Aseguramos que el contenedor de la imagen ocupe todo el ancho disponible */
+
   img {
-    max-width: 80%;
-    height: auto;
+    max-width: 100%; /* Permitimos que la imagen use el 100% del ancho de su contenedor */
+    height: auto; /* Mantenemos la proporción original de la imagen */
+    object-fit: contain; /* Asegura que la imagen se escala para encajar sin recortarse */
   }
 }
 
@@ -25,10 +28,8 @@
 }
 
 ion-button {
-  // Cambia el color del texto a blanco
   --color: #ffffff; 
-  
-  // Cambia la fuente y el peso (bold)
   --font-family: 'Poppins', sans-serif;
   font-weight: bold;
+  font-size: 22px; 
 }

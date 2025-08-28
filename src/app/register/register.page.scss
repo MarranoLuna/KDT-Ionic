@@ -1,0 +1,52 @@
+.content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Alinea los elementos al inicio del contenedor */
+  align-items: center;
+  height: 100%;
+  padding-top: 50px; /* Ajusta este valor para dar más o menos espacio desde arriba */
+}
+
+.image-container {
+  margin-bottom: 20px; /* Puedes ajustar este margen también */
+  
+  img {
+    max-width: 60%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+/* El resto de tu CSS permanece igual */
+.form-list {
+  margin: 10px auto;
+  width: 90%;
+  
+  ion-item {
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    margin-bottom: 1px;
+    
+    ion-label {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.buttons-container {
+  width: 60%;
+  
+  ion-button {
+    margin-top: 10px;
+  }
+}
+
+ion-button {
+  --color: #ffffff; 
+  --font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  font-size: 18px; 
+}
+

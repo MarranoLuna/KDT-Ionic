@@ -12,6 +12,8 @@
   img {
     max-width: 70%;
     height: auto;
+    display: flex; /* La imagen debe ser un elemento de bloque para que los márgenes funcionen */
+    margin: 0 auto; /* Centra la imagen horizontalmente dentro de su contenedor */
   }
 }
 
@@ -32,7 +34,7 @@
 }
 
 .buttons-container {
-  width: 80%;
+  width: 60%;
   
   ion-button {
     margin-bottom: 20px;
@@ -43,4 +45,5 @@ ion-button {
   --color: #ffffff; 
   --font-family: 'Poppins', sans-serif;
   font-weight: bold;
+  font-size: 18px;
 }
