@@ -1,0 +1,42 @@
+
+
+
+.logo-and-text-container {
+  display: flex; /* Convierte el contenedor en un flexbox */
+  align-items: center; /* Centra los elementos (imagen y texto) verticalmente */
+}
+
+/* Puedes mantener el estilo de tu imagen */
+.image-container {
+    margin-top: 30px;
+    margin-left: 30px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-start;
+
+  img {
+    max-width: 80%;
+    height: auto;
+  }
+}
+
+.logo-text {
+  /* Estilo para el texto */
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 40px;
+  color: #000000;
+  margin-right: 40px;
+}
+
+
+.image-container2 {
+  margin-bottom: 20px; 
+  width: 100%; 
+
+  img {
+    max-width: 100%; 
+    height: auto; 
+    object-fit: contain;
+  }
+}

@@ -1,7 +1,7 @@
 .content-container {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Esto centrará el logo y el formulario verticalmente */
+  justify-content: center; 
   align-items: center;
   height: 100%;
 }
@@ -12,8 +12,8 @@
   img {
     max-width: 70%;
     height: auto;
-    display: flex; /* La imagen debe ser un elemento de bloque para que los márgenes funcionen */
-    margin: 0 auto; /* Centra la imagen horizontalmente dentro de su contenedor */
+    display: flex; 
+    margin: 0 auto; 
   }
 }
 
@@ -47,3 +47,15 @@ ion-button {
   font-weight: bold;
   font-size: 18px;
 }
+
+#check {
+  --size: 20px;
+  --checkbox-background-checked: #f1a80a;
+  --border-radius: 0;
+  margin-bottom: 20px;
+  
+  font-family: 'Poppins', sans-serif;
+}
+
+
+

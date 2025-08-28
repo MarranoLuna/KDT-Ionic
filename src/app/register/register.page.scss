@@ -1,14 +1,14 @@
 .content-container {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Alinea los elementos al inicio del contenedor */
+  justify-content: flex-start; 
   align-items: center;
   height: 100%;
-  padding-top: 50px; /* Ajusta este valor para dar más o menos espacio desde arriba */
+  padding-top: 50px; 
 }
 
 .image-container {
-  margin-bottom: 20px; /* Puedes ajustar este margen también */
+  margin-bottom: 20px; 
   
   img {
     max-width: 60%;
@@ -18,7 +18,7 @@
   }
 }
 
-/* El resto de tu CSS permanece igual */
+
 .form-list {
   margin: 10px auto;
   width: 90%;

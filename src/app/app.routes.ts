@@ -28,6 +28,10 @@ export const routes: Routes = [
     path: 'orders',
     loadComponent: () => import('./orders/orders.page').then( m => m.OrdersPage)
   },
+  {
+    path: 'request-sent',
+    loadComponent: () => import('./request-sent/request-sent.page').then( m => m.RequestSentPage)
+  },
 
   
 
