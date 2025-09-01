@@ -12,7 +12,8 @@ export const routes: Routes = [
   {
     path: 'register',
     loadComponent: () => import('./register/register.page').then( m => m.RegisterPage)
-  },  {
+  },
+  {
     path: 'home',
     loadComponent: () => import('./home/home.page').then( m => m.HomePage)
   },
@@ -32,7 +33,5 @@ export const routes: Routes = [
     path: 'request-sent',
     loadComponent: () => import('./request-sent/request-sent.page').then( m => m.RequestSentPage)
   },
-
-  
 
 ];
