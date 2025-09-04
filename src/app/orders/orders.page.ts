@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonApp, IonGrid, IonLabel, IonIcon, IonCardContent, 
+import { IonContent, IonHeader, IonTitle, IonCardSubtitle, IonCardHeader, IonCard, IonItem, IonList, IonThumbnail, IonToolbar, IonApp, IonGrid, IonLabel, IonIcon, IonCardContent, 
   IonCardTitle, IonMenuButton, IonButton, IonButtons, IonRow, } from '@ionic/angular/standalone';
   import { RouterLink } from '@angular/router';
 
@@ -11,7 +11,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonApp, IonGrid, IonLabel,
   templateUrl: './orders.page.html',
   styleUrls: ['./orders.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,  IonApp, IonGrid, IonLabel, 
+  imports: [IonContent, IonHeader, IonTitle,IonCardSubtitle,IonCardHeader,IonCard, IonItem, IonList, IonToolbar,IonThumbnail, CommonModule, FormsModule,  IonApp, IonGrid, IonLabel, 
     IonIcon, IonCardContent, IonCardTitle, IonMenuButton, IonButton, IonButtons, IonRow,  RouterLink]
 })
 export class OrdersPage implements OnInit {
