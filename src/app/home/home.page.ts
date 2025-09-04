@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {
-  IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton, IonLabel,IonAvatar,
-  IonContent, IonGrid, IonRow, IonIcon, IonCol, IonCard, IonCardContent, IonCardHeader, IonCardTitle
+  IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton, IonAvatar,
+  IonContent, IonGrid, IonRow,  IonCol, IonCard, IonCardContent, IonCardHeader, IonCardTitle
 } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
 
@@ -12,8 +12,8 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [
     IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton, IonAvatar,
-    IonContent, IonGrid, IonRow, IonCol, IonIcon, IonCard, IonCardContent,
-    RouterLink, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, IonLabel
+    IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardContent,
+    RouterLink, IonCardContent, IonCardHeader, IonCardTitle, IonGrid
   ]
 })
 export class HomePage {}
