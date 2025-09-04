@@ -1,3 +1,9 @@
 {
-  "typescript.preferences.autoImportFileExcludePatterns": ["@ionic/angular/common", "@ionic/angular"]
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "@ionic/angular/common",
+    "@ionic/angular"
+  ],
+  "workbench.activityBar.iconClickBehavior": "toggle",
+  "workbench.colorTheme": "Monokai Dimmed",
+  "workbench.preferredDarkColorTheme": "Default Dark Modern"
 }
