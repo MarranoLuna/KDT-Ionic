@@ -17,4 +17,12 @@ export class ApiService {
   login(credentials: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(`${this.apiUrl}/login`, credentials, { headers });
-}}
+}
+
+ registerUser(userData: any): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(`${this.apiUrl}/register`, userData, { headers });
+  }
+
+
+}
