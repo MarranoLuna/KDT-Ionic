@@ -35,8 +35,8 @@ export class LoginPage {
         console.log('Login exitoso', response);
         this.router.navigate(['/home']); // Redirigir a la página principal
       },
-      error: (e: HttpErrorResponse) => {
-        console.error('Error en el login', e);
+      error: () => {
+        console.log('Error en el login');
       }
     });
   }
