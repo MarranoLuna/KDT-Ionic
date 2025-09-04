@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonApp, IonGrid, IonLabel, IonIcon, IonCardContent, 
-  IonCardTitle, IonMenuButton, IonButton, IonButtons, IonRow, IonList, IonItem, IonInput, IonToggle, IonTextarea, 
-   IonModal, IonNote ,IonSelect , IonText, IonSelectOption} from '@ionic/angular/standalone';
-  import { RouterLink } from '@angular/router';
+import { IonContent, IonHeader, IonTitle, IonToolbar,  IonLabel, 
+   IonMenuButton, IonButton, IonButtons,  IonList, IonItem, IonInput, IonToggle, IonTextarea, 
+    IonNote ,IonSelect , IonSelectOption} from '@ionic/angular/standalone';
+  //import { RouterLink } from '@angular/router';
  
 @Component({
   selector: 'app-new-requests',
@@ -15,9 +15,9 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonApp, IonGrid, IonLabel,
 
  
 
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,  IonApp, IonGrid, IonLabel, 
-    IonIcon, IonCardContent, IonCardTitle, IonMenuButton, IonButton, IonButtons, IonRow,  IonText, IonSelectOption,
-    IonList, IonItem, IonInput,  IonToggle, IonTextarea, IonNote,  IonModal, IonSelect, RouterLink]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,    IonLabel, 
+     IonMenuButton, IonButton, IonButtons,   IonSelectOption,
+    IonList, IonItem, IonInput,  IonToggle, IonTextarea, IonNote,   IonSelect]
 })
 export class NewRequestsPage implements OnInit {
 
