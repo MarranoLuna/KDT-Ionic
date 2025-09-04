@@ -7,14 +7,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
+
   private apiUrl = 'http://localhost:8000/api'; 
+
+
   constructor(private http: HttpClient) { }
 
 
   login(credentials: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(`${this.apiUrl}/login`, credentials, { headers });
-}
-}
-
-
+}}
