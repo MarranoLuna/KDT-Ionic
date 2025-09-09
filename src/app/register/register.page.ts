@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, LoadingController, ToastController } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../services/api';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -19,7 +19,6 @@ import { HttpErrorResponse } from '@angular/common/http';
   ]
 })
 export class RegisterPage {
-  // Update this object to match your form fields
   formData = {
     firstname: '',
     lastname: '',
@@ -29,19 +28,45 @@ export class RegisterPage {
     password_confirmation: ''
   };
 
-  showPassword = false; // Property for the password visibility toggle
+  showPassword = false;
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController
+  ) {}
 
-  onRegister() {
+  async onRegister() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Registrando...',
+      spinner: 'crescent'
+    });
+    await loading.present();
+
     this.apiService.registerUser(this.formData).subscribe({
-      next: (response) => {
+      next: async (response) => {
         console.log('Registration successful!', response);
-        // Navigate to the login page or show a success message
+        await loading.dismiss();
+
+        const toast = await this.toastCtrl.create({
+          message: 'Registro exitoso',
+          duration: 2000,
+          color: 'success',
+          position: 'top'
+        });
+        toast.present();
       },
-      error: (e: HttpErrorResponse) => {
+      error: async (e: HttpErrorResponse) => {
         console.error('Registration error', e);
-        // Show a user-friendly error message
+        await loading.dismiss();
+
+        const toast = await this.toastCtrl.create({
+          message: 'Error en el registro. Intenta nuevamente.',
+          duration: 2000,
+          color: 'danger',
+          position: 'top'
+        });
+        toast.present();
       }
     });
   }
@@ -50,7 +75,6 @@ export class RegisterPage {
     this.showPassword = !this.showPassword;
   }
 }
-
 
 
 
