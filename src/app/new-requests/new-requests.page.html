@@ -8,65 +8,62 @@
 </ion-header>
 
 <ion-content color="light">
-  <ion-list [inset]="true">
-    <ion-item>
-      <ion-input label="Origen"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input label="Destino"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-toggle [(ngModel)]="mostrarParada">
-        <ion-label>Agregar parada</ion-label>
-      </ion-toggle>
-    </ion-item>
-  </ion-list>
+ <ion-list [inset]="true">
+  <ion-item>
+    <ion-input label="Origen" [(ngModel)]="formData.origin"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input label="Destino" [(ngModel)]="formData.destination"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-toggle [(ngModel)]="mostrarParada">
+      <ion-label>Agregar parada</ion-label>
+    </ion-toggle>
+  </ion-item>
+</ion-list>
 
-  <!-- Input que aparece solo si el toggle está activo -->
-  <ion-list *ngIf="mostrarParada" [inset]="true">
-    <ion-item>
-      <ion-input label="Parada intermedia"></ion-input>
-    </ion-item>
-  </ion-list>
-
-  <ion-list [inset]="true">
-    <ion-item>
-      <ion-textarea label="Descripción" labelPlacement="floating" rows="5"></ion-textarea>
-    </ion-item>
-  </ion-list>
-
-
-  <ion-note color="medium" class="custom-note">
-    Por favor da los detalles que creas necesario para que entienda EL KDT
-  </ion-note>
+<ion-list *ngIf="mostrarParada" [inset]="true">
+  <ion-item>
+    <ion-input label="Parada intermedia" [(ngModel)]="formData.stop"></ion-input>
+  </ion-item>
+</ion-list>
 
 <ion-list [inset]="true">
   <ion-item>
-      <ion-toggle [(ngModel)]="mostrarCantidadDinero">
-        <ion-label>¿El cadete necesita dinero?</ion-label>
-      </ion-toggle>
-    </ion-item>
-  </ion-list>
+    <ion-textarea label="Descripción" [(ngModel)]="formData.description" labelPlacement="floating" rows="5"></ion-textarea>
+  </ion-item>
+</ion-list>
 
-  <ion-list *ngIf="mostrarCantidadDinero" [inset]="true">
-    <ion-item>
-      <ion-input label="Ingrese cantidad aproximada de dinero"></ion-input>
-    </ion-item>
-  </ion-list>
+<ion-note color="medium" class="custom-note">
+  Por favor da los detalles que creas necesario para que entienda EL KDT
+</ion-note>
 
 <ion-list [inset]="true">
   <ion-item>
-    <ion-select placeholder="Seleccionar método de pago">
+    <ion-toggle [(ngModel)]="mostrarCantidadDinero">
+      <ion-label>¿El cadete necesita dinero?</ion-label>
+    </ion-toggle>
+  </ion-item>
+</ion-list>
+
+<ion-list *ngIf="mostrarCantidadDinero" [inset]="true">
+  <ion-item>
+    <ion-input label="Ingrese cantidad aproximada de dinero" type="number" [(ngModel)]="formData.amount"></ion-input>
+  </ion-item>
+</ion-list>
+
+<ion-list [inset]="true">
+  <ion-item>
+    <ion-select placeholder="Seleccionar método de pago" [(ngModel)]="formData.payment_method">
       <div slot="label">Método de pago </div>
       <ion-select-option value="efectivo">Efectivo</ion-select-option>
-      <ion-select-option value="mercadpPAgo">Mercado Pago</ion-select-option>
+      <ion-select-option value="mercadoPago">Mercado Pago</ion-select-option>
       <ion-select-option value="transferencia">Transferencia</ion-select-option>
     </ion-select>
   </ion-item>
 </ion-list>
 
-      <ion-button  class="boton" color="warning"> Solicitar</ion-button>
-  
+<ion-button class="boton" color="warning" expand="block" (click)="onSubmit()"> Solicitar </ion-button>
 
 
 </ion-content>
