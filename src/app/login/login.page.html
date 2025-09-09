@@ -24,17 +24,23 @@
       </ion-item>
     </ion-list>
 
-    <ion-item class="ion-no-padding">
-      <ion-checkbox id="check" labelPlacement="start" justify="start">
-        Recordarme (no puedo moverlo a la izq:())
-      </ion-checkbox>
-    </ion-item>
+    <ion-item id="rememberMeItem" class="ion-no-padding" class="ion-no-border">
+  <ion-checkbox id="check" labelPlacement="end" justify="start">
+    Recordarme
+  </ion-checkbox>
+</ion-item>
+
+<div class="forgot-password-link">
+  <a routerLink="/forgot-password">¿Olvidaste tu contraseña?</a>
+</div>
 
     <div class="buttons-container">
       <ion-button expand="block" routerLink="/login" color="warning" (click)="onLogin()">
         Ingresar
       </ion-button>
     </div>
+
+    
 
   </div>
 </ion-content>
