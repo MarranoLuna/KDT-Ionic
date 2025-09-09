@@ -8,7 +8,7 @@
 }
 
 .image-container {
-  margin-bottom: 20px; 
+  margin-bottom: 5px; 
   
   img {
     max-width: 60%;
@@ -26,11 +26,13 @@
   ion-item {
     --padding-start: 0;
     --inner-padding-end: 0;
-    margin-bottom: 1px;
-    
+    margin-bottom: 10px;
+    font-size: 15px;
     ion-label {
-      margin-top: 20px;
+      margin-top: 15px;
       margin-bottom: 20px;
+      font-weight: bold;
+      font-size: 18px;
     }
   }
 }
