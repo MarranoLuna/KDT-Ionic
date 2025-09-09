@@ -38,6 +38,24 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
+ion-content {
+  font-size: 1.4rem;
+}
+
+ion-button {
+  --color: #ffffff; 
+  --font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  font-size: 1.6rem;
+  --padding-top: 1rem;
+  --padding-bottom: 1rem;
+  --background: #fa9a00;
+}
+
+ion-button:active {
+  --background: #b36e00;
+}
+
 
 
 
