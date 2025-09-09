@@ -4,13 +4,14 @@
   justify-content: center; 
   align-items: center;
   height: 100%;
+  padding: 0.5rem;
 }
 
 .image-container {
   margin-bottom: 30px;
   
   img {
-    max-width: 70%;
+    width: 35%;
     height: auto;
     display: flex; 
     margin: 0 auto; 
@@ -24,78 +25,60 @@
   ion-item {
     --padding-start: 0;
     --inner-padding-end: 0;
-    margin-bottom: 20px;
+    margin: 0;
     font-size: 15px;
     
     ion-label {
-      margin-top: 20px;
-      margin-bottom: 20px;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
       font-weight: bold;
-      font-size: 18px;
+      font-size: 1.5rem;
     }
   }
-}
-
-.buttons-container {
-  width: 60%;
-  
-  ion-button {
-    margin-bottom: 20px;
+  .icon-button {
+    --padding-start: 0;
+    --padding-end: 0;
+    display: none;
+    align-items: center;
   }
+
 }
 
-ion-button {
-  --color: #ffffff; 
-  --font-family: 'Poppins', sans-serif;
-  font-weight: bold;
-  font-size: 18px;
-}
-
-
-
-
-#rememberMeItem {
+.rememberMeItem {
   color: #7e7e7e; 
-  margin-top: -20px; 
-  margin-left: 5%;
+  margin-top: 1%; 
+  padding-left: 5%;
   margin-bottom: 40px; 
-  width: 90%; /* Asegúrate de que ocupe el mismo ancho que los demás items */
+  width: 90%; 
+  text-align: left;/* Asegúrate de que ocupe el mismo ancho que los demás items */
   --padding-start: 0; /* Asegura que no haya padding inicial */
-  --inner-padding-end: 0; /* Asegura que no haya padding final */
+  --inner-padding-end: 0; 
 }
 
 
-#check {
+.rememberMeItem ion-checkbox {
   --size: 20px;
   font-size: 14px; 
   --checkbox-background-checked: #f1a80a;
-  --border-radius: 0;
-  font-family: 'Poppins', sans-serif;
-  justify-content: flex-start;
   width: 100%;
 }
 
-ion-item.ion-no-border {
+ion-item{
   --border-width: 0 !important;
   --border-style: none !important;
   --box-shadow: none !important;
 }
 
-.forgot-password-link {
-  width: 90%;
-  text-align: left;
-  margin-top: -30px;
-  margin-bottom: 30px;
-}
-
-.forgot-password-link a {
+.forgot_password {
   color: #7e7e7e; 
-  font-family: 'Poppins', sans-serif;
-  font-size: 14px;
-  text-decoration: none; 
+  font-size: 1rem;
+  margin-top: 20%;
 }
 
-
-
+.campo{
+  background-color: #eaeaea8a;
+  font-size: 1.3rem;
+  padding: 0.5rem !important;
+}
 
 

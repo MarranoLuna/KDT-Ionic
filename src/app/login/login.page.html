@@ -1,46 +1,43 @@
-<body>
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-</body>
-
 <ion-content [fullscreen]="true">
 
   <div class="content-container">
 
+    <!-- Logo -->
     <div class="image-container">
       <img src="assets/logo.png" routerLink="/index" />
     </div>
 
+    <!-- Formulario -->
     <ion-list class="form-list">
       <ion-item>
-        <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" placeholder="Ingrese su email" [(ngModel)]="credentials.email"></ion-input>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input class="campo" type="email" [(ngModel)]="credentials.email"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Contraseña</ion-label>
-        <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Ingrese su clave" [(ngModel)]="credentials.password"></ion-input>
-        <ion-icon name="eye" slot="end" (click)="togglePassword()"></ion-icon>
+        <ion-label position="stacked">Contraseña</ion-label>
+        <ion-input class="campo" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="credentials.password"></ion-input>
+        <ion-button slot="end" fill="clear" (click)="togglePassword()" class="icon-button">
+          <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+        </ion-button>
       </ion-item>
+
     </ion-list>
 
-    <ion-item id="rememberMeItem" class="ion-no-padding" class="ion-no-border">
-  <ion-checkbox id="check" labelPlacement="end" justify="start">
-    Recordarme
-  </ion-checkbox>
-</ion-item>
+    <!-- Recordarme -->
+    <ion-item class="rememberMeItem">
+      <ion-checkbox labelPlacement="end">Recordarme</ion-checkbox>
+    </ion-item>
 
-<div class="forgot-password-link">
-  <a routerLink="/forgot-password">¿Olvidaste tu contraseña?</a>
-</div>
+    <!-- Botón Ingresar -->
+    <ion-button expand="block" (click)="onLogin()" class="boton">
+      Ingresar
+    </ion-button>
 
-    <div class="buttons-container">
-      <ion-button expand="block" routerLink="/login" color="warning" (click)="onLogin()">
-        Ingresar
-      </ion-button>
-    </div>
+    <!-- Olvidé mi contraseña -->
+    <a class="forgot_password" routerLink="/forgot-password">¿Olvidaste tu contraseña?</a>
 
-    
 
   </div>
+
 </ion-content>
