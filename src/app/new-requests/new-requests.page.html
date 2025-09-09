@@ -7,30 +7,46 @@
   </ion-toolbar>
 </ion-header>
 
+
+
 <ion-content color="light">
  <ion-list [inset]="true">
+ 
   <ion-item>
-    <ion-input label="Origen" [(ngModel)]="formData.origin"></ion-input>
+    <ion-input label="Calle de Origen" [(ngModel)]="formData.origin_street" name="origin_street" (ionInput)="soloLetras($event)"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-input label="Destino" [(ngModel)]="formData.destination"></ion-input>
+    <ion-input  label="Número de Origen" [(ngModel)]="formData.origin_number" name="origin_number" ></ion-input>
+  </ion-item>
+
+   <ion-item>
+    <ion-input label="Calle de Destino" [(ngModel)]="formData.destination_street" name="destination_street" (ionInput)="soloLetras($event)"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-toggle [(ngModel)]="mostrarParada">
+    <ion-input  label="Número de Destino" [(ngModel)]="formData.destination_number" name="destination_number" ></ion-input>
+  </ion-item>
+  <ion-item>
+
+
+    <ion-toggle (ionChange)="toggleParada($event)">
       <ion-label>Agregar parada</ion-label>
     </ion-toggle>
+    
   </ion-item>
 </ion-list>
 
 <ion-list *ngIf="mostrarParada" [inset]="true">
   <ion-item>
-    <ion-input label="Parada intermedia" [(ngModel)]="formData.stop"></ion-input>
-  </ion-item>
+      <ion-input label="Calle Parada" [(ngModel)]="formData.stop_street" name="stop_street" (ionInput)="soloLetras($event)"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Número Parada" [(ngModel)]="formData.stop_number" name="stop_number" ></ion-input>
+    </ion-item>
 </ion-list>
 
-<ion-list [inset]="true">
+ <ion-list [inset]="true">
   <ion-item>
-    <ion-textarea label="Descripción" [(ngModel)]="formData.description" labelPlacement="floating" rows="5"></ion-textarea>
+    <ion-textarea label="Descripción *" [(ngModel)]="formData.description" labelPlacement="floating" rows="5"></ion-textarea>
   </ion-item>
 </ion-list>
 
@@ -55,7 +71,7 @@
 <ion-list [inset]="true">
   <ion-item>
     <ion-select placeholder="Seleccionar método de pago" [(ngModel)]="formData.payment_method">
-      <div slot="label">Método de pago </div>
+      <div slot="label" >Método de pago <span class="requerido">*</span></div>
       <ion-select-option value="efectivo">Efectivo</ion-select-option>
       <ion-select-option value="mercadoPago">Mercado Pago</ion-select-option>
       <ion-select-option value="transferencia">Transferencia</ion-select-option>
@@ -63,7 +79,6 @@
   </ion-item>
 </ion-list>
 
-<ion-button class="boton" color="warning" expand="block" (click)="onSubmit()"> Solicitar </ion-button>
-
+<ion-button class="boton" color="warning" expand="block" (click)="onSubmit()"   > Solicitar </ion-button>
 
 </ion-content>

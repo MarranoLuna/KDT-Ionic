@@ -21,12 +21,21 @@ export class NewRequestsPage implements OnInit {
 
   mostrarParada: boolean = false;
   mostrarCantidadDinero: boolean = false;
+  
+  soloLetras(event: any) {
+    const input = event.target.value;
+    const soloTexto = input.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+    event.target.value = soloTexto;
+  }
 
-  // Formulario
+  // Formulario ajustado a los campos del backend
   formData = {
-    origin: '',
-    destination: '',
-    stop: '',
+    origin_street: '',
+    origin_number: '',
+    destination_street: '',
+    destination_number: '',
+    stop_street: '',
+    stop_number: '',
     description: '',
     amount: null,
     payment_method: ''
@@ -40,7 +49,59 @@ export class NewRequestsPage implements OnInit {
 
   ngOnInit() {}
 
+
+  
   async onSubmit() {
+    // ✅ Validaciones antes de enviar
+
+  const originStreet = this.formData.origin_street.trim().toLowerCase();
+  const destinationStreet = this.formData.destination_street.trim().toLowerCase();
+  const originNumber = this.formData.origin_number.trim();
+  const destinationNumber = this.formData.destination_number.trim();
+
+  // ❌ No permitir que calle y número sean ambos iguales
+  const isStreetEqual = originStreet === destinationStreet;
+  const isNumberEqual = originNumber === destinationNumber;
+
+  if (isStreetEqual && isNumberEqual) {
+    const toast = await this.toastCtrl.create({
+      message: 'La dirección de Origen y Destino no pueden ser iguales.',
+      duration: 2500,
+      color: 'danger'
+    });
+    toast.present();
+    return;
+  }
+
+
+
+    const numOrigen = this.formData.origin_number?.toString();
+    const numDestino = this.formData.destination_number?.toString();
+
+    
+    if (!/^\d{1,5}(\s?[a-zA-Z]{1,4})?$|^S\/N$/i.test(numOrigen)) {
+      const toast = await this.toastCtrl.create({
+        message: 'El número de Origen no es válido.',
+        duration: 2500,
+        color: 'danger'
+      });
+      toast.present();
+      return;
+    }
+
+    if (!/^\d{1,5}(\s?[a-zA-Z]{1,4})?$|^S\/N$/i.test(numDestino)) {
+      const toast = await this.toastCtrl.create({
+        message: 'El número de Destino no es válido.',
+        duration: 2500,
+        color: 'danger'
+      });
+      toast.present();
+      return;
+    }
+
+    ;
+
+    // ✅ Si pasa validaciones → sigue con API
     const loading = await this.loadingCtrl.create({
       message: 'Enviando solicitud...'
     });
@@ -58,9 +119,12 @@ export class NewRequestsPage implements OnInit {
 
         // reset form
         this.formData = {
-          origin: '',
-          destination: '',
-          stop: '',
+          origin_street: '',
+          origin_number: '',
+          destination_street: '',
+          destination_number: '',
+          stop_street: '',
+          stop_number: '',
           description: '',
           amount: null,
           payment_method: ''
@@ -71,13 +135,13 @@ export class NewRequestsPage implements OnInit {
       error: async (err) => {
         await loading.dismiss();
         const toast = await this.toastCtrl.create({
-          message: 'Error al crear solicitud ',
+          message: 'Error al crear solicitud',
           duration: 2500,
           color: 'danger'
         });
         toast.present();
         console.error(err);
-      }
+      },
     });
   }
 
@@ -88,4 +152,5 @@ export class NewRequestsPage implements OnInit {
   toggleDinero(event: any) {
     this.mostrarCantidadDinero = event.detail.checked;
   }
+
 }
