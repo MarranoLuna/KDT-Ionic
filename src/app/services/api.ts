@@ -24,7 +24,9 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/register`, userData, { headers });
   }
 
-
+createRequest(data: any) {
+  return this.http.post(`${this.apiUrl}/requests`, data);
+}
 }
 
 
