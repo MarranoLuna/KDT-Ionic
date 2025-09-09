@@ -7,6 +7,7 @@ import { ApiService } from '../services/api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -38,6 +39,16 @@ export class RegisterPage {
     private router: Router
   ) {}
 
+  private async showToast(message: string, color: 'success' | 'danger') {
+  const toast = await this.toastCtrl.create({
+    message,
+    duration: 2000,
+    position: 'top',
+    color
+  });
+  await toast.present();
+}
+
   async onRegister() {
     const loading = await this.loadingCtrl.create({
       message: 'Registrando...',
@@ -60,18 +71,26 @@ export class RegisterPage {
         this.router.navigateByUrl('/home');
       },
       error: async (e: HttpErrorResponse) => {
-        console.error('Registration error', e);
-        await loading.dismiss();
+      await loading.dismiss();
 
-        const toast = await this.toastCtrl.create({
-          message: 'Error en el registro. Intenta nuevamente.',
-          duration: 2000,
-          color: 'danger',
-          position: 'top'
-        });
-        toast.present();
+      if (e.status === 422 && e.error && e.error.errors) {
+
+        const validationErrors = e.error.errors;
+        let errorMessage = 'Verifica los siguientes campos:\n';
+
+   
+        for (const key in validationErrors) {
+          if (Object.prototype.hasOwnProperty.call(validationErrors, key)) {
+            errorMessage += `- ${validationErrors[key][0]}\n`;
+          }
+        }
+        this.showToast(errorMessage, 'danger');
+      } else {
+        // Si no es un error de validación (422), muestra un mensaje genérico.
+        this.showToast('Ocurrió un error inesperado. Intenta de nuevo.', 'danger');
       }
-    });
+    }
+  });
   }
 
   togglePassword() {
