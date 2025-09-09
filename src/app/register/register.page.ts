@@ -5,6 +5,7 @@ import { IonicModule, LoadingController, ToastController } from '@ionic/angular'
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../services/api';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -33,7 +34,8 @@ export class RegisterPage {
   constructor(
     private apiService: ApiService,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private router: Router
   ) {}
 
   async onRegister() {
@@ -55,6 +57,7 @@ export class RegisterPage {
           position: 'top'
         });
         toast.present();
+        this.router.navigateByUrl('/home');
       },
       error: async (e: HttpErrorResponse) => {
         console.error('Registration error', e);

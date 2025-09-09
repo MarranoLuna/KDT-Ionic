@@ -39,13 +39,13 @@
 
       <ion-item>
       <ion-label position="floating">Confirmar Contraseña</ion-label>
-      <ion-input type="password" [(ngModel)]="formData.password_confirmation"></ion-input>
+      <ion-input type="password" [(ngModel)]="formData.password_confirmation" placeholder="Confirme su clave"></ion-input>
       </ion-item>
     </ion-list>
 
 
     <div class="buttons-container">
-      <ion-button expand="block" routerLink="/login" color="warning" (click)="onRegister()">
+      <ion-button expand="block" color="warning" (click)="onRegister()">
         Registrarme
       </ion-button>
     </div>
