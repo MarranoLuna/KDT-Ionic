@@ -1,9 +1,24 @@
 import { Component } from '@angular/core';
 import {
-  IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton, IonAvatar,
-  IonContent, IonGrid, IonRow,  IonCol, IonCard, IonCardContent, IonCardHeader, IonCardTitle
+  IonHeader, 
+  IonToolbar, 
+  IonTitle, 
+  IonButtons, 
+  IonMenuButton, 
+  IonAvatar,
+  IonContent, 
+  IonGrid, 
+  IonRow,  
+  IonCol, 
+  IonCard, 
+  IonCardContent, 
+  IonCardHeader, 
+  IonCardTitle
 } from '@ionic/angular/standalone';
+
 import { RouterLink } from '@angular/router';
+
+import { MenuComponent } from '../menu/menu.component';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +28,7 @@ import { RouterLink } from '@angular/router';
   imports: [
     IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton, IonAvatar,
     IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardContent,
-    RouterLink, IonCardContent, IonCardHeader, IonCardTitle, IonGrid
+    RouterLink, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, MenuComponent
   ]
 })
 export class HomePage {}
