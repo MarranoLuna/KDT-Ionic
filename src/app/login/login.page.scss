@@ -47,11 +47,11 @@
 .rememberMeItem {
   color: #7e7e7e; 
   margin-top: 1%; 
-  padding-left: 5%;
+  padding-left: 2%;
   margin-bottom: 40px; 
   width: 90%; 
-  text-align: left;/* Asegúrate de que ocupe el mismo ancho que los demás items */
-  --padding-start: 0; /* Asegura que no haya padding inicial */
+  text-align: left;
+  --padding-start: 0;
   --inner-padding-end: 0; 
 }
 

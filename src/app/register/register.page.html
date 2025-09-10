@@ -12,34 +12,33 @@
 
     <ion-list class="form-list">
       <ion-item>
-        <ion-label position="floating" >Nombre</ion-label>
-        <ion-input type="text" placeholder="Ingrese su nombre" [(ngModel)]="formData.firstname"></ion-input>
+        <ion-label position="stacked" >Nombre</ion-label>
+        <ion-input class="campo" type="text" [(ngModel)]="formData.firstname"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Apellido</ion-label>
-        <ion-input type="text" placeholder="Ingrese su apellido" [(ngModel)]="formData.lastname"></ion-input>
+        <ion-label position="stacked">Apellido</ion-label>
+        <ion-input class="campo" type="text" [(ngModel)]="formData.lastname"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Fecha de nacimiento</ion-label>
-        <ion-input type="date" placeholder="Ingrese su fecha de nacimiento" [(ngModel)]="formData.birthday"></ion-input>
+        <ion-label position="stacked">Fecha de nacimiento</ion-label>
+        <ion-input class="campo" type="date" [(ngModel)]="formData.birthday"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" placeholder="Ingrese su email" [(ngModel)]="formData.email"></ion-input>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input class="campo" type="email"  [(ngModel)]="formData.email"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Contraseña</ion-label>
-        <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Ingrese su clave" [(ngModel)]="formData.password"></ion-input>
-        <ion-icon name="eye" slot="end" (click)="togglePassword()"></ion-icon>
+        <ion-label position="stacked">Contraseña</ion-label>
+        <ion-input class="campo" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="formData.password"></ion-input>
       </ion-item>
 
       <ion-item>
-      <ion-label position="floating">Confirmar Contraseña</ion-label>
-      <ion-input type="password" [(ngModel)]="formData.password_confirmation" placeholder="Confirme su clave"></ion-input>
+      <ion-label position="stacked">Confirmar Contraseña</ion-label>
+      <ion-input class="campo" type="password" [(ngModel)]="formData.password_confirmation"></ion-input>
       </ion-item>
     </ion-list>
 

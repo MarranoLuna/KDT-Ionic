@@ -46,7 +46,6 @@ export class LoginPage {
       next: async (response: any) => {
         console.log('Login exitoso', response);
         await loading.dismiss(); // 🔹 oculto el cargando
-        this.showToast('Bienvenido', 'success');
         this.router.navigate(['/home']);
       },
       error: async (error: HttpErrorResponse) => {
