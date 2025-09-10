@@ -51,15 +51,15 @@ export class NewRequestsPage implements OnInit {
 
 
   
-  async onSubmit() {
-    // ✅ Validaciones antes de enviar
+  async onSubmit() {    // validaciones antes de enviar
+
 
   const originStreet = this.formData.origin_street.trim().toLowerCase();
   const destinationStreet = this.formData.destination_street.trim().toLowerCase();
   const originNumber = this.formData.origin_number.trim();
   const destinationNumber = this.formData.destination_number.trim();
 
-  // ❌ No permitir que calle y número sean ambos iguales
+  //  no permitir que calle y número sean ambos iguales
   const isStreetEqual = originStreet === destinationStreet;
   const isNumberEqual = originNumber === destinationNumber;
 
@@ -72,8 +72,6 @@ export class NewRequestsPage implements OnInit {
     toast.present();
     return;
   }
-
-
 
     const numOrigen = this.formData.origin_number?.toString();
     const numDestino = this.formData.destination_number?.toString();
