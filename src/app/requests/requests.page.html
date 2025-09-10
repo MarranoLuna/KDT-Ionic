@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="warning">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
     <ion-title>Solicitudes</ion-title>
   </ion-toolbar>
@@ -9,45 +9,21 @@
 
 <ion-content class="ion-padding">
 
-  <ion-list>
-    <ion-card *ngFor="let order of orders">
-      <ion-card-header>
-        <ion-card-title>iii</ion-card-title>
-        <ion-card-subtitle>iii</ion-card-subtitle>
-      </ion-card-header>
+  <ion-card>
+  <ion-card-header>
+    <ion-card-title>Card Title</ion-card-title>
+    <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+  </ion-card-header>
 
-      <ion-card-content>
-        <!-- Estado -->
-        <ion-badge [color]="order.is_completed ? 'medium' : 'success'">
-        
-        </ion-badge>
-
-        <!-- Toggle detalles -->
-        <div class="ion-text-right">
-          <ion-button fill="clear" size="small" (click)="toggleDetails(order)">
-          
-            <ion-icon slot="end" [name]="order.showDetails ? 'chevron-up' : 'chevron-down'"></ion-icon>
-          </ion-button>
-        </div>
-
-        <!-- Detalles expandibles -->
-        <div *ngIf="order.showDetails">
-          <ion-item lines="none">
-            <ion-icon name="location-outline" slot="start"></ion-icon>
-            <ion-label>yyhuy</ion-label>
-          </ion-item>
-
-          <ion-item lines="none">
-            <ion-icon name="flag-outline" slot="start"></ion-icon>
-            <ion-label>y7</ion-label>
-          </ion-item>
-
-          <p class="ion-padding-top">gfreswgsrgrfghrgh</p>
-
-          <p><strong>$</strong> {{ order.price }}</p>
-        </div>
-      </ion-card-content>
-    </ion-card>
-  </ion-list>
+  <ion-card-content>
+    Here's a small text description for the card content. Nothing more, nothing less.
+  </ion-card-content>
+  
+<div class="botones-container">
+  <ion-button class="botonAction" fill="clear">Editar</ion-button>
+  <ion-button class="botonAction" fill="clear">Eliminar</ion-button>
+</div>
+ 
+</ion-card>
 
 </ion-content>
