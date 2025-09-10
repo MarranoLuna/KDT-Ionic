@@ -1,0 +1,19 @@
+.botones-container {
+  display: flex;
+  justify-content: center;  
+  gap: 20px;                
+  flex-wrap: wrap;          
+  margin: 10px auto;
+  max-width: 440px;         
+}
+
+ion-button.botonAction {
+  width: 45%;               
+  --height: 30px;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  max-width: 200px;
+  font-size: 15px; 
+
+}

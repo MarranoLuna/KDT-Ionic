@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel,
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonBackButton,
   IonMenuButton, IonButton, IonButtons, IonList, IonItem, IonInput, IonToggle,
   IonTextarea, IonNote, IonSelect, IonSelectOption, ToastController, LoadingController } from '@ionic/angular/standalone';
 import { ApiService } from '../services/api';
@@ -12,7 +12,7 @@ import { ApiService } from '../services/api';
   styleUrls: ['./new-requests.page.scss'],
   standalone: true,
   imports: [
-    IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,
+    IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonBackButton,
     IonLabel, IonMenuButton, IonButton, IonButtons, IonSelectOption,
     IonList, IonItem, IonInput, IonToggle, IonTextarea, IonNote, IonSelect
   ]
