@@ -27,7 +27,15 @@ export class ApiService {
 createRequest(data: any) {
   return this.http.post(`${this.apiUrl}/requests`, data);
 }
+
+deleteRequest(id: number) {
+  return this.http.delete(`${this.apiUrl}/requests/${id}`);
 }
 
+updateRequest(request: any) {
+  return this.http.put<any>(`http://localhost:8000/api/requests/${request.id}`, request);
+}
+
+}
 
 
