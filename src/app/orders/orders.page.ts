@@ -16,7 +16,6 @@ import {
   IonLabel,  
   IonCardContent, 
   IonCardTitle, 
-  IonMenuButton, 
   IonButtons,  
 } from '@ionic/angular/standalone';
 
@@ -48,7 +47,6 @@ import { MenuComponent } from '../menu/menu.component';
     IonLabel, 
     IonCardContent, 
     IonCardTitle, 
-    IonMenuButton, 
     IonButtons,  ]
 })
 export class OrdersPage implements OnInit {

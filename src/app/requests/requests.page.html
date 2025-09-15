@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="warning">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button>
+      <ion-back-button defaultHref="/home" text=""></ion-back-button>
     </ion-buttons>
     <ion-title>Solicitudes</ion-title>
   </ion-toolbar>
@@ -9,21 +9,102 @@
 
 <ion-content class="ion-padding">
 
-  <ion-card>
-  <ion-card-header>
-    <ion-card-title>Card Title</ion-card-title>
-    <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-  </ion-card-header>
+<ion-card *ngFor="let request of requests">
+    <ion-card-header>
+      <ion-card-title> <svg width="25" height="25" viewBox="0 0 65 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M32.5 59.5833C47.4576 59.5833 59.5833 47.4576 59.5833 32.5C59.5833 17.5423 47.4576 5.41667 32.5 5.41667C17.5423 5.41667 5.41667 17.5423 5.41667 32.5C5.41667 47.4576 17.5423 59.5833 32.5 59.5833ZM32.5 65C50.4494 65 65 50.4494 65 32.5C65 14.5508 50.4494 0 32.5 0C14.5508 0 0 14.5508 0 32.5C0 50.4494 14.5508 65 32.5 65Z" fill="black"/>
+<path d="M32.5 51.4583C42.9704 51.4583 51.4583 42.9704 51.4583 32.5C51.4583 22.0296 42.9704 13.5417 32.5 13.5417C22.0296 13.5417 13.5417 22.0296 13.5417 32.5C13.5417 42.9704 22.0296 51.4583 32.5 51.4583Z" fill="#F19500"/>
+</svg>
+Solicitud #{{ request.id }} </ion-card-title>
+       <div style="text-align: right; margin-top: 5px; color: green;" >
+      <ion-card-subtitle>{{ request.status?.name  }}</ion-card-subtitle></div>
+    </ion-card-header>
 
-  <ion-card-content>
-    Here's a small text description for the card content. Nothing more, nothing less.
-  </ion-card-content>
+    <ion-card-content>
+
+
+      
+        <!-- Enlace Ver más alineado a la derecha -->
+         <p>{{ request.description | slice:0:40 }}...</p>
+        <div style="text-align: right; margin-top: 5px;">
+          <a size="small" (click)="toggleDetail(request.id)" style="color: orange; text-decoration: none; font-weight: 500;">
+            {{ expandedId === request.id ? 'Ocultar detalles' : 'Ver detalles' }}<svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11.6665 15.8335L19.9998 24.1668L28.3332 15.8335H11.6665Z" fill="#FC9A00"/>
+</svg>
+
+          </a>
+        </div>
+
   
-<div class="botones-container">
-  <ion-button class="botonAction" fill="clear">Editar</ion-button>
-  <ion-button class="botonAction" fill="clear">Eliminar</ion-button>
+
+      <div *ngIf="expandedId === request.id" class="detalle">
+        <div *ngIf="expandedId === request.id" class="detalle">
+  <ion-list>
+
+    <ion-item>
+      <ion-label position="stacked">Descripción</ion-label>
+      <ion-textarea
+        *ngIf="editingId === request.id"
+        [(ngModel)]="editableRequest.description"
+        autoGrow
+      ></ion-textarea>
+      <p *ngIf="editingId !== request.id">{{ request.description }}</p>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Monto</ion-label>
+      <ion-input
+        *ngIf="editingId === request.id"
+        [(ngModel)]="editableRequest.amount"
+        type="number"
+      ></ion-input>
+      <p *ngIf="editingId !== request.id">{{ request.amount }}</p>
+    </ion-item>
+
+    <!-- Agregá más campos aquí según lo que querés permitir editar -->
+
+  </ion-list>
+
+  <div class="botones-container">
+    <ion-button
+      *ngIf="editingId !== request.id"
+      fill="clear"
+      color="primary"
+      (click)="editarSolicitud(request)"
+    >
+      Editar
+    </ion-button>
+
+    <ion-button
+      *ngIf="editingId === request.id"
+      fill="solid"
+      color="success"
+      (click)="guardarSolicitud()"
+    >
+      Guardar
+    </ion-button>
+
+    <ion-button
+      *ngIf="editingId === request.id"
+      fill="outline"
+      color="medium"
+      (click)="cancelarEdicion()"
+    >
+      Cancelar
+    </ion-button>
+
+    <ion-button fill="clear" color="danger" (click)="confirmarEliminacion(request)">
+      Eliminar
+    </ion-button>
+  </div>
 </div>
+
+      </div>
+      
+    </ion-card-content>
+  
+  </ion-card>
  
-</ion-card>
+ 
 
 </ion-content>

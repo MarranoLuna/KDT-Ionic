@@ -17,3 +17,19 @@ ion-button.botonAction {
   font-size: 15px; 
 
 }
+
+.detalle-container {
+  margin-top: 10px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 10px;
+}
+
+
+
+.ver-mas {
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: bold;
+  margin-left: auto; /* lo manda a la derecha */
+}
