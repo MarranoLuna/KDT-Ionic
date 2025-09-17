@@ -14,6 +14,10 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
 
+  
+  
+
+
   login(credentials: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(`${this.apiUrl}/ion_login`, credentials, { headers });
@@ -35,6 +39,8 @@ deleteRequest(id: number) {
 updateRequest(request: any) {
   return this.http.put<any>(`http://localhost:8000/api/requests/${request.id}`, request);
 }
+
+
 
 }
 
