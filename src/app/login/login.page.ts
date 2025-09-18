@@ -34,20 +34,13 @@ export class LoginPage {
 
 	showPassword = false;
 
-¿
-  constructor(
-    private apiService: ApiService, 
-    private router: Router,
-    private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController,
-    private userService: UserService
-  ) {}
-¿
 	constructor(
 		private apiService: ApiService,
 		private router: Router,
 		private loadingCtrl: LoadingController,
-		private toastCtrl: ToastController
+		private toastCtrl: ToastController,
+		private userService: UserService
+
 	) {
 		this.verifyLogin();//Verifica si el usuario inicio sesión y se guardó un token
 	}
@@ -68,11 +61,13 @@ export class LoginPage {
 		});
 		await loading.present();
 
+		/////// COMFLICTO
     this.apiService.login(this.credentials).subscribe({
       next: async (response: any) => {
         console.log('Login exitoso', response);
+		await loading.dismiss();  // 🔹 oculto el cargando
         this.userService.saveUser(response.user);
-        await loading.dismiss();
+		localStorage.setItem('token', response.token);
         this.router.navigate(['/home']);
       },
       error: async (error: HttpErrorResponse) => {
@@ -82,22 +77,6 @@ export class LoginPage {
       }
     });
   }
-
-		this.apiService.login(this.credentials).subscribe({
-			next: async (response: any) => {
-				console.log('Login exitoso', response);
-				await loading.dismiss(); // 🔹 oculto el cargando
-				localStorage.setItem('token', response.token); // Guarda el token
-				this.router.navigate(['/home']);
-			},
-			error: async (error: HttpErrorResponse) => {
-				console.error('Error en el login', error);
-				await loading.dismiss();
-				this.showToast('Usuario o contraseña incorrectos ❌', 'danger');
-			}
-		});
-	}
-
 
 	togglePassword() {
 		this.showPassword = !this.showPassword;
