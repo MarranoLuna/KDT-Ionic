@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+/*import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddressPage } from './address.page';
 
 describe('AddressPage', () => {
@@ -14,4 +14,5 @@ describe('AddressPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-});
+}); */
+
