@@ -52,6 +52,17 @@ Solicitud #{{ request.id }} </ion-card-title>
     </ion-item>
 
     <ion-item>
+  <ion-label position="stacked">Origen</ion-label>
+  <p>{{ request.origin_street }} {{ request.origin_number }}</p>
+</ion-item>
+
+<ion-item>
+  <ion-label position="stacked">Destino</ion-label>
+  <p>{{ request.destination_street }} {{ request.destination_number }}</p>
+</ion-item>
+
+
+    <ion-item>
       <ion-label position="stacked">Monto</ion-label>
       <ion-input
         *ngIf="editingId === request.id"

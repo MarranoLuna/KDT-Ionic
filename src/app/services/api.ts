@@ -4,9 +4,18 @@ import { Observable, tap} from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 
 
+
 interface LoginResponse {
   token: string;
   user?: any; // opcional si el backend devuelve datos del usuario
+}
+export interface UserData {
+  id?: number; 
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  birthdate: string;
 }
 
 @Injectable({
@@ -22,6 +31,7 @@ export class ApiService {
 
 
   login(credentials: any): Observable<LoginResponse> {
+
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<LoginResponse>(`${this.apiUrl}/ion_login`, credentials, { headers }
     ).pipe(
@@ -68,6 +78,14 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/requests`, data, { headers });
   }
 
+
+  getUserData(userId: number): Observable<UserData> {
+    return this.http.get<UserData>(`${this.apiUrl}/users/${userId}`);
+  }
+
+  updateUserData(userId: number, data: UserData): Observable<UserData> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<UserData>(`${this.apiUrl}/users/${userId}`, data, { headers });
+  }
+
 }
-
-
