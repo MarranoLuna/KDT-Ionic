@@ -23,9 +23,13 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
 
+  
+  
+
+
   login(credentials: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(`${this.apiUrl}/login`, credentials, { headers });
+    return this.http.post(`${this.apiUrl}/ion_login`, credentials, { headers });
 }
 
  registerUser(userData: any): Observable<any> {
@@ -45,6 +49,7 @@ updateRequest(request: any) {
   return this.http.put<any>(`http://localhost:8000/api/requests/${request.id}`, request);
 }
 
+
   getUserData(userId: number): Observable<UserData> {
     return this.http.get<UserData>(`${this.apiUrl}/users/${userId}`);
   }
@@ -53,6 +58,10 @@ updateRequest(request: any) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<UserData>(`${this.apiUrl}/users/${userId}`, data, { headers });
   }
+
+
+
+
 }
 
 
