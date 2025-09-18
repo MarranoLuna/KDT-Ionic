@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ApiService } from '../services/api';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UserService } from '../services/user';
 
 @Component({
 	selector: 'app-login',
@@ -27,6 +28,15 @@ export class LoginPage {
 
 	showPassword = false;
 
+¿
+  constructor(
+    private apiService: ApiService, 
+    private router: Router,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
+    private userService: UserService
+  ) {}
+¿
 	constructor(
 		private apiService: ApiService,
 		private router: Router,
@@ -42,6 +52,21 @@ export class LoginPage {
 		});
 		await loading.present();
 
+    this.apiService.login(this.credentials).subscribe({
+      next: async (response: any) => {
+        console.log('Login exitoso', response);
+        this.userService.saveUser(response.user);
+        await loading.dismiss();
+        this.router.navigate(['/home']);
+      },
+      error: async (error: HttpErrorResponse) => {
+        console.error('Error en el login', error);
+        await loading.dismiss();
+        this.showToast('Usuario o contraseña incorrectos ❌', 'danger');
+      }
+    });
+  }
+
 		this.apiService.login(this.credentials).subscribe({
 			next: async (response: any) => {
 				console.log('Login exitoso', response);
@@ -55,6 +80,7 @@ export class LoginPage {
 			}
 		});
 	}
+
 
 	togglePassword() {
 		this.showPassword = !this.showPassword;
