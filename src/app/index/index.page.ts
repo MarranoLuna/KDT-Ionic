@@ -4,8 +4,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular'; 
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { ApiService } from '../services/api';
 import { firstValueFrom } from 'rxjs';
+import { Preferences } from '@capacitor/preferences';
 
 
 @Component({
@@ -23,8 +25,19 @@ import { firstValueFrom } from 'rxjs';
 
 export class IndexPage {
 
-  constructor() {}
+  constructor(
+    private router: Router,
+  ) {
+    this.verifyLogin();//Verifica si el usuario inicio sesión y se guardó un token
 
+  }
+
+  private async verifyLogin() {
+		const { value } = await Preferences.get({ key: 'authToken' });
+		if (value) {
+			this.router.navigate(['/home']);
+		}
+	}
 
 }
 
