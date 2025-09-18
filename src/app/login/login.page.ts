@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ApiService } from '../services/api';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Preferences } from '@capacitor/preferences';
 
 @Component({
 	selector: 'app-login',
@@ -19,6 +20,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 		RouterModule
 	]
 })
+
+
 export class LoginPage {
 	credentials = {
 		email: '',
@@ -32,8 +35,18 @@ export class LoginPage {
 		private router: Router,
 		private loadingCtrl: LoadingController,
 		private toastCtrl: ToastController
-	) { }
+	) {
+		this.verifyLogin();//Verifica si el usuario inicio sesión y se guardó un token
+	}
 
+	private async verifyLogin() {
+		const { value } = await Preferences.get({ key: 'authToken' });
+		if (value) {
+			this.router.navigate(['/home']);
+		}
+	}
+	
+	// FUNCIÓN PARA LOGUEARSE
 	async onLogin() {
 		// Mostrar spinner de carga
 		const loading = await this.loadingCtrl.create({
@@ -46,6 +59,7 @@ export class LoginPage {
 			next: async (response: any) => {
 				console.log('Login exitoso', response);
 				await loading.dismiss(); // 🔹 oculto el cargando
+				localStorage.setItem('token', response.token); // Guarda el token
 				this.router.navigate(['/home']);
 			},
 			error: async (error: HttpErrorResponse) => {
