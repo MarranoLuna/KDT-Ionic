@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+       <ion-back-button defaultHref="/home" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registrar direcciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item>
+    <ion-input
+      placeholder="Buscar dirección..."
+      [(ngModel)]="search"
+      (ionInput)="buscarDireccion()">
+    </ion-input>
+  </ion-item>
+
+  <!-- Mapa -->
+  <google-map
+    height="400px"
+    width="100%"
+    [center]="center"
+    [zoom]="15"
+    (mapClick)="seleccionarDireccion($event)">
+    <map-marker [position]="marker" *ngIf="marker"></map-marker>
+  </google-map>
+
+  <!-- Guardar -->
+  <ion-button expand="block" (click)="guardarDireccion()">Guardar dirección</ion-button>
+</ion-content>
