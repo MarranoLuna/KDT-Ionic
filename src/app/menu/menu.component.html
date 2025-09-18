@@ -1,18 +1,16 @@
 <ion-menu content-id="menu_content" menuId="menu_content" side="start">
   <ion-content>
     
-    <div class="menu-header ion-padding">
-  <div class="menu-user">
-    <ion-avatar>
-      <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Avatar">
-    </ion-avatar>
-    <ion-label>
-      <h2>Hola Patricio</h2>
-    </ion-label>
+  <div class="menu-header">
+  <div class="menu-user-avatar-only">
+        <a class="avatar-link" href="/profile-edit">
+          <ion-avatar class="user-avatar-large">
+            <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Avatar">
+          </ion-avatar>
+        </a>
   </div>
 </div>
 
-    
     <ion-list>
       <ion-menu-toggle auto-hide="true">
         <ion-item routerLink="/home" lines="none">
@@ -53,7 +51,7 @@
     <ion-toolbar>
       <ion-button expand="block" color="warning">
         <ion-icon name="rocket-outline" slot="start"></ion-icon>
-        ¡Ser KDT!
+        ¡Ser cadete!
       </ion-button>
     </ion-toolbar>
   </ion-footer>

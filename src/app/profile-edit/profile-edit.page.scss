@@ -1,0 +1,42 @@
+.welcome-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.large-avatar {
+  width: 150px; 
+  height: 150px;
+  border: 3px solid var(--ion-color-warning); /* O el color que desees */
+}
+
+
+
+.form-list {
+  --ion-item-background: transparent;
+  padding: 16px;
+}
+
+
+ion-item {
+  --padding-start: 0;
+  --inner-padding-end: 0;
+}
+
+
+ion-input {
+  --color: #000; /* Color del texto de entrada */
+  --padding-top: 10px;
+  --padding-bottom: 30px;
+  --padding-start: 0;
+}
+
+.edit_password {
+  color: #000000; 
+  font-size: 1.1rem;
+  margin-top: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

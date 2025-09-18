@@ -6,46 +6,57 @@ import { RouterModule } from '@angular/router';
 import { ApiService } from '../services/api';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UserService } from '../services/user';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule, 
-    RouterModule
-  ]
+	selector: 'app-login',
+	templateUrl: './login.page.html',
+	styleUrls: ['./login.page.scss'],
+	standalone: true,
+	imports: [
+		CommonModule,
+		FormsModule,
+		IonicModule,
+		RouterModule
+	]
 })
 export class LoginPage {
-  credentials = {
-    email: '',
-    password: ''
-  };
+	credentials = {
+		email: '',
+		password: ''
+	};
 
-  showPassword = false;
+	showPassword = false;
 
+¿
   constructor(
     private apiService: ApiService, 
     private router: Router,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private userService: UserService
   ) {}
+¿
+	constructor(
+		private apiService: ApiService,
+		private router: Router,
+		private loadingCtrl: LoadingController,
+		private toastCtrl: ToastController
+	) { }
 
-  async onLogin() {
-    // Mostrar spinner de carga
-    const loading = await this.loadingCtrl.create({
-      message: 'Iniciando sesión...',
-      spinner: 'crescent'
-    });
-    await loading.present();
+	async onLogin() {
+		// Mostrar spinner de carga
+		const loading = await this.loadingCtrl.create({
+			message: 'Iniciando sesión...',
+			spinner: 'crescent'
+		});
+		await loading.present();
 
     this.apiService.login(this.credentials).subscribe({
       next: async (response: any) => {
         console.log('Login exitoso', response);
-        await loading.dismiss(); // 🔹 oculto el cargando
+        this.userService.saveUser(response.user);
+        await loading.dismiss();
         this.router.navigate(['/home']);
       },
       error: async (error: HttpErrorResponse) => {
@@ -56,17 +67,32 @@ export class LoginPage {
     });
   }
 
-  togglePassword() {
-    this.showPassword = !this.showPassword;
-  }
+		this.apiService.login(this.credentials).subscribe({
+			next: async (response: any) => {
+				console.log('Login exitoso', response);
+				await loading.dismiss(); // 🔹 oculto el cargando
+				this.router.navigate(['/home']);
+			},
+			error: async (error: HttpErrorResponse) => {
+				console.error('Error en el login', error);
+				await loading.dismiss();
+				this.showToast('Usuario o contraseña incorrectos ❌', 'danger');
+			}
+		});
+	}
 
-  private async showToast(message: string, color: 'success' | 'danger') {
-    const toast = await this.toastCtrl.create({
-      message,
-      duration: 2000,
-      position: 'top',
-      color
-    });
-    await toast.present();
-  }
+
+	togglePassword() {
+		this.showPassword = !this.showPassword;
+	}
+
+	private async showToast(message: string, color: 'success' | 'danger') {
+		const toast = await this.toastCtrl.create({
+			message,
+			duration: 2000,
+			position: 'top',
+			color
+		});
+		await toast.present();
+	}
 }
