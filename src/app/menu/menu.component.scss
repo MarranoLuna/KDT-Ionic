@@ -1,0 +1,27 @@
+.menu-header {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+.menu-user-avatar-only {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  text-align: center;
+}
+
+.user-avatar-large {
+  width: 120px;
+  height: 120px;
+  --border-radius: 50%;
+  --border-width: 3px;
+  --border-style: solid;
+  --border-color: var(--ion-color-warning);
+}
