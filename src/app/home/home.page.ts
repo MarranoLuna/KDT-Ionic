@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { UserService } from 'src/app/services/user';
+import { OnInit } from '@angular/core';
 import {
   IonHeader, 
   IonToolbar, 
@@ -31,4 +33,16 @@ import { MenuComponent } from '../menu/menu.component';
     RouterLink, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, MenuComponent
   ]
 })
-export class HomePage {}
+
+export class HomePage implements OnInit {
+
+  userName: string = ''; 
+
+  constructor(private userService: UserService) { } 
+
+  ngOnInit() {
+  
+    this.userName = this.userService.getCurrentUserName();
+  }
+
+}

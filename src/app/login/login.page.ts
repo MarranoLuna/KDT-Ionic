@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ApiService } from '../services/api';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UserService } from '../services/user';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +32,8 @@ export class LoginPage {
     private apiService: ApiService, 
     private router: Router,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private userService: UserService
   ) {}
 
   async onLogin() {
@@ -45,7 +47,8 @@ export class LoginPage {
     this.apiService.login(this.credentials).subscribe({
       next: async (response: any) => {
         console.log('Login exitoso', response);
-        await loading.dismiss(); // 🔹 oculto el cargando
+        this.userService.saveUser(response.user);
+        await loading.dismiss();
         this.router.navigate(['/home']);
       },
       error: async (error: HttpErrorResponse) => {

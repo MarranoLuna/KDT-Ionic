@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Editar perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="menu_content" fullscreen>
+  <div class="header-section">
+    <ion-menu-button class="menu_but">
+      <svg width="64px" height="64px" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#fa9a00" stroke="#fa9a00">
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+        <g id="SVGRepo_iconCarrier"><path d="M128 469.3333h768v85.333334H128zM128 213.333333h768v85.333334H128zM128 725.333333h768v85.333334H128z" fill="#fa9a00"></path></g>
+      </svg>
+    </ion-menu-button>
+    <div class="welcome-section">
+      <ion-avatar class="large-avatar">
+        <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Avatar">
+      </ion-avatar>
+    </div>
+  </div>
+
+
+
+   <ion-list class="form-list">
+    <ion-item>
+      <ion-input label="Nombre" label-placement="floating" [(ngModel)]="userData.firstname"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Apellido" label-placement="floating" type="text" [(ngModel)]="userData.lastname"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Fecha de nacimiento" placeholder="" label-placement="floating" type="date" [(ngModel)]="userData.birthdate"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Email" label-placement="floating" type="email" [(ngModel)]="userData.email"></ion-input>
+    </ion-item>
+    <br>
+ 
+  <a class="edit_password" routerLink="/edit-password">Cambiar contraseña</a>
+
+    <br>
+    <ion-button expand="block" color="warning" (click)="saveChanges()">
+      Guardar Cambios
+    </ion-button>
+
+  </ion-list>
+
+  </ion-content>

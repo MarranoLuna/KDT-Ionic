@@ -3,6 +3,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
+export interface UserData {
+  id?: number; 
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  birthdate: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -36,6 +45,14 @@ updateRequest(request: any) {
   return this.http.put<any>(`http://localhost:8000/api/requests/${request.id}`, request);
 }
 
+  getUserData(userId: number): Observable<UserData> {
+    return this.http.get<UserData>(`${this.apiUrl}/users/${userId}`);
+  }
+
+  updateUserData(userId: number, data: UserData): Observable<UserData> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<UserData>(`${this.apiUrl}/users/${userId}`, data, { headers });
+  }
 }
 
 
