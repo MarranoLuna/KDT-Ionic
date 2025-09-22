@@ -90,4 +90,15 @@ export class ApiService {
 		return this.http.put<UserData>(`${this.apiUrl}/users/${userId}`, data, { headers });
 	}
 
+  // Nuevo método para guardar una dirección
+  saveAddress(addressData: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      // Si necesitas enviar un token de autenticación (por ejemplo, JWT), añádelo aquí
+      // 'Authorization': `Bearer ${token}` 
+    });
+
+    return this.http.post(`${this.apiUrl}/addresses`, addressData, { headers });
+  }
+
 }

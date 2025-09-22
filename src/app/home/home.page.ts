@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserService } from 'src/app/services/user';
 import { OnInit } from '@angular/core';
 import {
+
 	IonHeader,
 	IonToolbar,
 	IonTitle,
@@ -31,10 +32,26 @@ import { LoadingController } from '@ionic/angular';
 	styleUrls: ['./home.page.scss'],
 	standalone: true,
 	imports: [
-		IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton, IonAvatar,
-		IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardContent,
-		RouterLink, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, MenuComponent
+	  IonHeader, 
+     IonToolbar, 
+     IonTitle, 
+     IonButtons, 
+     IonMenuButton, 
+     IonAvatar,
+		IonContent, 
+           IonGrid, 
+           IonRow, 
+           IonCol, 
+           IonCard, 
+           IonCardContent,
+    RouterLink, 
+           IonCardContent, 
+           IonCardHeader, 
+           IonCardTitle, 
+           IonGrid, 
+           MenuComponent
 	]
+
 })
 
 export class HomePage implements OnInit {
