@@ -10,8 +10,22 @@ import {
 } from '@ionic/angular';
 
 import {
-  IonContent,  IonToolbar,  IonHeader,  IonButtons,IonBackButton,IonTitle,  IonCard,IonCardHeader,
-  IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonList, IonItem, IonLabel, IonTextarea, IonInput
+  IonContent,  
+  IonToolbar,  
+  IonHeader, 
+   IonButtons,
+   IonBackButton,
+   IonTitle, 
+    IonCard,
+    IonCardHeader,
+  IonCardTitle,
+   IonCardSubtitle, 
+   IonCardContent, IonButton, 
+   IonList, IonItem, 
+   IonLabel, 
+   IonTextarea, 
+   IonInput,
+   LoadingController
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -37,10 +51,18 @@ export class RequestsPage implements OnInit {
     private http: HttpClient,
     private apiService: ApiService,
     private toastCtrl: ToastController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController, 
+    private loadingCtrl: LoadingController,
+
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingCtrl.create({
+      spinner: 'crescent'
+    });
+    await loading.present();
+    await this.apiService.verifyLogin().then(() => loading.dismiss());
+
     this.getRequests();
   }
 

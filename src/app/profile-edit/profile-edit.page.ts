@@ -15,6 +15,7 @@ import {
   IonItem,
   IonInput,
   IonButton,
+  LoadingController
 } from '@ionic/angular/standalone';
 
 import { FormsModule } from '@angular/forms';
@@ -44,10 +45,16 @@ export class ProfileEditPage implements OnInit {
   constructor(
     private apiService: ApiService,
     private userService: UserService,
+    private loadingCtrl: LoadingController,
     private router: Router
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingCtrl.create({
+      spinner: 'crescent'
+    });
+    await loading.present();
+    await this.apiService.verifyLogin().then(() => loading.dismiss());
 
     this.currentUserId = this.userService.getCurrentUserId();
 

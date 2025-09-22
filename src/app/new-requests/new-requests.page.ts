@@ -1,10 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonBackButton,
-  IonButton, IonButtons, IonList, IonItem, IonInput, IonToggle,
-  IonTextarea, IonNote, IonSelect, IonSelectOption, ToastController, LoadingController } from '@ionic/angular/standalone';
+import {
+  IonContent,
+  IonHeader,
+  IonTitle,
+  IonToolbar,
+  IonLabel,
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonList,
+  IonItem,
+  IonInput,
+  IonToggle,
+  IonTextarea,
+  IonNote,
+  IonSelect,
+  IonSelectOption,
+  ToastController,
+  LoadingController
+} from '@ionic/angular/standalone';
 import { ApiService } from '../services/api';
+
 
 @Component({
   selector: 'app-new-requests',
@@ -13,7 +31,7 @@ import { ApiService } from '../services/api';
   standalone: true,
   imports: [
     IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonBackButton,
-    IonLabel,  IonButton, IonButtons, IonSelectOption,
+    IonLabel, IonButton, IonButtons, IonSelectOption,
     IonList, IonItem, IonInput, IonToggle, IonTextarea, IonNote, IonSelect
   ]
 })
@@ -21,7 +39,7 @@ export class NewRequestsPage implements OnInit {
 
   mostrarParada: boolean = false;
   mostrarCantidadDinero: boolean = false;
-  
+
   soloLetras(event: any) {
     const input = event.target.value;
     const soloTexto = input.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
@@ -45,38 +63,45 @@ export class NewRequestsPage implements OnInit {
     private apiService: ApiService,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Verificando sesión...',
+      spinner: 'crescent'
+    });
+    await loading.present();
+    await this.apiService.verifyLogin().then(() => loading.dismiss());
+  }
 
 
-  
+
   async onSubmit() {    // validaciones antes de enviar
 
 
-  const originStreet = this.formData.origin_street.trim().toLowerCase();
-  const destinationStreet = this.formData.destination_street.trim().toLowerCase();
-  const originNumber = this.formData.origin_number.trim();
-  const destinationNumber = this.formData.destination_number.trim();
+    const originStreet = this.formData.origin_street.trim().toLowerCase();
+    const destinationStreet = this.formData.destination_street.trim().toLowerCase();
+    const originNumber = this.formData.origin_number.trim();
+    const destinationNumber = this.formData.destination_number.trim();
 
-  //  no permitir que calle y número sean ambos iguales
-  const isStreetEqual = originStreet === destinationStreet;
-  const isNumberEqual = originNumber === destinationNumber;
+    //  no permitir que calle y número sean ambos iguales
+    const isStreetEqual = originStreet === destinationStreet;
+    const isNumberEqual = originNumber === destinationNumber;
 
-  if (isStreetEqual && isNumberEqual) {
-    const toast = await this.toastCtrl.create({
-      message: 'La dirección de Origen y Destino no pueden ser iguales.',
-      duration: 2500,
-      color: 'danger'
-    });
-    toast.present();
-    return;
-  }
+    if (isStreetEqual && isNumberEqual) {
+      const toast = await this.toastCtrl.create({
+        message: 'La dirección de Origen y Destino no pueden ser iguales.',
+        duration: 2500,
+        color: 'danger'
+      });
+      toast.present();
+      return;
+    }
 
     const numOrigen = this.formData.origin_number?.toString();
     const numDestino = this.formData.destination_number?.toString();
 
-    
+
     if (!/^\d{1,5}(\s?[a-zA-Z]{1,4})?$|^S\/N$/i.test(numOrigen)) {
       const toast = await this.toastCtrl.create({
         message: 'El número de Origen no es válido.',
