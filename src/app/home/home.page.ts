@@ -2,10 +2,7 @@ import { Component } from '@angular/core';
 import { UserService } from 'src/app/services/user';
 import { OnInit } from '@angular/core';
 import {
-  IonHeader, 
-  IonToolbar, 
-  IonTitle, 
-  IonButtons, 
+
   IonMenuButton, 
   IonAvatar,
   IonContent, 
@@ -13,9 +10,7 @@ import {
   IonRow,  
   IonCol, 
   IonCard, 
-  IonCardContent, 
-  IonCardHeader, 
-  IonCardTitle
+
 } from '@ionic/angular/standalone';
 
 import { RouterLink } from '@angular/router';
@@ -28,9 +23,9 @@ import { MenuComponent } from '../menu/menu.component';
   styleUrls: ['./home.page.scss'],
   standalone: true,
   imports: [
-    IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton, IonAvatar,
-    IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardContent,
-    RouterLink, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, MenuComponent
+    IonMenuButton, IonAvatar,
+    IonContent, IonGrid, IonRow, IonCol, IonCard,
+    RouterLink, MenuComponent
   ]
 })
 

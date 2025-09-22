@@ -7,26 +7,29 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
 
-  <!--<ion-item>
-    <ion-input
-      placeholder="Buscar dirección..."
-      [(ngModel)]="search"
-      (ionInput)="buscarDireccion()">
-    </ion-input>
-  </ion-item> -->
+<ion-content color="light">
+ <ion-list [inset]="true">
 
-  <!-- Mapa 
-  <google-map
-    height="400px"
-    width="100%"
-    [center]="center"
-    [zoom]="15"
-    (mapClick)="seleccionarDireccion($event)">
-    <map-marker [position]="marker" *ngIf="marker"></map-marker>
-  </google-map>-->
+<ion-item>
+    <ion-input type="text" id="autocomplete-input" placeholder="Ingresa tu dirección" autocomplete="off"></ion-input>
+  </ion-item>
+  
+  <div id="map" style="height: 300px; width: 100%;"></div>
 
-  <!-- Guardar
-  <ion-button expand="block" (click)="guardarDireccion()">Guardar dirección</ion-button>-->
+    <ion-item>
+      <ion-input label="Intersección" [(ngModel)]="address.intersection" label-placement="floating"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Piso" [(ngModel)]="address.floor" label-placement="floating"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Departamento" [(ngModel)]="address.department" label-placement="floating"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="full" (click)="saveUserAddress()">
+    Guardar Dirección
+  </ion-button>
+
 </ion-content> 
