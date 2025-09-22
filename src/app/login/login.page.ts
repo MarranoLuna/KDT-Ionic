@@ -42,16 +42,9 @@ export class LoginPage {
 		private userService: UserService
 
 	) {
-		this.verifyLogin();//Verifica si el usuario inicio sesión y se guardó un token
+		this.apiService.verifyLogin();//Verifica si el usuario inicio sesión y se guardó un token
 	}
 
-	private async verifyLogin() {
-		const { value } = await Preferences.get({ key: 'authToken' });
-		if (value) {
-			this.router.navigate(['/home']);
-		}
-	}
-	
 	// FUNCIÓN PARA LOGUEARSE
 	async onLogin() {
 		// Mostrar spinner de carga
@@ -61,22 +54,21 @@ export class LoginPage {
 		});
 		await loading.present();
 
-		/////// COMFLICTO
-    this.apiService.login(this.credentials).subscribe({
-      next: async (response: any) => {
-        console.log('Login exitoso', response);
-		await loading.dismiss();  // 🔹 oculto el cargando
-        this.userService.saveUser(response.user);
-		localStorage.setItem('token', response.token);
-        this.router.navigate(['/home']);
-      },
-      error: async (error: HttpErrorResponse) => {
-        console.error('Error en el login', error);
-        await loading.dismiss();
-        this.showToast('Usuario o contraseña incorrectos ❌', 'danger');
-      }
-    });
-  }
+		/////// CONFLICTO
+		this.apiService.login(this.credentials).subscribe({
+			next: async (response: any) => {
+				console.log('Login exitoso', response);
+				await loading.dismiss();  // 🔹 oculto el cargando
+				this.userService.saveUser(response.user);
+				await Preferences.set({ key: 'authToken', value: response.token });
+				this.router.navigate(['/home']);
+			},
+			error: async (error: HttpErrorResponse) => {
+				await loading.dismiss();
+				this.showToast('Usuario o contraseña incorrectos ❌', 'danger');
+			}
+		});
+	}
 
 	togglePassword() {
 		this.showPassword = !this.showPassword;
