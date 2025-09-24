@@ -3,7 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular'; 
 import { RouterModule } from '@angular/router';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { 
+  LoadingController
+} from '@ionic/angular';
+import { ApiService } from '../services/api';
 
 @Component({
   selector: 'app-request-sent',
@@ -19,9 +22,17 @@ import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/stan
 })
 export class RequestSentPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private apiService: ApiService,
+    private loadingCtrl: LoadingController,
+  ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingCtrl.create({
+      spinner: 'crescent'
+    });
+    await loading.present();
+    await this.apiService.verifyLogin().then(() => loading.dismiss());
   }
 
 }

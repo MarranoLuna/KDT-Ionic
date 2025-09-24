@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { LoadingController } from '@ionic/angular';
+import { ApiService } from '../services/api';
 
 @Component({
   selector: 'app-forgot-password',
@@ -12,9 +14,17 @@ import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/stan
 })
 export class ForgotPasswordPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private apiService: ApiService,
+    private loadingCtrl: LoadingController,
+  ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingCtrl.create({
+			spinner: 'crescent'
+		});
+		await loading.present();
+		await this.apiService.verifyLogin().then(() => loading.dismiss());
   }
 
 }

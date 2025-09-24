@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { ApiService } from '../services/api';
+import { Preferences } from '@capacitor/preferences';
+
 import {
   IonMenu,
   IonContent,
@@ -33,4 +37,14 @@ import { RouterLink } from '@angular/router';
     RouterLink
   ]
 })
-export class MenuComponent {}
+export class MenuComponent {
+
+  constructor(
+    private apiService: ApiService,
+    private router: Router
+  ) { }
+
+  async onLogout() {
+    this.apiService.logout();
+  }
+}

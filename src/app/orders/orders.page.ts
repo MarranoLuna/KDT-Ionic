@@ -16,8 +16,10 @@ import {
   IonLabel,  
   IonCardContent, 
   IonCardTitle, 
-  IonButtons,  
+  IonButtons, 
+  LoadingController 
 } from '@ionic/angular/standalone';
+import { ApiService } from '../services/api';
 
 import { MenuComponent } from '../menu/menu.component';
   //import { RouterLink } from '@angular/router';
@@ -51,9 +53,17 @@ import { MenuComponent } from '../menu/menu.component';
 })
 export class OrdersPage implements OnInit {
   
-  constructor() { }
+  constructor(
+    private apiService: ApiService,
+    private loadingCtrl: LoadingController,
+  ) { }
 
-ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingCtrl.create({
+      spinner: 'crescent'
+    });
+    await loading.present();
+    await this.apiService.verifyLogin().then(() => loading.dismiss());
   }
   
 

@@ -1,14 +1,16 @@
 <ion-header>
   <ion-toolbar color="warning">
     <ion-buttons slot="start">
+
            <ion-back-button defaultHref="/home" text=""></ion-back-button>
     </ion-buttons>
     <ion-title>Mis direcciones</ion-title>
-  </ion-toolbar>
+    <ion-back-button defaultHref="/home" text=""></ion-back-button>
 </ion-header>
 
 
 <ion-content color="light">
+
   <ion-list [inset]="true">
     <ion-item-group>
       <ion-item-divider>
@@ -61,3 +63,29 @@
     </ion-item-group>
   </ion-list>
 </ion-content>
+
+ <ion-list [inset]="true">
+
+<ion-item>
+    <ion-input type="text" id="autocomplete-input" placeholder="Ingresa tu dirección" autocomplete="off"></ion-input>
+  </ion-item>
+  
+  <div id="map" style="height: 300px; width: 100%;"></div>
+
+    <ion-item>
+      <ion-input label="Intersección" [(ngModel)]="address.intersection" label-placement="floating"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Piso" [(ngModel)]="address.floor" label-placement="floating"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Departamento" [(ngModel)]="address.department" label-placement="floating"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="full" (click)="saveUserAddress()">
+    Guardar Dirección
+  </ion-button>
+
+</ion-content> 
+

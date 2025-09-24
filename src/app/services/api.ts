@@ -1,41 +1,104 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { Preferences } from '@capacitor/preferences';
+import { Router } from '@angular/router';
 
+
+interface LoginResponse {
+	token: string;
+	user?: any; // opcional si el backend devuelve datos del usuario
+}
+export interface UserData {
+	id?: number;
+	firstname: string;
+	lastname: string;
+	email: string;
+	password: string;
+	birthdate: string;
+}
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
+
 export class ApiService {
 
-  private apiUrl = 'http://localhost:8000/api'; 
+	private apiUrl = 'http://localhost:8000/api';
 
 
-  constructor(private http: HttpClient) { }
+	constructor(
+		private http: HttpClient,
+		private router: Router
+	) { }
 
 
-  login(credentials: any): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(`${this.apiUrl}/login`, credentials, { headers });
-}
+	login(credentials: any): Observable<LoginResponse> {
 
- registerUser(userData: any): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(`${this.apiUrl}/register`, userData, { headers });
+		const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+		return this.http.post<LoginResponse>(`${this.apiUrl}/ion_login`, credentials, { headers }
+		).pipe(
+			tap(async (res) => {
+				// Si el backend devuelve un token, lo guardamos en Preferences de Capacitor 
+				if (res.token) {
+					Preferences.set({ key: 'authToken', value: res.token }).then(
+						() => {
+							this.router.navigate(['/home']);
+						}
+					);
+				}
+			})
+		);
+	}
+
+	async logout(): Promise<void> {
+		Preferences.clear();
+		this.verifyLogin();
+	}
+
+	async verifyLogin() {
+		const { value } = await Preferences.get({ key: 'authToken' });
+
+		if (value == null) {
+			this.router.navigate(['/login']);
+		}
+	}
+
+	registerUser(userData: any): Observable<any> {
+		const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+		return this.http.post(`${this.apiUrl}/register`, userData, { headers });
+	}
+
+	createRequest(data: any) {
+		return this.http.post(`${this.apiUrl}/requests`, data);
+	}
+
+	deleteRequest(id: number) {
+		return this.http.delete(`${this.apiUrl}/requests/${id}`);
+	}
+
+	updateRequest(request: any) {
+		return this.http.put<any>(`http://localhost:8000/api/requests/${request.id}`, request);
+	}
+
+	getUserData(userId: number): Observable<UserData> {
+		return this.http.get<UserData>(`${this.apiUrl}/users/${userId}`);
+	}
+
+	updateUserData(userId: number, data: UserData): Observable<UserData> {
+		const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+		return this.http.put<UserData>(`${this.apiUrl}/users/${userId}`, data, { headers });
+	}
+
+  // Nuevo método para guardar una dirección
+  saveAddress(addressData: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      // Si necesitas enviar un token de autenticación (por ejemplo, JWT), añádelo aquí
+      // 'Authorization': `Bearer ${token}` 
+    });
+
+    return this.http.post(`${this.apiUrl}/addresses`, addressData, { headers });
   }
 
-createRequest(data: any) {
-  return this.http.post(`${this.apiUrl}/requests`, data);
 }
-
-deleteRequest(id: number) {
-  return this.http.delete(`${this.apiUrl}/requests/${id}`);
-}
-
-updateRequest(request: any) {
-  return this.http.put<any>(`http://localhost:8000/api/requests/${request.id}`, request);
-}
-
-}
-
-

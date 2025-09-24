@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IonicModule, IonInput, NavController, LoadingController, ToastController } from '@ionic/angular';
 
-// tipado correcto del formulario
+// 1. Definimos la interfaz para asegurar el tipado correcto del formulario
 interface AppFormData {
   origin_address: string;
   origin_lat: number | null;
@@ -22,7 +22,7 @@ interface AppFormData {
 }
 
 @Component({
-  selector: 'app-new-requests', 
+  selector: 'app-new-requests', // Asegúrate de que coincida con tu selector
   templateUrl: './new-requests.page.html',
   styleUrls: ['./new-requests.page.scss'],
   standalone: true,
@@ -34,7 +34,7 @@ export class NewRequestsPage implements OnInit, AfterViewInit {
   @ViewChild('destinoInput', { static: false }) destinoInput!: IonInput;
   @ViewChild('paradaInput', { static: false }) paradaInput!: IonInput;
   
-  
+  // 2. Usamos la interfaz para tipar el objeto formData
   formData: AppFormData = {
     origin_address: '',
     origin_lat: null,
@@ -53,7 +53,7 @@ export class NewRequestsPage implements OnInit, AfterViewInit {
   mostrarParada = false;
   mostrarCantidadDinero = false;
   
-  
+  // 3. Inyectamos todos los servicios que vamos a usar
   constructor(
     private ngZone: NgZone,
     private http: HttpClient,
@@ -127,15 +127,17 @@ export class NewRequestsPage implements OnInit, AfterViewInit {
     }
   }
 
-  
+  // Asegúrate de tener esta función si la usas en el HTML
   toggleDinero(event: any) {
     this.mostrarCantidadDinero = event.detail.checked;
   }
 
-  
+  // Función dummy para el evento (ionInput)
+  soloLetras(event: any) {
+    // Tu lógica de validación aquí si es necesaria
+  }
 
-
-
+  // 4. Función onSubmit completa para enviar los datos a Laravel
   async onSubmit() {
     if (!this.formData.origin_address || !this.formData.destination_address || !this.formData.description || !this.formData.payment_method) {
       this.presentToast('Por favor, completa todos los campos obligatorios.', 'danger');
@@ -147,7 +149,6 @@ export class NewRequestsPage implements OnInit, AfterViewInit {
     });
     await loading.present();
 
-    // REVEEEEER ESTOOOOO ------------
     // Reemplaza 'authToken' por la clave que uses para guardar tu token
     const token = localStorage.getItem('authToken');
     if (!token) {
@@ -161,7 +162,7 @@ export class NewRequestsPage implements OnInit, AfterViewInit {
       'Accept': 'application/json'
     });
 
-    
+    // Cambia la URL si es necesario
     const apiUrl = 'http://127.0.0.1:8000/api/requests';
 
     this.http.post(apiUrl, this.formData, { headers }).subscribe({
@@ -184,7 +185,7 @@ export class NewRequestsPage implements OnInit, AfterViewInit {
     });
   }
 
-  // Función mostrar notificaciones
+  // Función de ayuda para mostrar notificaciones
   async presentToast(message: string, color: 'success' | 'danger') {
     const toast = await this.toastController.create({
       message: message,

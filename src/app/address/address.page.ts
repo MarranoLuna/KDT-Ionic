@@ -1,3 +1,4 @@
+
 import { Component, ViewChild, NgZone, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -13,11 +14,13 @@ interface Address {
   user_id: number;
 }
 
+
 @Component({
   selector: 'app-address',
   templateUrl: './address.page.html',
   styleUrls: ['./address.page.scss'],
   standalone: true,
+
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class AddressPage implements AfterViewInit {
@@ -127,4 +130,4 @@ export class AddressPage implements AfterViewInit {
     });
     toast.present();
   }
-}
+
