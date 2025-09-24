@@ -41,8 +41,10 @@ export class ApiService {
 			tap(async (res) => {
 				// Si el backend devuelve un token, lo guardamos en Preferences de Capacitor 
 				if (res.token) {
-					Preferences.set({ key: 'authToken', value: res.token }).then(
-						() => {
+					// GUARDAR DATOS DEL USUARIO EN PREFERENCES:
+					await Preferences.set({key:'user', value: JSON.stringify(res.user) }); 
+					// GUARDAR TOKEN:
+					Preferences.set({ key: 'authToken', value: res.token }).then(() => {
 							this.router.navigate(['/home']);
 						}
 					);

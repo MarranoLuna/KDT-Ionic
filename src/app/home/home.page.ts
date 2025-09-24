@@ -22,7 +22,7 @@ import { RouterLink } from '@angular/router';
 
 import { MenuComponent } from '../menu/menu.component';
 import { ApiService } from '../services/api';
-
+import { Preferences } from '@capacitor/preferences';
 import { LoadingController } from '@ionic/angular';
 
 @Component({
@@ -46,6 +46,8 @@ export class HomePage implements OnInit {
 		private apiService: ApiService,
 		private loadingCtrl: LoadingController,
 	) {
+		console.log("entra");
+    	this.mostrarUSer();
 	}
 
 	async ngOnInit() {
@@ -56,5 +58,14 @@ export class HomePage implements OnInit {
 		await this.apiService.verifyLogin().then(() => loading.dismiss());
 		this.userName = this.userService.getCurrentUserName();
 	}
+
+	private async mostrarUSer(){
+    const { value } = await Preferences.get({ key: 'user' });
+    if (value) {
+      console.log('User data:', JSON.parse(value));
+    } else {
+      console.log('No user data found.');
+    }
+  }
 
 }
