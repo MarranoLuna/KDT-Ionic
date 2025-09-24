@@ -10,13 +10,6 @@ import {
   IonMenuButton, 
   IonAvatar,
   IonContent, 
-  IonGrid, 
-  IonRow,  
-  IonCol, 
-  IonCard, 
-  IonCardContent, 
-  IonCardHeader, 
-  IonCardTitle,
   IonBackButton,
   IonList,
   IonItem,
@@ -29,7 +22,7 @@ import { FormsModule } from '@angular/forms';
 
 import { RouterLink } from '@angular/router';
 
-import { MenuComponent } from '../menu/menu.component';
+
 
 @Component({
   selector: 'app-profile-edit',
@@ -38,9 +31,9 @@ import { MenuComponent } from '../menu/menu.component';
   standalone: true,
   imports: [
     IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton, IonAvatar,
-    IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardContent,
-    RouterLink, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, MenuComponent, RouterLink, IonContent,  IonToolbar,  IonHeader,  IonButtons, IonTitle,  IonCard,IonCardHeader,
-  IonCardTitle, IonCardContent, IonBackButton, IonList, IonItem, IonInput, IonButton, FormsModule
+    IonContent, 
+    RouterLink, RouterLink, IonContent,  IonToolbar,  IonHeader,  IonButtons, IonTitle, 
+  IonBackButton, IonList, IonItem, IonInput, IonButton, FormsModule
   ]
 })
 export class ProfileEditPage implements OnInit {
