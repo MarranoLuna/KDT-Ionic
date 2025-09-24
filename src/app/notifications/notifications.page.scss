@@ -1,4 +1,19 @@
-.image{
+
+.container {
+    text-align: center;  
+    width: 100%; 
+    align-items: flex-end;      
+    position: relative; 
+    height: 500px;     
+}
+
+img {
+    max-width: 100%; 
+    opacity: 0.5;
+    bottom: 0;  
+    align-items: flex-end;   
+
+  .image{
     opacity: 0.5;
     
     position: fixed;
@@ -15,5 +30,6 @@
   flex-wrap: wrap;          
   margin: 10px auto;
   max-width: 440px;         
+
   
 }

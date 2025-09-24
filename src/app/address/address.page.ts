@@ -1,141 +1,133 @@
-import { Component, AfterViewInit } from '@angular/core';
+
+import { Component, ViewChild, NgZone, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonList, IonItem, IonInput, IonButton, IonContent, IonTitle,IonButtons,IonToolbar,IonBackButton, IonHeader,} from '@ionic/angular/standalone';
-import { ApiService } from '../services/api';
+import { HttpClient } from '@angular/common/http';
+import { IonicModule, IonInput, LoadingController, ToastController } from '@ionic/angular';
 
-declare const google: any;
+// Interfaz para tipar las direcciones que vienen de la API
+interface Address {
+  id: number;
+  address: string;
+  lat: number;
+  lng: number;
+  user_id: number;
+}
+
 
 @Component({
   selector: 'app-address',
   templateUrl: './address.page.html',
   styleUrls: ['./address.page.scss'],
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonList,
-    IonItem,
-    IonInput,
-    IonButton,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonButtons,
-    IonBackButton
-  ]
+
+  imports: [IonicModule, CommonModule, FormsModule]
 })
 export class AddressPage implements AfterViewInit {
-  address: any = {};
-  map: any;
-  marker: any;
 
-  constructor(private apiService: ApiService) {}
+  @ViewChild('addressInput', { static: false }) addressInput!: IonInput;
+
+  // Objeto para guardar los datos de la nueva dirección
+  newAddress = {
+    address: '',
+    lat: null as number | null,
+    lng: null as number | null
+  };
+
+  savedAddresses: Address[] = [];
+  isLoading = true;
+  apiUrl = 'http://127.0.0.1:8000/api';
+
+  constructor(
+    private ngZone: NgZone,
+    private http: HttpClient,
+    private loadingController: LoadingController,
+    private toastController: ToastController
+  ) { }
+
+  // actualiza cada vez que se entra a la página
+  ionViewWillEnter() {
+    this.loadAddresses();
+  }
 
   ngAfterViewInit() {
-    this.initAutocompleteAndMap();
+    this.setupAutocomplete();
   }
 
-  initAutocompleteAndMap() {
-    // Check if the 'google' object is available
-    if (typeof google !== 'undefined' && google.maps && google.maps.Map) {
-      this.initializeMapAndAutocomplete();
-    } else {
-      // If the object is not available yet, wait 500ms and try again
-      // This is a common and reliable pattern for asynchronous scripts.
-      setTimeout(() => this.initAutocompleteAndMap(), 500);
-    }
-  }
+  // --- Lógica de Google Maps ---
+  setupAutocomplete() {
+    this.addressInput.getInputElement().then((element: HTMLInputElement) => {
+      const gualeguaychuBounds = new google.maps.LatLngBounds(
+        new google.maps.LatLng(-33.033, -58.553),
+        new google.maps.LatLng(-32.988, -58.484)
+      );
+      const options = {
+        bounds: gualeguaychuBounds,
+        strictBounds: true,
+        fields: ["formatted_address", "geometry"]
+      };
 
-  initializeMapAndAutocomplete() {
-    const mapElement = document.getElementById('map');
-    if (mapElement) {
-        this.map = new google.maps.Map(mapElement, {
-            center: { lat: -34.6037, lng: -58.3816 }, // Example: Buenos Aires
-            zoom: 12
+      const autocomplete = new google.maps.places.Autocomplete(element, options);
+      autocomplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          const place = autocomplete.getPlace();
+          if (place.geometry && place.formatted_address) {
+            this.newAddress.address = place.formatted_address;
+            this.newAddress.lat = place.geometry?.location?.lat() || null;
+            this.newAddress.lng = place.geometry?.location?.lng() || null;
+          }
         });
-
-        const input = document.getElementById('autocomplete-input') as HTMLInputElement;
-        const autocomplete = new google.maps.places.Autocomplete(input);
-
-        autocomplete.bindTo('bounds', this.map);
-
-        autocomplete.addListener('place_changed', () => {
-            const place = autocomplete.getPlace();
-
-            if (!place.geometry) {
-                console.error("No se encontraron detalles para la dirección: '" + place.name + "'");
-                return;
-            }
-
-            if (this.marker) {
-                this.marker.setMap(null);
-            }
-            this.map.setCenter(place.geometry.location);
-            this.map.setZoom(17);
-
-            this.marker = new google.maps.Marker({
-                map: this.map,
-                position: place.geometry.location,
-                draggable: true
-            });
-            
-            this.address = this.extractAddressComponents(place);
-            console.log(this.address);
-        });
-    }
+      });
+    });
   }
 
-  private extractAddressComponents(place: any) {
-    let components: any = {
-      street: '',
-      number: '',
-      intersection: '',
-      floor: '',
-      department: '',
-    };
-
-    // Extract street name and number
-    const streetComponent = place.address_components.find((comp: any) => comp.types.includes('route'));
-    if (streetComponent) {
-      components.street = streetComponent.long_name;
-    }
-
-    const numberComponent = place.address_components.find((comp: any) => comp.types.includes('street_number'));
-    if (numberComponent) {
-      components.number = numberComponent.long_name;
-    }
-
-    // Extract intersection
-    const intersectionComponent = place.address_components.find((comp: any) => comp.types.includes('intersection'));
-    if (intersectionComponent) {
-      components.intersection = intersectionComponent.long_name;
-    }
-
-    // Extract sub-premise details like floor and department
-    const floorComponent = place.address_components.find((comp: any) => comp.types.includes('floor'));
-    if (floorComponent) {
-      components.floor = floorComponent.long_name;
-    }
-
-    const departmentComponent = place.address_components.find((comp: any) => comp.types.includes('subpremise'));
-    if (departmentComponent) {
-      components.department = departmentComponent.long_name;
-    }
-
-    return components;
-  }
-
-  saveUserAddress() {
-    console.log('Guardando dirección:', this.address);
-    this.apiService.saveAddress(this.address).subscribe({
-      next: (response) => {
-        console.log('Dirección guardada con éxito', response);
+  // --- Lógica de la API ---
+  loadAddresses() {
+    this.isLoading = true;
+    this.http.get<Address[]>(`${this.apiUrl}/addresses`).subscribe({
+      next: (data) => {
+        this.savedAddresses = data;
+        this.isLoading = false;
       },
       error: (error) => {
-        console.error('Error al guardar la dirección', error);
+        console.error('Error al cargar las direcciones', error);
+        this.presentToast('No se pudieron cargar las direcciones.', 'danger');
+        this.isLoading = false;
       }
     });
   }
-}
+
+  async saveAddress() {
+    const loading = await this.loadingController.create({ message: 'Guardando...' });
+    await loading.present();
+
+    this.http.post(`${this.apiUrl}/addresses`, this.newAddress).subscribe({
+      next: () => {
+        loading.dismiss();
+        this.presentToast('¡Dirección guardada con éxito!', 'success');
+        this.resetForm();
+        this.loadAddresses(); // recarga la lista para mostrar la nueva dirección
+      },
+      error: (error) => {
+        loading.dismiss();
+        console.error('Error al guardar la dirección', error);
+        this.presentToast('Hubo un error al guardar la dirección.', 'danger');
+      }
+    });
+  }
+  
+  // --- Funciones de Ayuda ---
+  resetForm() {
+    this.newAddress = { address: '', lat: null, lng: null };
+  }
+
+  async presentToast(message: string, color: 'success' | 'danger') {
+    const toast = await this.toastController.create({
+      message,
+      duration: 3000,
+      position: 'top',
+      color,
+    });
+    toast.present();
+  }
+
