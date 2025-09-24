@@ -15,7 +15,9 @@ import {
   IonItem,
   IonInput,
   IonButton,
-  LoadingController
+  LoadingController,
+  IonLabel,
+
 } from '@ionic/angular/standalone';
 
 import { FormsModule } from '@angular/forms';
@@ -31,14 +33,15 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [
     IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton, IonAvatar,
+
     IonContent, 
     RouterLink, RouterLink, IonContent,  IonToolbar,  IonHeader,  IonButtons, IonTitle, 
-  IonBackButton, IonList, IonItem, IonInput, IonButton, FormsModule
+  IonBackButton, IonList, IonItem, IonInput, IonButton, FormsModule, IonLabel
   ]
 })
 export class ProfileEditPage implements OnInit {
 
-  userData: UserData = { id: 0, firstname: '', lastname: '', email: '', password: '', birthdate: '' };
+  userData: UserData = { id: 0, firstname: '', lastname: '', email: '', password: '', birthday: '' };
 
   currentUserId: number | null = null;
 
@@ -58,12 +61,10 @@ export class ProfileEditPage implements OnInit {
 
     this.currentUserId = this.userService.getCurrentUserId();
 
-
     if (this.currentUserId) {
       this.getUserData(); 
     } else {
       console.error('No se encontro un ID de usuario');
-      
     }
   }
 
@@ -74,15 +75,14 @@ export class ProfileEditPage implements OnInit {
       next: data => {
       console.log('Datos RECIBIDOS de la API:', data);
 
-      
       if (Array.isArray(data) && data.length > 0) {
         this.userData = data[0]; 
       } else if (!Array.isArray(data) && data) {
         this.userData = data; 
       } 
 
-      if (this.userData && this.userData.birthdate) {
-          this.userData.birthdate = this.userData.birthdate.split('T')[0];
+      if (this.userData && this.userData.birthday) {
+          this.userData.birthday = this.userData.birthday.split('T')[0];
       }
     },
       error: error => {

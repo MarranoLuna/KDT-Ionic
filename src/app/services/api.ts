@@ -10,12 +10,12 @@ interface LoginResponse {
 	user?: any; // opcional si el backend devuelve datos del usuario
 }
 export interface UserData {
-	id?: number;
-	firstname: string;
-	lastname: string;
-	email: string;
-	password: string;
-	birthdate: string;
+  id?: number; 
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  birthday: string;
 }
 
 @Injectable({

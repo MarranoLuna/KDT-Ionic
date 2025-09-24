@@ -19,19 +19,6 @@
 }
 
 
-ion-item {
-  --padding-start: 0;
-  --inner-padding-end: 0;
-}
-
-
-ion-input {
-  --color: #000; /* Color del texto de entrada */
-  --padding-top: 10px;
-  --padding-bottom: 30px;
-  --padding-start: 0;
-}
-
 .edit_password {
   color: #000000; 
   font-size: 1.1rem;
@@ -39,4 +26,43 @@ ion-input {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+ion-item{
+  --border-width: 0 !important;
+  --border-style: none !important;
+  --box-shadow: none !important;
+}
+
+
+.campo{
+  background-color: #eaeaea8a;
+  font-size: 1.3rem;
+  padding: 0.5rem !important;
+}
+
+.form-list {
+  margin: 10px auto;
+  width: 90%;
+  
+  ion-item {
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    margin: 0;
+    font-size: 15px;
+    
+    ion-label {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+  }
+  .icon-button {
+    --padding-start: 0;
+    --padding-end: 0;
+    display: none;
+    align-items: center;
+  }
+
 }

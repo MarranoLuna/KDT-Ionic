@@ -26,20 +26,26 @@
 
 
    <ion-list class="form-list">
+
+      <ion-item>
+        <ion-label position="stacked">Nombre</ion-label>
+        <ion-input class="campo" type="text" [(ngModel)]="userData.firstname"></ion-input>
+      </ion-item>
+
+
     <ion-item>
-      <ion-input label="Nombre" label-placement="floating" [(ngModel)]="userData.firstname"></ion-input>
+      <ion-label position="stacked">Apellido</ion-label>
+      <ion-input class="campo" type="text" [(ngModel)]="userData.lastname"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input label="Apellido" label-placement="floating" type="text" [(ngModel)]="userData.lastname"></ion-input>
+      <ion-label position="stacked">Fecha de nacimiento</ion-label>
+      <ion-input class="campo" type="date" [(ngModel)]="userData.birthday"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input label="Fecha de nacimiento" placeholder="" label-placement="floating" type="date" [(ngModel)]="userData.birthdate"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-input label="Email" label-placement="floating" type="email" [(ngModel)]="userData.email"></ion-input>
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input class="campo" type="email" [(ngModel)]="userData.email"></ion-input>
     </ion-item>
     <br>
  

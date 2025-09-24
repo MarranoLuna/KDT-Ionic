@@ -1,12 +1,23 @@
 import { Injectable } from '@angular/core';
 import { UserData } from './api'; 
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor() { }
+  private apiUrl = 'https://api.tu-dominio.com/api';
+
+  constructor(private http: HttpClient) { }
+
+  /**
+   * Envía la petición para cambiar la contraseña del usuario.
+   * @param passwordData Objeto con { currentPassword, newPassword }
+   * @returns Observable con la respuesta del servidor.
+    */
 
   // Guarda los datos del usuario en localStorage después del login
   public saveUser(user: UserData): void {
@@ -28,7 +39,7 @@ export class UserService {
   public logout(): void {
     window.localStorage.removeItem('current_user');
   }
-
+  
   public getCurrentUserName(): string {
     const userString = window.localStorage.getItem('current_user');
     if (userString) {
@@ -37,6 +48,20 @@ export class UserService {
     }
     return '';
   }
+
+  changePassword(passwordData: any): Observable<any> {
+ 
+    const token = localStorage.getItem('authToken'); 
+    
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.post(`${this.apiUrl}/user/change-password`, passwordData, { headers });
+  }
+
 }
+
 
 
