@@ -21,6 +21,9 @@ interface Address {
   styleUrls: ['./address.page.scss'],
   standalone: true,
 
+
+
+  
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class AddressPage implements AfterViewInit {
@@ -129,5 +132,5 @@ export class AddressPage implements AfterViewInit {
       color,
     });
     toast.present();
-  }
+  }}
 
