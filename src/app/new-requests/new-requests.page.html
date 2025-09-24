@@ -13,35 +13,45 @@
  <ion-list [inset]="true">
  
   <ion-item>
-    <ion-input label="Calle de Origen" [(ngModel)]="formData.origin_street" name="origin_street" (ionInput)="soloLetras($event)"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-input  label="Número de Origen" [(ngModel)]="formData.origin_number" name="origin_number" ></ion-input>
-  </ion-item>
+  <ion-input 
+    #origenInput 
+    label="Dirección de Origen" 
+    labelPlacement="floating"
+    placeholder="Ingresá la dirección completa"
+    [(ngModel)]="formData.origin_address" 
+    name="origin_address">
+  </ion-input>
+</ion-item>
 
-   <ion-item>
-    <ion-input label="Calle de Destino" [(ngModel)]="formData.destination_street" name="destination_street" (ionInput)="soloLetras($event)"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-input  label="Número de Destino" [(ngModel)]="formData.destination_number" name="destination_number" ></ion-input>
-  </ion-item>
-  <ion-item>
+ <ion-item>
+  <ion-input 
+    #destinoInput
+    label="Dirección de Destino" 
+    labelPlacement="floating"
+    placeholder="Ingresá la dirección completa"
+    [(ngModel)]="formData.destination_address" 
+    name="destination_address">
+  </ion-input>
+</ion-item>
 
 
-    <ion-toggle (ionChange)="toggleParada($event)">
-      <ion-label>Agregar parada</ion-label>
-    </ion-toggle>
-    
-  </ion-item>
+    <ion-item>
+  <ion-label>Agregar parada</ion-label>
+  <ion-toggle slot="end" (ionChange)="toggleParada($event)" [(ngModel)]="mostrarParada"></ion-toggle>
+</ion-item>
 </ion-list>
 
 <ion-list *ngIf="mostrarParada" [inset]="true">
   <ion-item>
-      <ion-input label="Calle Parada" [(ngModel)]="formData.stop_street" name="stop_street" (ionInput)="soloLetras($event)"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input label="Número Parada" [(ngModel)]="formData.stop_number" name="stop_number" ></ion-input>
-    </ion-item>
+    <ion-input 
+      #paradaInput
+      label="Dirección de Parada" 
+      labelPlacement="floating"
+      placeholder="Ingresá la dirección completa"
+      [(ngModel)]="formData.stop_address" 
+      name="stop_address">
+    </ion-input>
+  </ion-item>
 </ion-list>
 
  <ion-list [inset]="true">
