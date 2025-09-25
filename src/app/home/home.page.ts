@@ -3,10 +3,8 @@ import { UserService } from 'src/app/services/user';
 import { OnInit } from '@angular/core';
 import {
 
-	IonHeader,
-	IonToolbar,
-	IonTitle,
-	IonButtons,
+	
+	
 	IonMenuButton,
 	IonAvatar,
 	IonContent,
@@ -14,9 +12,8 @@ import {
 	IonRow,
 	IonCol,
 	IonCard,
-	IonCardContent,
-	IonCardHeader,
-	IonCardTitle
+	
+
 } from '@ionic/angular/standalone';
 
 import { RouterLink } from '@angular/router';
@@ -32,10 +29,7 @@ import { LoadingController } from '@ionic/angular';
 	styleUrls: ['./home.page.scss'],
 	standalone: true,
 	imports: [
-	  IonHeader, 
-     IonToolbar, 
-     IonTitle, 
-     IonButtons, 
+	  
      IonMenuButton, 
      IonAvatar,
 		IonContent, 
@@ -43,11 +37,9 @@ import { LoadingController } from '@ionic/angular';
            IonRow, 
            IonCol, 
            IonCard, 
-           IonCardContent,
+        
     RouterLink, 
-           IonCardContent, 
-           IonCardHeader, 
-           IonCardTitle, 
+           
            IonGrid, 
            MenuComponent
 	]

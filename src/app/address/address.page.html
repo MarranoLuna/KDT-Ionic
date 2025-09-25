@@ -15,34 +15,56 @@
         <ion-label>Agregar Nueva Dirección</ion-label>
       </ion-item-divider>
 
-      <ion-item>
-        <ion-input
-          #addressInput
-          label="Buscar dirección"
-          labelPlacement="floating"
-          placeholder="Ej: San Martín 500"
-          [(ngModel)]="newAddress.address"
-          name="address">
-        </ion-input>
-      </ion-item>
+     <ion-item>
+      <ion-input
+        #addressInput
+        label="Buscar dirección *"
+        ></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-button
-          (click)="saveAddress()"
-          [disabled]="!newAddress.address || !newAddress.lat"
-          expand="block"
-          color="warning">
-          <ion-icon name="add-circle-outline" slot="start"></ion-icon>
-          Guardar Dirección
-        </ion-button>
-      </ion-item>
-    </ion-item-group>
-  </ion-list>
+    <ion-item>
+      <ion-input
+        label="Intersección (Opcional)"
+        labelPlacement="floating"
+        placeholder="Ej: 25 de Mayo"
+        [(ngModel)]="newAddress.intersection"
+        name="intersection"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input
+        label="Piso (Opcional)"
+        labelPlacement="floating"
+        placeholder="Ej: 3"
+        [(ngModel)]="newAddress.floor"
+        name="floor"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input
+        label="Departamento (Opcional)"
+        labelPlacement="floating"
+        placeholder="Ej: B"
+        [(ngModel)]="newAddress.department"
+        name="department"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-button
+        (click)="saveAddress()"
+        >
+        Guardar Dirección
+      </ion-button>
+    </ion-item>
+  </ion-item-group>
+</ion-list>
+
+
 
   <ion-list [inset]="true">
     <ion-item-group>
       <ion-item-divider>
-        <ion-label>Direcciones Guardadas</ion-label>
+        <ion-label class="boton">Direcciones Guardadas</ion-label>
       </ion-item-divider>
       
       <ion-item *ngIf="isLoading">

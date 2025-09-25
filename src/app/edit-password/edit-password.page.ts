@@ -3,13 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonContent, IonTitle, IonToolbar, IonHeader,
-  IonGrid, 
-  IonRow,  
-  IonCol, 
-  IonCard, 
-  IonCardContent, 
-  IonCardHeader, 
-  IonCardTitle,
+  
+  
   IonBackButton,
   IonList,
   IonItem,
@@ -34,13 +29,7 @@ import { IonContent, IonTitle, IonToolbar, IonHeader,
   IonTitle, 
   IonButtons,
   IonBackButton,
-  IonGrid, 
-  IonRow,  
-  IonCol, 
-  IonCard, 
-  IonCardContent, 
-  IonCardHeader, 
-  IonCardTitle,
+  
   IonList,
   IonItem,
   IonInput,

@@ -2,8 +2,9 @@
 import { Component, ViewChild, NgZone, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { IonicModule, IonInput, LoadingController, ToastController } from '@ionic/angular';
+import { Preferences } from '@capacitor/preferences';
 
 // Interfaz para tipar las direcciones que vienen de la API
 interface Address {
@@ -21,9 +22,6 @@ interface Address {
   styleUrls: ['./address.page.scss'],
   standalone: true,
 
-
-
-  
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class AddressPage implements AfterViewInit {
@@ -34,7 +32,10 @@ export class AddressPage implements AfterViewInit {
   newAddress = {
     address: '',
     lat: null as number | null,
-    lng: null as number | null
+    lng: null as number | null,
+    intersection: '',
+    floor: '',
+    department: ''
   };
 
   savedAddresses: Address[] = [];
@@ -67,7 +68,7 @@ export class AddressPage implements AfterViewInit {
       const options = {
         bounds: gualeguaychuBounds,
         strictBounds: true,
-        fields: ["formatted_address", "geometry"]
+        fields: ["address_components", "formatted_address", "geometry"]
       };
 
       const autocomplete = new google.maps.places.Autocomplete(element, options);
@@ -78,16 +79,24 @@ export class AddressPage implements AfterViewInit {
             this.newAddress.address = place.formatted_address;
             this.newAddress.lat = place.geometry?.location?.lat() || null;
             this.newAddress.lng = place.geometry?.location?.lng() || null;
+            (this.newAddress as any).address_components = place.address_components;
           }
         });
       });
     });
   }
 
+  
   // --- Lógica de la API ---
-  loadAddresses() {
+  async  loadAddresses() {
     this.isLoading = true;
-    this.http.get<Address[]>(`${this.apiUrl}/addresses`).subscribe({
+    const { value: token } = await Preferences.get({ key: 'authToken' });
+    
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    this.http.get<Address[]>(`${this.apiUrl}/addresses`, { headers }).subscribe({
       next: (data) => {
         this.savedAddresses = data;
         this.isLoading = false;
@@ -104,16 +113,26 @@ export class AddressPage implements AfterViewInit {
     const loading = await this.loadingController.create({ message: 'Guardando...' });
     await loading.present();
 
-    this.http.post(`${this.apiUrl}/addresses`, this.newAddress).subscribe({
+const { value: token } = await Preferences.get({ key: 'authToken' });
+    if (!token) {
+      loading.dismiss();
+      this.presentToast('Error de autenticación.', 'danger');
+      return;
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    this.http.post(`${this.apiUrl}/addresses`, this.newAddress, { headers }).subscribe({
       next: () => {
         loading.dismiss();
         this.presentToast('¡Dirección guardada con éxito!', 'success');
         this.resetForm();
-        this.loadAddresses(); // recarga la lista para mostrar la nueva dirección
+        this.loadAddresses();
       },
       error: (error) => {
         loading.dismiss();
-        console.error('Error al guardar la dirección', error);
         this.presentToast('Hubo un error al guardar la dirección.', 'danger');
       }
     });
@@ -121,7 +140,7 @@ export class AddressPage implements AfterViewInit {
   
   // --- Funciones de Ayuda ---
   resetForm() {
-    this.newAddress = { address: '', lat: null, lng: null };
+    this.newAddress = { address: '', lat: null, lng: null, intersection: '', floor: '', department: ''  };
   }
 
   async presentToast(message: string, color: 'success' | 'danger') {
