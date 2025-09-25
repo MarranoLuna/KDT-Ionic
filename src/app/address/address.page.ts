@@ -63,7 +63,6 @@ export class AddressPage implements AfterViewInit {
     this.addressInput.getInputElement().then((element: HTMLInputElement) => {
       const gualeguaychuBounds = new google.maps.LatLngBounds(
         new google.maps.LatLng(-33.033, -58.553),
-        new google.maps.LatLng(-32.988, -58.484)
       );
       const options = {
         bounds: gualeguaychuBounds,
