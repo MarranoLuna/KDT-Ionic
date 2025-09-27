@@ -35,6 +35,7 @@ La aplicación está diseñada para:
    - En la raiz del proyecto ejecutar: `ionic serve`
    - La app se abre en el navegador de forma automática, sino se puede acceder en http://localhost:8100
 5. Para una mejor experiencia, presionar F12 para activar DevTools y luego `Ctrl` + `shift` + `M` para mostrar la vista como en los dispositivos móviles.
+  - Puedes registrarte e iniciar sesión
 
 
 ---
