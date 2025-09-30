@@ -8,3 +8,13 @@ margin: 20px auto;
 max-width: 300px; 
 font-weight: bold;
 }
+
+ion-item ion-label h2 {
+  font-weight: 500; 
+}
+
+ion-item ion-label p {
+  font-size: 0.8em; 
+  color: var(--ion-color-medium);
+  padding-top: 4px;
+}
