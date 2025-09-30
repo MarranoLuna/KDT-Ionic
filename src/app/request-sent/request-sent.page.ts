@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { 
   LoadingController
 } from '@ionic/angular';
-import { ApiService } from '../services/api';
+import { UserService } from '../services/user';
 
 @Component({
   selector: 'app-request-sent',
@@ -23,7 +23,7 @@ import { ApiService } from '../services/api';
 export class RequestSentPage implements OnInit {
 
   constructor(
-    private apiService: ApiService,
+    private userService: UserService,
     private loadingCtrl: LoadingController,
   ) { }
 
@@ -32,7 +32,7 @@ export class RequestSentPage implements OnInit {
       spinner: 'crescent'
     });
     await loading.present();
-    await this.apiService.verifyLogin().then(() => loading.dismiss());
+    await this.userService.verifyLogin().then(() => loading.dismiss());
   }
 
 }

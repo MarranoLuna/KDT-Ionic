@@ -60,13 +60,28 @@ export class HomePage implements OnInit {
 	}
 
 	async ngOnInit() {
-		const loading = await this.loadingCtrl.create({
-			spinner: 'crescent'
-		});
-		await loading.present();
-		await this.apiService.verifyLogin().then(() => loading.dismiss());
-		this.userName = this.userService.getCurrentUserName();
-	}
+    const loading = await this.loadingCtrl.create({ spinner: 'crescent' });
+    await loading.present();
+
+    try {
+        await this.userService.verifyLogin();
+
+        // 1. Llama al método que sí existe: getCurrentUser()
+        const currentUser = await this.userService.getCurrentUser();
+
+        // 2. Si el usuario existe, extrae su nombre
+        if (currentUser) {
+            this.userName = currentUser.firstname; // O la propiedad que corresponda
+        } else {
+            this.userName = 'Invitado'; // Un valor por defecto si no hay usuario
+        }
+
+    } catch (error) {
+        console.error('Ocurrió un error:', error);
+    } finally {
+        await loading.dismiss();
+    }
+}
 
 	private async mostrarUSer(){
     const { value } = await Preferences.get({ key: 'user' });

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../services/user';
 import { ApiService } from '../services/api';
 import { FormsModule } from '@angular/forms'; 
 
@@ -49,6 +50,7 @@ export class RequestsPage implements OnInit {
 
   constructor(
     private http: HttpClient,
+    private userService: UserService,
     private apiService: ApiService,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController, 
@@ -61,7 +63,7 @@ export class RequestsPage implements OnInit {
       spinner: 'crescent'
     });
     await loading.present();
-    await this.apiService.verifyLogin().then(() => loading.dismiss());
+    await this.userService.verifyLogin().then(() => loading.dismiss());
 
     this.getRequests();
   }
