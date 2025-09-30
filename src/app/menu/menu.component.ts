@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from '../services/api';
+import { UserService } from '../services/user';
 import { Preferences } from '@capacitor/preferences';
 
 import {
@@ -40,11 +40,11 @@ import { RouterLink } from '@angular/router';
 export class MenuComponent {
 
   constructor(
-    private apiService: ApiService,
+    private userService: UserService,
     private router: Router
   ) { }
 
   async onLogout() {
-    this.apiService.logout();
+    this.userService.logout();
   }
 }

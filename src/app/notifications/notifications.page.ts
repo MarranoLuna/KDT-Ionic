@@ -12,7 +12,7 @@ import {
   IonBackButton,
   LoadingController
 } from '@ionic/angular/standalone';
-import { ApiService } from '../services/api';
+import { UserService } from '../services/user';
 
 @Component({
   selector: 'app-notifications',
@@ -33,7 +33,7 @@ import { ApiService } from '../services/api';
 export class NotificationsPage implements OnInit {
 
   constructor(
-    private apiService: ApiService,
+    private userService: UserService,
     private loadingCtrl: LoadingController,
   ) { }
 
@@ -42,6 +42,6 @@ export class NotificationsPage implements OnInit {
       spinner: 'crescent'
     });
     await loading.present();
-    await this.apiService.verifyLogin().then(() => loading.dismiss());
+    await this.userService.verifyLogin().then(() => loading.dismiss());
   }
 }

@@ -3,13 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, LoadingController, ToastController } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-import { ApiService } from '../services/api';
+import { UserService } from '../services/user';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-
-//conflicto
 import { Preferences } from '@capacitor/preferences';
-import { UserService } from '../services/user';
+
 
 
 @Component({
@@ -35,7 +33,7 @@ export class LoginPage {
 	showPassword = false;
 
 	constructor(
-		private apiService: ApiService,
+		private apiService: UserService,
 		private router: Router,
 		private loadingCtrl: LoadingController,
 		private toastCtrl: ToastController,
@@ -55,7 +53,7 @@ export class LoginPage {
 		await loading.present();
 
 		/////// CONFLICTO
-		this.apiService.login(this.credentials).subscribe({
+		this.userService.login(this.credentials).subscribe({
 			next: async (response: any) => {
 				console.log('Login exitoso', response);
 				await loading.dismiss();  // 🔹 oculto el cargando
