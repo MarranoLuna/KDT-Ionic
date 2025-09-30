@@ -22,45 +22,46 @@
         ></ion-input>
     </ion-item>
 
+  <ion-item>
+  <ion-input
+    #intersectionInput label="Intersección (Opcional)"
+    labelPlacement="floating"
+    placeholder="Ej: 25 de Mayo"
+    [(ngModel)]="newAddress.intersection"
+    name="intersection"
+  ></ion-input>
+  </ion-item>
     <ion-item>
-      <ion-input
-        label="Intersección (Opcional)"
-        labelPlacement="floating"
-        placeholder="Ej: 25 de Mayo"
-        [(ngModel)]="newAddress.intersection"
-        name="intersection"
-      ></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input
-        label="Piso (Opcional)"
-        labelPlacement="floating"
-        placeholder="Ej: 3"
-        [(ngModel)]="newAddress.floor"
-        name="floor"
-      ></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input
-        label="Departamento (Opcional)"
-        labelPlacement="floating"
-        placeholder="Ej: B"
-        [(ngModel)]="newAddress.department"
-        name="department"
-      ></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-button
-        (click)="saveAddress()"
-        >
-        Guardar Dirección
-      </ion-button>
-    </ion-item>
+  <ion-input
+    label="Piso (Opcional)"
+    labelPlacement="floating"
+    placeholder="Ej: 3"
+    [(ngModel)]="newAddress.floor"
+    name="floor"
+    maxlength="2" ></ion-input>
+  </ion-item>
+  <ion-item>
+  <ion-input
+    label="Departamento (Opcional)"
+    labelPlacement="floating"
+    placeholder="Ej: B"
+    [(ngModel)]="newAddress.department"
+    name="department"
+    maxlength="3" ></ion-input>
+</ion-item>
+  <ion-item lines="none">
+  <div class="ion-text-center" style="width: 100%;">
+    <ion-button (click)="saveAddress()" color="warning">
+      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+      Guardar Dirección
+    </ion-button>
+  </div>
+</ion-item>
   </ion-item-group>
 </ion-list>
 
 
-
+<ion-content color="light">
   <ion-list [inset]="true">
     <ion-item-group>
       <ion-item-divider>
@@ -76,10 +77,36 @@
         <ion-label>Aún no has guardado ninguna dirección.</ion-label>
       </ion-item>
 
-      <ion-item *ngFor="let addr of savedAddresses">
-        <ion-icon name="location-outline" slot="start" color="medium"></ion-icon>
-        <ion-label class="ion-text-wrap">{{ addr.address }}</ion-label>
-        </ion-item>
+      <ion-item-sliding *ngFor="let addr of savedAddresses">
+
+  <ion-item>
+    <ion-icon name="location-outline" slot="start" color="medium"></ion-icon>
+    
+    <ion-label>
+      <h2>{{ addr.address }}</h2>
+      
+      <p>
+        <span *ngIf="addr.intersection">
+          Intersección: {{ addr.intersection }} &nbsp;
+        </span>
+        <span *ngIf="addr.floor">
+          Piso: {{ addr.floor }} &nbsp;
+        </span>
+        <span *ngIf="addr.department">
+          Depto: {{ addr.department }}
+        </span>
+      </p>
+    </ion-label>
+  </ion-item>
+
+  <ion-item-options side="end">
+    <ion-item-option color="danger" (click)="confirmDelete(addr)">
+      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+    </ion-item-option>
+  </ion-item-options>
+  
+</ion-item-sliding>
+      
     </ion-item-group>
   </ion-list>
 </ion-content>

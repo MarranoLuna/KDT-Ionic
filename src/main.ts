@@ -6,7 +6,7 @@ import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 
 import { addIcons } from 'ionicons';
-import { locationOutline, exitOutline,rocketOutline, cubeOutline, notificationsOutline,newspaperOutline,cartOutline, peopleOutline,personCircleOutline, homeOutline} from 'ionicons/icons';
+import { locationOutline, trashOutline, exitOutline,rocketOutline, cubeOutline, notificationsOutline,newspaperOutline,cartOutline, peopleOutline,personCircleOutline, homeOutline} from 'ionicons/icons';
 
 addIcons({
   'location-outline': locationOutline,
@@ -18,6 +18,7 @@ addIcons({
   'notifications-outline':notificationsOutline,
   'home-outline':homeOutline,
   'rocket-outline':rocketOutline,
+  'trash-outline': trashOutline,
 
 }); 
 
