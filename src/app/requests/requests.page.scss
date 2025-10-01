@@ -1,12 +1,9 @@
 .botones-container {
   display: flex;
-  justify-content: center;  
-  gap: 20px;                
-  flex-wrap: wrap;          
-  margin: 10px auto;
-  max-width: 440px;         
+  justify-content: flex-end; 
+  gap: 8px; 
+  padding-top: 10px;
 }
-
 ion-button.botonAction {
   width: 45%;               
   --height: 30px;

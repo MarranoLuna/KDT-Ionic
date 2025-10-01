@@ -22,6 +22,9 @@
     name="origin_address">
   </ion-input>
 </ion-item>
+<ion-note color="danger" *ngIf="originMissingNumber" class="ion-padding-start">
+  Debe ser una dirección con altura (número).
+</ion-note>
 
  <ion-item>
   <ion-input 
@@ -33,6 +36,9 @@
     name="destination_address">
   </ion-input>
 </ion-item>
+<ion-note color="danger" *ngIf="destinationMissingNumber" class="ion-padding-start">
+  Debe ser una dirección con altura (número).
+</ion-note>
 
 
     <ion-item>

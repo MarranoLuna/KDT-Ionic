@@ -1,28 +1,34 @@
-import { ApiService } from '../services/api';
 import { Component, OnInit, ViewChild, NgZone, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IonicModule, IonInput, NavController, LoadingController, ToastController } from '@ionic/angular';
+import { Preferences } from '@capacitor/preferences';
 
-// 1. Definimos la interfaz para asegurar el tipado correcto del formulario
+// Interfaz para el formulario, incluyendo los componentes de dirección para enviar al backend
 interface AppFormData {
   origin_address: string;
   origin_lat: number | null;
   origin_lng: number | null;
+  origin_components?: any[];
+
   destination_address: string;
   destination_lat: number | null;
   destination_lng: number | null;
+  destination_components?: any[];
+
   stop_address: string;
   stop_lat: number | null;
   stop_lng: number | null;
+  stop_components?: any[];
+
   description: string;
   amount: number | null;
   payment_method: string;
 }
 
 @Component({
-  selector: 'app-new-requests', // Asegúrate de que coincida con tu selector
+  selector: 'app-new-requests',
   templateUrl: './new-requests.page.html',
   styleUrls: ['./new-requests.page.scss'],
   standalone: true,
@@ -34,7 +40,6 @@ export class NewRequestsPage implements OnInit, AfterViewInit {
   @ViewChild('destinoInput', { static: false }) destinoInput!: IonInput;
   @ViewChild('paradaInput', { static: false }) paradaInput!: IonInput;
   
-  // 2. Usamos la interfaz para tipar el objeto formData
   formData: AppFormData = {
     origin_address: '',
     origin_lat: null,
@@ -50,10 +55,13 @@ export class NewRequestsPage implements OnInit, AfterViewInit {
     payment_method: ''
   };
 
+  // Banderas para mostrar errores de validación en el HTML
+  originMissingNumber = false;
+  destinationMissingNumber = false;
+
   mostrarParada = false;
   mostrarCantidadDinero = false;
   
-  // 3. Inyectamos todos los servicios que vamos a usar
   constructor(
     private ngZone: NgZone,
     private http: HttpClient,
@@ -65,6 +73,7 @@ export class NewRequestsPage implements OnInit, AfterViewInit {
   ngOnInit() { }
 
   ngAfterViewInit() {
+    // Usamos un pequeño retardo para asegurar que todos los elementos estén listos
     setTimeout(() => this.setupAutocomplete(), 400);
   }
 
@@ -76,44 +85,47 @@ export class NewRequestsPage implements OnInit, AfterViewInit {
 
     const options = {
       bounds: gualeguaychuBounds,
-      strictBounds: true,
-      componentRestrictions: { country: 'ar' },
-      fields: ["address_components", "geometry", "icon", "name", "formatted_address"]
+      strictBounds: false,
+      types: ['geocode', 'establishment'],
+      fields: ["address_components", "geometry", "name", "formatted_address"]
     };
 
     if (this.origenInput) {
-      this.initAutocompleteField(this.origenInput, options, (place) => {
-        this.formData.origin_address = place.formatted_address || '';
-        this.formData.origin_lat = place.geometry?.location?.lat() || null;
-        this.formData.origin_lng = place.geometry?.location?.lng() || null;
-      });
+      this.initAutocompleteField(this.origenInput, options, 'origin');
     }
-
     if (this.destinoInput) {
-      this.initAutocompleteField(this.destinoInput, options, (place) => {
-        this.formData.destination_address = place.formatted_address || '';
-        this.formData.destination_lat = place.geometry?.location?.lat() || null;
-        this.formData.destination_lng = place.geometry?.location?.lng() || null;
-      });
+      this.initAutocompleteField(this.destinoInput, options, 'destination');
     }
-    
     if (this.paradaInput) {
-      this.initAutocompleteField(this.paradaInput, options, (place) => {
-        this.formData.stop_address = place.formatted_address || '';
-        this.formData.stop_lat = place.geometry?.location?.lat() || null;
-        this.formData.stop_lng = place.geometry?.location?.lng() || null;
-      });
+      // Para la parada no exigimos número de calle
+      this.initAutocompleteField(this.paradaInput, options, 'stop', false);
     }
   }
 
-  initAutocompleteField(input: IonInput, options: any, callback: (place: google.maps.places.PlaceResult) => void) {
+  initAutocompleteField(input: IonInput, options: any, fieldPrefix: 'origin' | 'destination' | 'stop', requireStreetNumber = true) {
     input.getInputElement().then((element: HTMLInputElement) => {
       const autocomplete = new google.maps.places.Autocomplete(element, options);
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
           const place = autocomplete.getPlace();
-          if (place.geometry) {
-            callback(place);
+
+          // Reseteamos las banderas de error para el campo actual
+          if (fieldPrefix === 'origin') this.originMissingNumber = false;
+          if (fieldPrefix === 'destination') this.destinationMissingNumber = false;
+          
+          const hasStreetNumber = place.address_components?.some(c => c.types.includes('street_number'));
+          const isPlaceValid = !requireStreetNumber || hasStreetNumber;
+
+          if (place.geometry && isPlaceValid) {
+            this.formData[`${fieldPrefix}_address`] = place.formatted_address || '';
+            this.formData[`${fieldPrefix}_lat`] = place.geometry?.location?.lat() || null;
+            this.formData[`${fieldPrefix}_lng`] = place.geometry?.location?.lng() || null;
+            this.formData[`${fieldPrefix}_components`] = place.address_components;
+          } else {
+            // Si no es válido, activamos la bandera de error y limpiamos los datos de coordenadas
+            if (fieldPrefix === 'origin') this.originMissingNumber = true;
+            if (fieldPrefix === 'destination') this.destinationMissingNumber = true;
+            this.formData[`${fieldPrefix}_lat`] = null;
           }
         });
       });
@@ -123,34 +135,30 @@ export class NewRequestsPage implements OnInit, AfterViewInit {
   toggleParada(event: any) {
     this.mostrarParada = event.detail.checked;
     if (this.mostrarParada) {
-      setTimeout(() => this.ngAfterViewInit(), 0);
+      // Si se activa la parada, re-inicializamos el autocompletado para ese campo
+      setTimeout(() => this.setupAutocomplete(), 0);
     }
   }
 
-  // Asegúrate de tener esta función si la usas en el HTML
   toggleDinero(event: any) {
     this.mostrarCantidadDinero = event.detail.checked;
   }
 
-  // Función dummy para el evento (ionInput)
-  soloLetras(event: any) {
-    // Tu lógica de validación aquí si es necesaria
-  }
-
-  // 4. Función onSubmit completa para enviar los datos a Laravel
   async onSubmit() {
     if (!this.formData.origin_address || !this.formData.destination_address || !this.formData.description || !this.formData.payment_method) {
-      this.presentToast('Por favor, completa todos los campos obligatorios.', 'danger');
+      this.presentToast('Por favor, completa los campos obligatorios.', 'danger');
+      return;
+    }
+    if (!this.formData.origin_lat || !this.formData.destination_lat) {
+      this.presentToast('Las direcciones de Origen y Destino deben tener una altura (número) válida.', 'danger');
       return;
     }
 
-    const loading = await this.loadingController.create({
-      message: 'Creando solicitud...',
-    });
+    const loading = await this.loadingController.create({ message: 'Creando solicitud...' });
     await loading.present();
 
-    // Reemplaza 'authToken' por la clave que uses para guardar tu token
-    const token = localStorage.getItem('authToken');
+    const { value: token } = await Preferences.get({ key: 'authToken' });
+    
     if (!token) {
       loading.dismiss();
       this.presentToast('Error de autenticación. Por favor, inicia sesión de nuevo.', 'danger');
@@ -161,31 +169,28 @@ export class NewRequestsPage implements OnInit, AfterViewInit {
       'Authorization': `Bearer ${token}`,
       'Accept': 'application/json'
     });
+    
+    const apiUrl = 'http://localhost:8000/api/requests';
+    
 
-    // Cambia la URL si es necesario
-    const apiUrl = 'http://127.0.0.1:8000/api/requests';
-
-    this.http.post(apiUrl, this.formData, { headers }).subscribe({
+    this.http.post(apiUrl, this.formData, { headers, withCredentials: true }).subscribe({
       next: async (response) => {
         await loading.dismiss();
-        
         if (this.formData.amount) {
-          localStorage.setItem('last_request_amount', this.formData.amount.toString());
+          await Preferences.set({ key: 'last_request_amount', value: this.formData.amount.toString() });
         }
-
         await this.presentToast('¡Solicitud creada con éxito!', 'success');
-        this.navController.navigateRoot('/home');
+        this.navController.navigateRoot('/request-sent');
       },
       error: async (error) => {
         await loading.dismiss();
         console.error('Error al crear la solicitud:', error);
-        const errorMessage = error.error?.message || 'Hubo un error al crear la solicitud. Intenta de nuevo.';
+        const errorMessage = error.error?.message || 'Hubo un error al crear la solicitud.';
         await this.presentToast(errorMessage, 'danger');
       }
     });
   }
 
-  // Función de ayuda para mostrar notificaciones
   async presentToast(message: string, color: 'success' | 'danger') {
     const toast = await this.toastController.create({
       message: message,
