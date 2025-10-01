@@ -74,4 +74,13 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/addresses`, addressData, { headers });
   }
 
+  updatePassword(passwordData: any): Observable<any> {
+    const headers = new HttpHeaders({ 
+      'Content-Type': 'application/json',
+      // Un interceptor de HTTP normalmente se encarga de añadir el token de autorización
+    });
+
+    return this.http.put(`${this.apiUrl}/user/password`, passwordData, { headers });
+  }
+
 }
