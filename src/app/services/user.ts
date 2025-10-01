@@ -22,7 +22,7 @@ export class UserService {
         private router: Router
     ) { }
 
-    // El login aquí orquesta todo el proceso
+
     login(credentials: any): Observable<LoginResponse> {
         return this.apiService.login(credentials).pipe(
             tap(async (res) => {
@@ -52,7 +52,7 @@ export class UserService {
         }
     }
 
-    // Simplemente devuelve si hay un token o no (útil para guardas de ruta)
+    // devuelve si hay un token o no (útil para guardas de ruta)
     async isAuthenticated(): Promise<boolean> {
         const { value } = await Preferences.get({ key: 'authToken' });
         return value !== null;
