@@ -52,54 +52,62 @@ export class ProfileEditPage implements OnInit {
     private router: Router
   ) { }
 
+
   async ngOnInit() {
-    const loading = await this.loadingCtrl.create({
-      spinner: 'crescent'
-    });
+    const loading = await this.loadingCtrl.create({ message: 'Cargando...' });
     await loading.present();
-    await this.apiService.verifyLogin().then(() => loading.dismiss());
 
-    this.currentUserId = this.userService.getCurrentUserId();
+    // Obtenemos el objeto de usuario completo desde Preferences
+    const userFromPrefs = await this.userService.getCurrentUser();
 
-    if (this.currentUserId) {
-      this.getUserData(); 
+    if (userFromPrefs) {
+      // Rellenamos el modelo del formulario con esos datos
+      this.userData = userFromPrefs;
+      
+      // Formateamos la fecha, igual que antes
+      if (this.userData.birthday) {
+        this.userData.birthday = this.userData.birthday.split('T')[0];
+      }
     } else {
-      console.error('No se encontro un ID de usuario');
+      console.error('No se encontraron datos de usuario. Redirigiendo al login.');
+      this.router.navigate(['/login']);
     }
+    
+    await loading.dismiss();
   }
 
-  // Obtener los datos
-  getUserData() {
- 
-    this.apiService.getUserData(this.currentUserId!).subscribe({
-      next: data => {
-      console.log('Datos RECIBIDOS de la API:', data);
 
-      if (Array.isArray(data) && data.length > 0) {
-        this.userData = data[0]; 
-      } else if (!Array.isArray(data) && data) {
-        this.userData = data; 
-      } 
 
-      if (this.userData && this.userData.birthday) {
-          this.userData.birthday = this.userData.birthday.split('T')[0];
-      }
-    },
-      error: error => {
-        console.error('Error al obtener los datos:', error);
-      }
-    });
-  }
 
   //Guardar los datos
-  saveChanges() {
-    
-    this.apiService.updateUserData(this.currentUserId!, this.userData).subscribe({
-      next: response => {
-        console.log('Usuario actualizado:', response);
+  async saveChanges() {
+    if (!this.userData.id) {
+      console.error('No hay un ID de usuario para actualizar.');
+      return;
+    }
+
+    const loading = await this.loadingCtrl.create({ message: 'Guardando cambios...' });
+    await loading.present();
+
+    // Paso 1: Enviar los datos actualizados a la API
+    this.apiService.updateUserData(this.userData.id, this.userData).subscribe({
+      // Ojo: la función 'next' ahora es 'async' para poder usar 'await' dentro
+      next: async (response) => {
+        console.log('Usuario actualizado en la API:', response);
+        
+        // Paso 2: Actualizar los datos en Capacitor Preferences
+        await this.userService.saveUser(this.userData);
+        console.log('Datos locales actualizados en Preferences.');
+
+        await loading.dismiss();
+        
+        // Navegar de vuelta al perfil del usuario
+        this.router.navigate(['/profile']);
       },
-      error: error => {
+      error: async (error) => {
         console.error('Error al actualizar el usuario:', error);
+        await loading.dismiss();
+        // Aquí podrías mostrar una alerta de error al usuario
       }
     });
   }

@@ -1,9 +1,39 @@
 import { Component, OnInit, ViewChildren, QueryList, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IonicModule, LoadingController, ToastController, AlertController, IonInput } from '@ionic/angular';
 import { Preferences } from '@capacitor/preferences';
+
+import { UserService } from '../services/user';
+import { ApiService } from '../services/api';
+import { FormsModule } from '@angular/forms'; 
+
+import {
+  ToastController,
+  AlertController
+} from '@ionic/angular';
+
+import {
+  IonContent,  
+  IonToolbar,  
+  IonHeader, 
+   IonButtons,
+   IonBackButton,
+   IonTitle, 
+    IonCard,
+    IonCardHeader,
+  IonCardTitle,
+   IonCardSubtitle, 
+   IonCardContent, IonButton, 
+   IonList, IonItem, 
+   IonLabel, 
+   IonTextarea, 
+   IonInput,
+   LoadingController
+} from '@ionic/angular/standalone';
+
 
 @Component({
   selector: 'app-requests',
@@ -27,16 +57,32 @@ export class RequestsPage implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private loadingCtrl: LoadingController,
+
+    private userService: UserService,
+    private apiService: ApiService,
     private toastCtrl: ToastController,
-    private alertCtrl: AlertController,
+    private alertCtrl: AlertController, 
+
+    private loadingCtrl: LoadingController,
+   
     private ngZone: NgZone,
   ) {}
+
 
   ngOnInit() {}
   
   ionViewWillEnter() {
     this.loadRequests();
+
+  async ngOnInit() {
+    const loading = await this.loadingCtrl.create({
+      spinner: 'crescent'
+    });
+    await loading.present();
+    await this.userService.verifyLogin().then(() => loading.dismiss());
+
+    this.getRequests();
+
   }
 
   async loadRequests() {

@@ -22,6 +22,7 @@ import {
 import { ApiService } from '../services/api';
 
 import { MenuComponent } from '../menu/menu.component';
+import { UserService } from '../services/user';
   //import { RouterLink } from '@angular/router';
   
  
@@ -54,7 +55,7 @@ import { MenuComponent } from '../menu/menu.component';
 export class OrdersPage implements OnInit {
   
   constructor(
-    private apiService: ApiService,
+    private userService: UserService,
     private loadingCtrl: LoadingController,
   ) { }
 
@@ -63,7 +64,7 @@ export class OrdersPage implements OnInit {
       spinner: 'crescent'
     });
     await loading.present();
-    await this.apiService.verifyLogin().then(() => loading.dismiss());
+    await this.userService.verifyLogin().then(() => loading.dismiss());
   }
   
 

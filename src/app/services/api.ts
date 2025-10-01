@@ -3,12 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 import { Router } from '@angular/router';
+import { LoginResponse } from '../interfaces/interfaces';
 
 
-interface LoginResponse {
-	token: string;
-	user?: any; // opcional si el backend devuelve datos del usuario
-}
 export interface UserData {
   id?: number; 
   firstname: string;
@@ -34,37 +31,11 @@ export class ApiService {
 
 
 	login(credentials: any): Observable<LoginResponse> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<LoginResponse>(`${this.apiUrl}/ion_login`, credentials, { headers });
+    }
 
-		const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-		return this.http.post<LoginResponse>(`${this.apiUrl}/ion_login`, credentials, { headers }
-		).pipe(
-			tap(async (res) => {
-				// Si el backend devuelve un token, lo guardamos en Preferences de Capacitor 
-				if (res.token) {
-					// GUARDAR DATOS DEL USUARIO EN PREFERENCES:
-					await Preferences.set({key:'user', value: JSON.stringify(res.user) }); 
-					// GUARDAR TOKEN:
-					Preferences.set({ key: 'authToken', value: res.token }).then(() => {
-							this.router.navigate(['/home']);
-						}
-					);
-				}
-			})
-		);
-	}
 
-	async logout(): Promise<void> {
-		Preferences.clear();
-		this.verifyLogin();
-	}
-
-	async verifyLogin() {
-		const { value } = await Preferences.get({ key: 'authToken' });
-
-		if (value == null) {
-			this.router.navigate(['/login']);
-		}
-	}
 
 	registerUser(userData: any): Observable<any> {
 		const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
