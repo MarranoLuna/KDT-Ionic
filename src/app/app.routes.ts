@@ -61,7 +61,9 @@ export const routes: Routes = [
   {
     path: 'edit-password',
     loadComponent: () => import('./edit-password/edit-password.page').then( m => m.EditPasswordPage)
-  },  {
+  },
+  {
+
     path: 'be-kdt',
     loadComponent: () => import('./be-kdt/be-kdt.page').then( m => m.BeKDTPage)
   },
@@ -72,6 +74,11 @@ export const routes: Routes = [
   {
     path: 'kdt-form2',
     loadComponent: () => import('./kdt-form2/kdt-form2.page').then( m => m.KdtForm2Page)
+  },
+  { 
+    path: 'register-motorcycle',
+    loadComponent: () => import('./register-motorcycle/register-motorcycle.page').then( m => m.RegisterMotorcyclePage)
+
   },
 
 ]

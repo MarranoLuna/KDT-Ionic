@@ -4,6 +4,8 @@ import { Observable, tap } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 import { Router } from '@angular/router';
 import { LoginResponse } from '../interfaces/interfaces';
+import { from } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 
 export interface UserData {
@@ -75,12 +77,24 @@ export class ApiService {
   }
 
   updatePassword(passwordData: any): Observable<any> {
-    const headers = new HttpHeaders({ 
-      'Content-Type': 'application/json',
-      // Un interceptor de HTTP normalmente se encarga de añadir el token de autorización
-    });
+    // Convertimos la promesa de Preferences en un Observable para poder encadenar operaciones
+    return from(Preferences.get({ key: 'authToken' })).pipe(
+      // Usamos switchMap para tomar el valor del token y "cambiar" a una nueva operación (la llamada HTTP)
+      switchMap(token => {
+        // Si no hay token, podemos devolver un error o simplemente no hacer la llamada
+        if (!token || !token.value) {
+          throw new Error('Token de autenticación no encontrado');
+        }
 
-    return this.http.put(`${this.apiUrl}/user/password`, passwordData, { headers });
+        // Creamos los encabezados con el token
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token.value}`
+        });
+
+        // Hacemos la llamada HTTP y la retornamos
+        return this.http.put(`${this.apiUrl}/user/password`, passwordData, { headers });
+      })
+    );
   }
 
 }

@@ -56,13 +56,13 @@ constructor(
   ngOnInit() { }
 
     async changePassword() {
-// 1. Validación: Campos vacíos
+// Validación: Campos vacíos
     if (!this.currentPassword || !this.newPassword || !this.confirmNewPassword) {
       this.presentAlert('Error', 'Por favor, rellena todos los campos.');
      return;
  }
 
- // 2. Validación: Contraseñas no coinciden
+ // Validación: Contraseñas no coinciden
  if (this.newPassword !== this.confirmNewPassword) {
       this.presentAlert('Error', 'La nueva contraseña y su confirmación no coinciden.');
  return;
@@ -72,14 +72,14 @@ constructor(
     const loading = await this.loadingCtrl.create({ message: 'Actualizando contraseña...' });
     await loading.present();
 
-    // 3. Preparamos los datos para enviar a la API
+    // Preparamos los datos para enviar a la API
     const passwordData = {
       current_password: this.currentPassword,
       new_password: this.newPassword,
       new_password_confirmation: this.confirmNewPassword
     };
 
-    // 4. Llamamos al método del ApiService
+    // Llamamos al método del ApiService
     this.apiService.updatePassword(passwordData).subscribe({
       // Si la API responde con éxito
       next: async (response) => {
@@ -106,7 +106,7 @@ constructor(
         this.presentAlert('Error al actualizar', errorMessage);
       }
     });
-  }
+  }
 
   /**
    * Helper para mostrar alertas de forma rápida.
