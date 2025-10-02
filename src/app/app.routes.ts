@@ -76,8 +76,8 @@ export const routes: Routes = [
     loadComponent: () => import('./kdt-form2/kdt-form2.page').then( m => m.KdtForm2Page)
   },
   { 
-    path: 'register-motorcycle',
-    loadComponent: () => import('./register-motorcycle/register-motorcycle.page').then( m => m.RegisterMotorcyclePage)
+    // path: 'register-motorcycle',
+    // loadComponent: () => import('./register-motorcycle/register-motorcycle.page').then( m => m.RegisterMotorcyclePage)
 
   },
 
