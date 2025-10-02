@@ -61,6 +61,10 @@ export const routes: Routes = [
   {
     path: 'edit-password',
     loadComponent: () => import('./edit-password/edit-password.page').then( m => m.EditPasswordPage)
+  },  {
+    path: 'register-motorcycle',
+    loadComponent: () => import('./register-motorcycle/register-motorcycle.page').then( m => m.RegisterMotorcyclePage)
   },
+
 ]
 
