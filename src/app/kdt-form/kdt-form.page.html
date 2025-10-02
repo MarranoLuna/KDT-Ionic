@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+    <ion-back-button defaultHref="/home" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Ser Cadete</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content color="light">
+
+
+  
+  <div class="intro-section">
+    <img src="assets/logo.png" alt="Logo KDT" class="logo">
+    <p class="ion-text-wrap">
+      Los datos y la documentación solicitada en este formulario son recopilados solo con el fin de garantizar la seguridad en nuestra plataforma. De parte de K.D.T nunca compartiremos datos personales a terceros.
+    </p>
+  </div>
+
+ <ion-list [inset]="true">
+    <ion-item>
+      <ion-input
+        label="Nombre/s"
+        label-placement="stacked"
+        placeholder="Ingrese su nombre"
+        [(ngModel)]="formData.name"
+      ></ion-input>
+    </ion-item>
+    
+    
+    <ion-item>
+      <ion-input
+        label="Apellido/s"
+        label-placement="stacked"
+        placeholder="Ingrese su apellido"
+        [(ngModel)]="formData.lastName"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        label="DNI"
+        label-placement="stacked"
+        placeholder="Número de D.N.I"
+        type="number"
+        [(ngModel)]="formData.dni"
+      ></ion-input>
+    </ion-item>
+  </ion-list>
+ 
+  
+  <div class="upload-box" (click)="selectFrontDni()" > 
+    <ion-icon  name="cloud-upload-outline" color="medium"></ion-icon>
+    <p>Foto del frente del D.N.I.</p>
+  </div>
+
+  <div class="upload-box" (click)="selectBackDni()">
+    <ion-icon name="cloud-upload-outline" color="medium"></ion-icon>
+    <p>Foto del dorso del D.N.I.</p>
+  </div>
+
+  <p class="terms-text ion-text-center">
+    Al enviar este formulario estás aceptando los 
+    <a routerLink="/">términos y condiciones</a> 
+    del servicio.
+  </p>
+
+<ion-button class="boton" color="warning" expand="block" routerLink="/kdt-form2"> Siguiente</ion-button>
+
+</ion-content>
+
+
+
+

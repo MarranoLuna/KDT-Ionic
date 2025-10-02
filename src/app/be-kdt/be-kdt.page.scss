@@ -1,0 +1,65 @@
+
+ion-toolbar {
+  --background: transparent;
+}
+
+
+ion-content {
+  --padding-top: 0;
+}
+
+// Título principal grande y en negrita
+h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+// Párrafo de introducción
+.intro-text {
+  font-size: 1rem;
+  color: var(--ion-color-medium-shade);
+}
+
+// Contenedor de la sección "Valoriza tu trabajo"
+.feature-section {
+  display: flex;
+  align-items: center;
+  gap: 16px; // Espacio entre el texto y el ícono
+  margin-top: 32px;
+}
+
+// Parte del texto
+.feature-text {
+  flex: 1; // Ocupa el espacio disponible
+
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  p {
+    color: var(--ion-color-medium-shade);
+  }
+}
+
+// Parte del ícono
+.feature-icon {
+  ion-icon {
+    font-size: 4rem; // Tamaño del ícono grande
+    color: var(--ion-color-warning);
+  }
+}
+
+ion-button.boton{
+width: 85%;
+justify-content: center; 
+align-items: center;
+margin-bottom: 1px;
+display: block;        
+margin: 1% auto;     
+max-width: 300px; 
+font-weight: bold;
+}
