@@ -50,6 +50,7 @@ export const routes: Routes = [
   },
   
   {
+
     path: 'address',
     loadComponent: () => import('./address/address.page').then( m => m.AddressPage)
   },
@@ -81,5 +82,9 @@ export const routes: Routes = [
 
   },
 
-]
+
+   {  path: 'profile-edit',
+    loadComponent: () => import('./profile-edit/profile-edit.page').then( m => m.ProfileEditPage)
+  },
+];
 
