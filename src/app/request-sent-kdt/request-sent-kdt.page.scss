@@ -1,0 +1,70 @@
+
+
+
+.logo-and-text-container {
+  display: flex; /* Convierte el contenedor en un flexbox */
+  align-items: center; /* Centra los elementos (imagen y texto) verticalmente */
+}
+
+/* Puedes mantener el estilo de tu imagen */
+.image-container {
+    margin-top: 10px;
+    margin-left: 30px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-start;
+  margin-right: 20px;
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+
+.logo-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 40px;
+  color: #000000;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+
+.text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 25px;
+  text-align: center;
+  color: #000000;
+}
+
+.buttons-container {
+  width: 60%;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  ion-button {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+}
+
+.image-container2 {
+  margin-bottom: 20px; 
+  width: 100%; 
+
+  img {
+    max-width: 100%; 
+    height: auto; 
+    object-fit: contain;
+  }
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 0 5%; 
+}

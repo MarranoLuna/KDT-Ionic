@@ -13,12 +13,27 @@
   }
   
   p {
-    font-size: 1.8em;
+    font-size: 1.9em;
     text-align:  center;
     margin-right: 29px;
+    font-weight: bold;
     color: var(--ion-color-medium-shade);
   }
 
+   h1 {
+    font-size: 0.8em;
+    text-align:  justify;
+    margin-right: 30px;
+    margin-left: 30px;
+    color: var(--ion-color-medium-shade);
+  }
+
+  h2 {
+    font-size: 0.8em;
+    text-align:  center;
+
+    color: var(--ion-color-medium-shade);
+  }
 
 .upload-box {
   border: 1.5px solid var(--ion-color-medium-tint);
