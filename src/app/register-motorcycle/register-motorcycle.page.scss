@@ -1,0 +1,84 @@
+.registration-container {
+  display: flex;
+  align-items: center;   // Centra los elementos horizontalmente
+  padding-top: 2rem;     // Añade un espacio arriba
+}
+
+// Estilo para la imagen del logo
+.logo-img {
+  width: 45%; // Ajusta el tamaño de tu logo
+  margin-bottom: 1rem; // Espacio entre el logo y el título
+  margin-left: 1rem;
+}
+
+// Estilo para el título "Registra tu Moto"
+.main-title {
+  font-size: 1.9rem; // Tamaño de la fuente
+  font-weight: bold; // Letra en negrita
+  color: #000000; // Color de texto oscuro
+  margin-bottom: 1.1rem; // Espacio para los campos que vendrán despué
+  margin-left: 1rem; // Espacio a la izquierda del título
+}
+
+.moto {
+  display: block;
+  margin-top: 0.01rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ion-item {
+  --border-color: #ddd;       // Color del borde más suave que el negro
+  --border-radius: 10px;      // Bordes redondeados
+  --background: #ffffff;      // Fondo blanco para que resalte
+  --padding-start: 16px;      // Un poco más de espacio interno a la izquierda
+  
+  margin-bottom: 1.2rem;      // Espacio vertical entre cada campo
+  
+  // Una sombra muy sutil para darle un efecto de "elevación"
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+}
+
+// Opcional: Eliminar el fondo de la lista para que no interfiera
+ion-list {
+  background: transparent;
+}
+
+ion-select::part(placeholder),
+ion-select::part(text) {
+  color: #666; 
+}
+
+// Estiliza el icono de la flecha del desplegable
+ion-select::part(icon) {
+  color: #000000; 
+  opacity: 1;
+}
+
+h3 {
+margin-left: 1rem; // Espacio a la izquierda del encabezado
+  margin-bottom: 0.5rem; // Espacio debajo del encabezado
+  color: #000000; // Color del texto del encabezado
+  font-weight: bold;
+}
+
+ion-input {
+  --placeholder-color: #666;  // Cambia el color a un gris más oscuro
+}
+
+.boton {
+  display: block;  // Necesario para que funcionen los márgenes automáticos
+  width: 250px;    // Definí el ancho que quieras en píxeles
+  // ó
+  // width: 60%;   // O definí un porcentaje del ancho de la pantalla
+
+  height: 50px;    // La altura que ya habíamos definido
+  font-size: 1.1rem;
+  
+  // Estas dos líneas centran el botón horizontalmente
+  margin-left: auto;
+  margin-right: auto;
+  
+  margin-top: 2rem; // El espacio que ya tenías
+}
+
