@@ -10,7 +10,7 @@ export const routes: Routes = [
   },
   {
     path: 'index',
-    loadComponent: () => import('./index/index.page').then( m => m.IndexPage)
+    loadComponent: () => import('./index/index.page').then(m => m.IndexPage)
   },
   {
     path: 'login',
@@ -76,15 +76,6 @@ export const routes: Routes = [
     path: 'kdt-form2',
     loadComponent: () => import('./kdt-form2/kdt-form2.page').then( m => m.KdtForm2Page)
   },
-  { 
-    // path: 'register-motorcycle',
-    // loadComponent: () => import('./register-motorcycle/register-motorcycle.page').then( m => m.RegisterMotorcyclePage)
-
-  },
-
-
-   {  path: 'profile-edit',
-    loadComponent: () => import('./profile-edit/profile-edit.page').then( m => m.ProfileEditPage)
-  },
+ 
 ];
 

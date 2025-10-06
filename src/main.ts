@@ -19,12 +19,11 @@ addIcons({
   'home-outline':homeOutline,
   'rocket-outline':rocketOutline,
   'trash-outline': trashOutline,
-  'cloud-upload-outline':cloudUploadOutline
+  'cloud-upload-outline':cloudUploadOutline,
 
 }); 
 
 import { provideHttpClient } from '@angular/common/http';
-
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -32,7 +31,6 @@ bootstrapApplication(AppComponent, {
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideHttpClient(),
-    
   ],
 });
 
