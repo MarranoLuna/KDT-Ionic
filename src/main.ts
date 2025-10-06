@@ -6,7 +6,7 @@ import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 
 import { addIcons } from 'ionicons';
-import { locationOutline, trashOutline, exitOutline,rocketOutline, cubeOutline, notificationsOutline,newspaperOutline,cartOutline, peopleOutline,personCircleOutline, homeOutline} from 'ionicons/icons';
+import { locationOutline, trashOutline, exitOutline,rocketOutline, cubeOutline, notificationsOutline,newspaperOutline,cartOutline, peopleOutline,personCircleOutline, homeOutline, cloud, cloudUploadOutline} from 'ionicons/icons';
 
 addIcons({
   'location-outline': locationOutline,
@@ -19,11 +19,11 @@ addIcons({
   'home-outline':homeOutline,
   'rocket-outline':rocketOutline,
   'trash-outline': trashOutline,
+  'cloud-upload-outline':cloudUploadOutline,
 
 }); 
 
 import { provideHttpClient } from '@angular/common/http';
-
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -31,7 +31,6 @@ bootstrapApplication(AppComponent, {
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideHttpClient(),
-    
   ],
 });
 
