@@ -84,6 +84,14 @@ export const routes: Routes = [
     loadComponent: () => import('./kdt-form2/kdt-form2.page').then( m => m.KdtForm2Page)
   },
 
+  {
+    path: 'request-sent-kdt',
+    loadComponent: () => import('./request-sent-kdt/request-sent-kdt.page').then( m => m.RequestSentKdtPage)
+  },
+  {
+    path: 'validate-vehicle',
+    loadComponent: () => import('./validate-vehicle/validate-vehicle.page').then( m => m.ValidateVehiclePage )
+  },
 ]
 
 
