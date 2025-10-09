@@ -1,0 +1,61 @@
+<ion-header>
+ 
+      <ion-menu-button></ion-menu-button>
+    
+</ion-header>
+<ion-content [fullscreen]="true">
+
+
+  <google-map
+    height="100%"
+    width="100%"
+    [center]="mapCenter"
+    [zoom]="mapZoom"
+    [options]="mapOptions"
+  >
+    <map-marker
+      [position]="userLocation"
+      [options]="{ icon: 'assets/icon/user-pin.png', label: 'Usted está aquí' }"
+    ></map-marker>
+
+    <map-marker
+      *ngFor="let request of activeRequests"
+      [position]="request.position"
+      [options]="{ icon: 'assets/icon/request-pin.png', label: 'Solicitud activa' }"
+    ></map-marker>
+
+  </google-map>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <div class="avatar">
+        <span>P</span>
+      </div>
+      <div class="profile-info">
+        <h1>Hola <br>Cambiar</h1>
+         <div class="status-bar" (click)="toggleStatus()" [ngClass]="{'inactive-status': !isKdtActive}">
+        <span>{{ isKdtActive ? 'Activo' : 'Inactivo' }}</span>
+    </div>
+      </div>
+
+    </div>
+    <p class="status-message">¡Hay solicitudes esperando su oferta!</p>
+    <div class="location-info">
+      <span>Gualeguaychú, 5 km</span>
+      <ion-icon name="chevron-down-outline"></ion-icon>
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+     <ion-fab-button>
+       <ion-icon name="locate-outline"></ion-icon>
+     </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-button expand="block" color="warning">Ver en lista</ion-button>
+  </ion-toolbar>
+</ion-footer>
