@@ -1,0 +1,96 @@
+// Para que el contenido (el mapa) ocupe toda la pantalla
+ion-content.map-content {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+// La tarjeta de perfil que flota arriba
+.profile-card {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  background: white;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10; // Para que esté sobre el mapa
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: black;
+  border: 4px solid var(--ion-color-warning);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  span {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+}
+
+.profile-info {
+  flex: 1;
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+  }
+}
+
+.status-bar {
+   background: #2dd36f; 
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 8px;
+  cursor: pointer; 
+  transition: background-color 0.3s ease; 
+}
+
+.inactive-status {
+  background: var(--ion-color-danger); 
+}
+
+.status-message {
+  margin-top: 12px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.location-info {
+  font-size: 0.9em;
+  color: var(--ion-color-medium-shade);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+// Estilo del pie de página y el botón
+ion-footer {
+  background: white;
+  padding: 8px 16px 16px 16px;
+
+  ion-button {
+    --border-radius: 12px;
+    height: 50px;
+    font-weight: 600;
+  }
+
+ 
+}

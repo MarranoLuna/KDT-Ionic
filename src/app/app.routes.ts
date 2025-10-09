@@ -91,7 +91,11 @@ export const routes: Routes = [
   {
     path: 'validate-vehicle',
     loadComponent: () => import('./validate-vehicle/validate-vehicle.page').then( m => m.ValidateVehiclePage )
+  },  {
+    path: 'kdt-home',
+    loadComponent: () => import('./kdt-home/kdt-home.page').then( m => m.KdtHomePage)
   },
+
 ]
 
 
