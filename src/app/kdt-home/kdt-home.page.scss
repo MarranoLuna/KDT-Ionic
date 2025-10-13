@@ -9,11 +9,10 @@ ion-content.map-content {
 // La tarjeta de perfil que flota arriba
 .profile-card {
   position: absolute;
-  top: 16px;
-  left: 16px;
-  right: 16px;
+  top: 0px;
+  left: 0px;
+  right: 0px;
   background: white;
-  border-radius: 20px;
   padding: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 10; // Para que esté sobre el mapa
@@ -23,6 +22,9 @@ ion-content.map-content {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+.ion-no-border {
+  align-items:end;
 }
 
 .avatar {
@@ -40,6 +42,11 @@ ion-content.map-content {
     font-size: 1.8rem;
     font-weight: 600;
   }
+}
+.header-avatar {
+  width: 36px;
+  height: 36px;
+  margin-right: 8px;
 }
 
 .profile-info {
