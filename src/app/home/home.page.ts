@@ -1,23 +1,8 @@
 import { Component } from '@angular/core';
 import { UserService } from 'src/app/services/user';
 import { OnInit } from '@angular/core';
-import {
-
-	
-	
-	IonMenuButton,
-	IonAvatar,
-	IonContent,
-	IonGrid,
-	IonRow,
-	IonCol,
-	IonCard,
-	
-
-} from '@ionic/angular/standalone';
-
+import { IonMenuButton,IonAvatar,IonContent,IonGrid,IonRow,IonCol,IonCard,} from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
-
 import { MenuComponent } from '../menu/menu.component';
 import { ApiService } from '../services/api';
 import { Preferences } from '@capacitor/preferences';
@@ -28,23 +13,9 @@ import { LoadingController } from '@ionic/angular';
 	templateUrl: './home.page.html',
 	styleUrls: ['./home.page.scss'],
 	standalone: true,
-	imports: [
-	  
-     IonMenuButton, 
-     IonAvatar,
-		IonContent, 
-           IonGrid, 
-           IonRow, 
-           IonCol, 
-           IonCard, 
-        
-    RouterLink, 
-           
-           IonGrid, 
-           MenuComponent
-	]
-
-})
+	imports: [ IonMenuButton, IonAvatar,IonContent, IonGrid, 
+           IonRow, IonCol,  IonCard, RouterLink, IonGrid, 
+           MenuComponent]})
 
 export class HomePage implements OnInit {
 
@@ -55,7 +26,6 @@ export class HomePage implements OnInit {
 		private apiService: ApiService,
 		private loadingCtrl: LoadingController,
 	) {
-		console.log("entra");
     	this.mostrarUSer();
 	}
 
@@ -66,14 +36,12 @@ export class HomePage implements OnInit {
     try {
         await this.userService.verifyLogin();
 
-        // 1. Llama al método que sí existe: getCurrentUser()
+       
         const currentUser = await this.userService.getCurrentUser();
 
-        // 2. Si el usuario existe, extrae su nombre
         if (currentUser) {
-            this.userName = currentUser.firstname; // O la propiedad que corresponda
-        } else {
-            this.userName = 'Invitado'; // Un valor por defecto si no hay usuario
+            this.userName = currentUser.firstname; 
+            this.userName = 'Invitado'; 
         }
 
     } catch (error) {

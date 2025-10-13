@@ -1,10 +1,14 @@
-<ion-header>
- 
-      <ion-menu-button></ion-menu-button>
+<ion-header class="ion-no-border">
+  
+      <ion-menu-button color="warning"></ion-menu-button>
+   
+      <ion-avatar class="header-avatar">
+        <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Avatar">
+      </ion-avatar>
     
 </ion-header>
-<ion-content [fullscreen]="true">
 
+<ion-content [fullscreen]="true" class="map-content">
 
   <google-map
     height="100%"
@@ -15,29 +19,23 @@
   >
     <map-marker
       [position]="userLocation"
-      [options]="{ icon: 'assets/icon/user-pin.png', label: 'Usted está aquí' }"
+      [options]="{ icon: 'assets/icon/user-pin.png' }"
     ></map-marker>
-
     <map-marker
       *ngFor="let request of activeRequests"
       [position]="request.position"
-      [options]="{ icon: 'assets/icon/request-pin.png', label: 'Solicitud activa' }"
+      [options]="{ icon: 'assets/icon/request-pin.png' }"
     ></map-marker>
-
   </google-map>
 
   <div class="profile-card">
     <div class="profile-header">
-      <div class="avatar">
-        <span>P</span>
-      </div>
       <div class="profile-info">
-        <h1>Hola <br>Cambiar</h1>
-         <div class="status-bar" (click)="toggleStatus()" [ngClass]="{'inactive-status': !isKdtActive}">
-        <span>{{ isKdtActive ? 'Activo' : 'Inactivo' }}</span>
-    </div>
+        <h1>Hola <br>Patricio</h1>
+        <div class="status-bar" (click)="toggleStatus()" [ngClass]="{'inactive-status': !isKdtActive}">
+          <span>{{ isKdtActive ? 'Activo' : 'Inactivo' }}</span>
+        </div>
       </div>
-
     </div>
     <p class="status-message">¡Hay solicitudes esperando su oferta!</p>
     <div class="location-info">
@@ -47,9 +45,9 @@
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-     <ion-fab-button>
-       <ion-icon name="locate-outline"></ion-icon>
-     </ion-fab-button>
+    <ion-fab-button>
+      <ion-icon name="locate-outline"></ion-icon>
+    </ion-fab-button>
   </ion-fab>
 
 </ion-content>
