@@ -15,7 +15,7 @@
   p {
     font-size: 1.8em;
     text-align:  center;
-    margin-right: 29px;
+
     color: var(--ion-color-medium-shade);
   }
 
@@ -75,4 +75,9 @@ display: block;
 margin: 50px auto;     
 max-width: 300px; 
 font-weight: bold;
+}
+
+.card-link {
+  text-decoration: none; 
+  color: inherit;   
 }

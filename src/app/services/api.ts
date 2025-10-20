@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { LoginResponse } from '../interfaces/interfaces';
 import { from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { Brand } from '../interfaces/interfaces';
 
 
 export interface UserData {
@@ -96,5 +97,17 @@ export class ApiService {
       })
     );
   }
+
+ // getBrands(): Observable<Brand[]> {
+ //   return this.http.get<Brand[]>(`${this.apiUrl}/brands`);
+ // }
+
+ getMotorcycleBrands(): Observable<Brand[]> {
+  return this.http.get<Brand[]>(`${this.apiUrl}/motorcycle-brands`);
+}
+
+getBicycleBrands(): Observable<Brand[]> {
+  return this.http.get<Brand[]>(`${this.apiUrl}/bicycle-brands`);
+}
 
 }
