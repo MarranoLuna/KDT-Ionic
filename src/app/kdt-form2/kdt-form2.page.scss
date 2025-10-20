@@ -15,7 +15,7 @@
   p {
     font-size: 1.8em;
     text-align:  center;
-    margin-right: 29px;
+
     color: var(--ion-color-medium-shade);
   }
 
@@ -69,7 +69,6 @@ ion-button.boton{
 width: 80%;
 justify-content: center; 
 align-items: center;
-
 margin-bottom: 20px;
 display: block;        
 margin: 50px auto;     
@@ -79,5 +78,5 @@ font-weight: bold;
 
 .card-link {
   text-decoration: none; 
-  color: inherit;    
+  color: inherit;   
 }
