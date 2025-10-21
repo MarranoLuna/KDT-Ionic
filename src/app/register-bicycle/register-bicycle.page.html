@@ -44,16 +44,19 @@
 
 
 <ion-list>
-  <h3>Seleccione la marca</h3>
-  <ion-item>
-    <ion-select 
-      label-placement="stacked"  placeholder="Marca..." 
-      [(ngModel)]="brand" name="brand">  <ion-select-option value="honda">Honda</ion-select-option>
-      <ion-select-option value="yamaha">Yamaha</ion-select-option>
-      <ion-select-option value="zanella">Zanella</ion-select-option>
-      <ion-select-option value="motomel">Motomel</ion-select-option>
-    </ion-select>
-  </ion-item>
+
+   <h3>Seleccione la marca</h3>
+    <ion-item>
+      <ion-select 
+        label-placement="stacked"
+        placeholder="Marca..." 
+        [(ngModel)]="selectedBrandId"
+        name="brand"
+        [disabled]="brands.length === 0"> <ion-select-option *ngFor="let brandItem of brands" [value]="brandItem.id">
+          {{ brandItem.name }}
+        </ion-select-option>
+      </ion-select> 
+    </ion-item>
 
   <h3>Escriba el color</h3>
   <ion-item>

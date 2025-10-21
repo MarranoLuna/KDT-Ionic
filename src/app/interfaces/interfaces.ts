@@ -14,3 +14,7 @@ export interface LoginResponse {
   user: UserData;
 }
 
+export interface Brand {
+  id: number;
+  name: string;
+}
