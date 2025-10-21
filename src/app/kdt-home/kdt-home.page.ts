@@ -37,13 +37,20 @@ export class KdtHomePage implements OnInit {
     this.loadUserData();
   }
 
-  async loadUserData() {
-    const { value } = await Preferences.get({ key: 'user' });
-    if (value) {
-      const user = JSON.parse(value);
-      this.userName = user.name; // Asumiendo que el nombre está en 'name'
+async loadUserData() {
+  const { value } = await Preferences.get({ key: 'user' });
+  if (value) {
+    const user = JSON.parse(value);
+   
+    this.userName = `${user.firstname || ''} ${  ''}`.trim();
+    if (!this.userName) {
+        this.userName = 'Usuario'; 
     }
+  } else {
+      this.userName = 'Usuario'; 
   }
+}
+
 
   toggleStatus() {
     this.isKdtActive = !this.isKdtActive;
