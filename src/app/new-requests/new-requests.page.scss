@@ -1,26 +1,55 @@
-ion-content {
-  --background: var(--ion-background-color);
+
+ion-button.boton {
+	width: 80%;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 20px;
+	display: block;
+	margin: 20px auto;
+	max-width: 300px;
+	font-weight: bold;
+}
+
+.address-list ion-item {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.description{
+	font-size: 1.4rem !important;
+}
+
+.ask_cadete_compra{
+	text-align: center;
+	margin-right: 3rem;
 }
 
 ion-note.custom-note {
-  display: block;          
-  margin: 16px;            
-  padding: 8px 12px;       
-  border-radius: 8px;      
-  // Usa la variable de fondo para ítems o un tono claro del tema
-  background-color: var(--ion-item-background, var(--ion-color-step-100)); 
-  // Usa la variable de color de texto principal
-  color: var(--ion-text-color);           
-  font-size: 14px;         
+	display: block;
+	margin-bottom: 0.3rem;
+	color: #5a5a5a;
+	font-size: 0.8rem;
+	font-style: italic;
 }
 
-ion-button.boton {
-  width: 80%;
-  justify-content: center; 
-  align-items: center;
-  margin-bottom: 20px;
-  display: block;        
-  margin: 20px auto;     
-  max-width: 300px; 
-  font-weight: bold;
+ion-textarea {
+	background-color: #f5f1efcf;
+	margin-top:0.5rem;
+	margin-bottom:0.5rem;
+	padding: 0.5rem;
+}
+.amount{
+	width: 100%;
+	text-align: center;
+}
+
+.note_amount{
+	color: #333;
+}
+.amount ion-label{
+	font-size: 1.5rem !important;
+}
+.amount ion-input{
+	font-size: 1.6rem !important;
+	font-weight: bold;
 }

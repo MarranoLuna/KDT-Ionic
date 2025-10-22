@@ -1,100 +1,105 @@
 <ion-header>
-  <ion-toolbar color="warning">
-    <ion-buttons slot="start">
-           <ion-back-button defaultHref="/home" text=""></ion-back-button>
-    </ion-buttons>
-    <ion-title>Nueva Solicitud</ion-title>
-  </ion-toolbar>
+	<ion-toolbar color="warning">
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="/home" text=""></ion-back-button>
+		</ion-buttons>
+		<ion-title>Nueva Solicitud</ion-title>
+	</ion-toolbar>
 </ion-header>
 
 
 
-<ion-content >
- <ion-list [inset]="true">
- 
-  <ion-item>
-  <ion-input 
-    #origenInput 
-    label="Dirección de Origen" 
-    labelPlacement="floating"
-    placeholder="Ingresá la dirección completa"
-    [(ngModel)]="formData.origin_address" 
-    name="origin_address">
-  </ion-input>
-</ion-item>
-<ion-note color="danger" *ngIf="originMissingNumber" class="ion-padding-start">
-  Debe ser una dirección con altura (número).
-</ion-note>
+<ion-content>
+	<ion-list [inset]="true" class="address-list">
 
- <ion-item>
-  <ion-input 
-    #destinoInput
-    label="Dirección de Destino" 
-    labelPlacement="floating"
-    placeholder="Ingresá la dirección completa"
-    [(ngModel)]="formData.destination_address" 
-    name="destination_address">
-  </ion-input>
-</ion-item>
-<ion-note color="danger" *ngIf="destinationMissingNumber" class="ion-padding-start">
-  Debe ser una dirección con altura (número).
-</ion-note>
+		<ion-item>
+			<ion-label position="stacked">	
+				Origen *
+			</ion-label>
+			<ion-input #origenInput placeholder="Escribe la dirección completa" [(ngModel)]="formData.origin_address" name="origin_address">
+			</ion-input>
+		</ion-item>
+		<ion-note color="danger" *ngIf="originMissingNumber" class="ion-padding-start">
+			Debe ser una dirección con altura (número).
+			ACA NO ENTRA
+		</ion-note>
+
+		<ion-item>
+			<ion-label position="stacked">	
+				Destino *
+			</ion-label>
+			<ion-input #destinoInput placeholder="Escribe la dirección completa" [(ngModel)]="formData.destination_address" name="destination_address">
+			</ion-input>
+		</ion-item>
+		<ion-note color="danger" *ngIf="destinationMissingNumber" class="ion-padding-start">
+			Debe ser una dirección con altura (número).
+			ACA NO ENTRA
+		</ion-note>
 
 
-<ion-item>
-  <ion-label>Agregar parada</ion-label>
-  <ion-toggle slot="end" (ionChange)="toggleParada($event)" [(ngModel)]="mostrarParada"></ion-toggle>
-</ion-item>
-</ion-list>
+		<ion-item>
+			<ion-label>Agregar parada</ion-label>
+			<ion-toggle slot="end" (ionChange)="toggleParada($event)" [(ngModel)]="mostrarParada"></ion-toggle>
+		</ion-item>
 
-<ion-list *ngIf="mostrarParada" [inset]="true">
-  <ion-item>
-    <ion-input 
-      #paradaInput
-      label="Dirección de Parada" 
-      labelPlacement="floating"
-      placeholder="Ingresá la dirección completa"
-      [(ngModel)]="formData.stop_address" 
-      name="stop_address">
-    </ion-input>
-  </ion-item>
-</ion-list>
+		<div *ngIf="mostrarParada">
+			<ion-item>
+				<ion-label position="stacked">	
+					Parada 
+				</ion-label>
+				<ion-input #paradaInput class="paradaInput" placeholder="Escribe la dirección completa" [(ngModel)]="formData.stop_address" name="stop_address">
+				</ion-input>
+			</ion-item>
+		</div>
+	</ion-list>
 
- <ion-list [inset]="true">
-  <ion-item>
-    <ion-textarea label="Descripción *" [(ngModel)]="formData.description" labelPlacement="floating" rows="5"></ion-textarea>
-  </ion-item>
-</ion-list>
+	<ion-list [inset]="true">
+		<ion-item>
+			<ion-label position="stacked">	
+					Descripción * 
+			</ion-label>
+			<ion-note class="custom-note">
+				Recuerda ingresar todos los detalles necesarios para que el cadete entienda tu solititud.
+			</ion-note>
+			<ion-textarea class="description" [(ngModel)]="formData.description" 
+				rows="5">
+			</ion-textarea>
+			
+		</ion-item>
+	</ion-list>
 
-<ion-note color="medium" class="custom-note">
-  Por favor da los detalles que creas necesario para que entienda EL KDT
-</ion-note>
+	<ion-list [inset]="true">
+		<ion-item>
+			<ion-toggle [(ngModel)]="mostrarCantidadDinero">
+				<ion-label class="ask_cadete_compra">¿El cadete debe comprar <br>o pagar algo?</ion-label>
+			</ion-toggle>
+		</ion-item>
+		<div *ngIf="mostrarCantidadDinero" class="amount">
+			<ion-note class="note_amount">
+					Ingresa el costo total aproximado
+			</ion-note>
+			<ion-item >
+				<ion-label>	
+					$
+				</ion-label>
+				<ion-input type="number"
+				[(ngModel)]="formData.amount">
+				</ion-input>
+			</ion-item>
+		</div>
+	</ion-list>
 
-<ion-list [inset]="true">
-  <ion-item>
-    <ion-toggle [(ngModel)]="mostrarCantidadDinero">
-      <ion-label>¿El cadete necesita dinero?</ion-label>
-    </ion-toggle>
-  </ion-item>
-</ion-list>
+	<ion-list [inset]="true">
+		<ion-item>
+			<ion-select placeholder="Seleccionar método de pago" [(ngModel)]="formData.payment_method">
+				<ion-label slot="label">Método de pago *</ion-label>
+				<ion-select-option value="efectivo">Efectivo</ion-select-option>
+				<ion-select-option value="mercadoPago">Mercado Pago</ion-select-option>
+				<ion-select-option value="transferencia">Transferencia</ion-select-option>
+			</ion-select>
+		</ion-item>
+	</ion-list>
 
-<ion-list *ngIf="mostrarCantidadDinero" [inset]="true">
-  <ion-item>
-    <ion-input label="Ingrese cantidad aproximada de dinero" type="number" [(ngModel)]="formData.amount"></ion-input>
-  </ion-item>
-</ion-list>
-
-<ion-list [inset]="true">
-  <ion-item>
-    <ion-select placeholder="Seleccionar método de pago" [(ngModel)]="formData.payment_method">
-      <div slot="label" >Método de pago <span class="requerido">*</span></div>
-      <ion-select-option value="efectivo">Efectivo</ion-select-option>
-      <ion-select-option value="mercadoPago">Mercado Pago</ion-select-option>
-      <ion-select-option value="transferencia">Transferencia</ion-select-option>
-    </ion-select>
-  </ion-item>
-</ion-list>
-
-<ion-button class="boton" color="warning" expand="block" (click)="onSubmit()"   > Solicitar </ion-button>
+	<ion-button class="boton" color="warning" expand="block" (click)="onSubmit()"> Solicitar </ion-button>
 
 </ion-content>
