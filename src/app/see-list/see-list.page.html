@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+           <ion-back-button defaultHref="/home" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Solicitudes Disponibles</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding">
+
+  <div *ngIf="isLoading" class="ion-text-center">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando...</p>
+  </div>
+  <div *ngIf="!isLoading && availableRequests.length === 0" class="ion-text-center">
+    <p>No hay solicitudes disponibles por el momento.</p>
+  </div>
+
+  <ion-card *ngFor="let request of availableRequests" class="request-card">
+    <ion-card-content>
+      <div class="card-header">
+        <div class="address-section">
+          <div class="address-item">
+            <ion-icon name="pin-outline" color="medium"></ion-icon>
+            <div class="address-text">
+              <span class="label">Origen:</span>
+              <span class="value">{{ request.origin_address?.address }}</span>
+            </div>
+          </div>
+          <div class="address-item">
+            <ion-icon name="flag-outline" color="medium"></ion-icon>
+            <div class="address-text">
+              <span class="label">Destino:</span>
+              <span class="value">{{ request.destination_address?.address }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="status-circle" [class.status-circle-offered]="request.has_offered"></div>
+      </div>
+
+      <div class="description-section">
+        <span class="label">Descripción:</span>
+        <p>{{ request.description }}</p>
+        <p class="user-info">
+          <ion-icon name="person-circle-outline" color="medium"></ion-icon>
+          Solicitado por: <strong>{{ request.user?.firstname }} {{ request.user?.lastname }}</strong>
+        </p>
+      </div>
+
+      <ng-container *ngIf="!request.has_offered">
+        <ion-button fill="clear" size="small" class="ofertar-button" (click)="makeOffer(request)">
+         Ofertar
+        </ion-button>
+      </ng-container>
+      <ng-container *ngIf="request.has_offered">
+        <ion-chip color="warning" class="ofertada-chip">
+          <ion-label>Ofertada</ion-label>
+        </ion-chip>
+      </ng-container>
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
