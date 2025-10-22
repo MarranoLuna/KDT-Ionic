@@ -10,44 +10,75 @@
       <img src="assets/logo.png" routerLink="/index" />
     </div>
 
-    <ion-list class="form-list">
-      <ion-item>
-        <ion-label position="stacked" >Nombre</ion-label>
-        <ion-input class="campo" type="text" [(ngModel)]="formData.firstname"></ion-input>
-      </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked">Apellido</ion-label>
-        <ion-input class="campo" type="text" [(ngModel)]="formData.lastname"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Fecha de nacimiento</ion-label>
-        <ion-input class="campo" type="date" [(ngModel)]="formData.birthday"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Email</ion-label>
-        <ion-input class="campo" type="email"  [(ngModel)]="formData.email"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Contraseña</ion-label>
-        <ion-input class="campo" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="formData.password"></ion-input>
-      </ion-item>
-
-      <ion-item>
-      <ion-label position="stacked">Confirmar Contraseña</ion-label>
-      <ion-input class="campo" type="password" [(ngModel)]="formData.password_confirmation"></ion-input>
-      </ion-item>
-    </ion-list>
-
-
-    <div class="buttons-container">
-      <ion-button expand="block" color="warning" (click)="onRegister()">
-        Registrarme
-      </ion-button>
+<form #registerForm="ngForm">
+  <ion-list class="form-list">
+    <ion-item>
+      <ion-label position="stacked">Nombre</ion-label>
+      <ion-input class="campo" type="text" [(ngModel)]="formData.firstname" name="firstname" required #firstname="ngModel"></ion-input>
+    </ion-item>
+    <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="error-message">
+      Completa este campo
     </div>
+
+    <ion-item>
+      <ion-label position="stacked">Apellido</ion-label>
+      <ion-input class="campo" type="text" [(ngModel)]="formData.lastname" name="lastname" required #lastname="ngModel"></ion-input>
+    </ion-item>
+    <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" class="error-message">
+      Completa este campo
+    </div>
+
+    <ion-item>
+      <ion-label position="stacked">Fecha de nacimiento</ion-label>
+      <ion-input class="campo" type="date" [(ngModel)]="formData.birthday" name="birthday" required #birthday="ngModel"></ion-input>
+    </ion-item>
+    <div *ngIf="birthday.invalid && (birthday.dirty || birthday.touched)" class="error-message">
+      Completa este campo
+    </div>
+
+    <ion-item>
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input class="campo" type="email" [(ngModel)]="formData.email" name="email" required email #email="ngModel"></ion-input>
+    </ion-item>
+    <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error-message">
+      <span *ngIf="email.errors?.['required']">Completa este campo</span>
+      <span *ngIf="email.errors?.['email']">El formato del email no es válido.</span>
+    </div>
+
+    <ion-item>
+      <ion-label position="stacked">Contraseña</ion-label>
+      <ion-input class="campo" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="formData.password" name="password" required #password="ngModel"></ion-input>
+    </ion-item>
+    <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error-message">
+      Completa este campo
+    </div>
+
+    <ion-item>
+      <ion-label position="stacked">Confirmar Contraseña</ion-label>
+      <ion-input class="campo" type="password" [(ngModel)]="formData.password_confirmation" name="password_confirmation" required #passwordConfirmation="ngModel"></ion-input>
+    </ion-item>
+     <div *ngIf="passwordConfirmation.invalid && (passwordConfirmation.dirty || passwordConfirmation.touched)" class="error-message">
+      Completa este campo
+    </div>
+  </ion-list>
+
+  <div class="buttons-container">
+    <ion-button expand="block" color="warning" (click)="onRegister()">
+      Registrarme
+    </ion-button>
+  </div>
+</form>
+
+<style>
+  .error-message {
+    color: var(--ion-color-danger);
+    font-size: 0.8em;
+    padding-left: 16px;
+    padding-bottom: 5px;
+  }
+</style>
+
 
   </div>
 </ion-content>
