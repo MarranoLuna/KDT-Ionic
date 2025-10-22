@@ -56,7 +56,42 @@ export class LoginPage {
                 this.userService.saveUser(response.user);
                 await Preferences.set({ key: 'authToken', value: response.token });
 
-	// FUNCIÓN PARA LOGUEARSE
+	
+                // --- INICIO DE LA DEPURACIÓN ---
+                const roleNameToSave = response.user?.role?.name; // Obtenemos el valor de forma segura
+                console.log('Valor del rol ANTES de guardar:', roleNameToSave); // Log ANTES
+
+                if (roleNameToSave) {
+                    await Preferences.set({ key: 'userRole', value: roleNameToSave });
+                    console.log('Rol guardado en Preferences.'); // Log DESPUÉS (si tuvo éxito)
+                } else {
+                    console.error('ERROR: No se encontró el nombre del rol en la respuesta!');
+                }
+                // --- FIN DE LA DEPURACIÓN ---
+
+                // Redirigimos (usando el valor que acabamos de obtener)
+                const userRole = roleNameToSave ? roleNameToSave.toLowerCase() : null;
+                if (userRole === 'kdt') {
+                    this.router.navigate(['/kdt-home']);
+                } else {
+                    this.router.navigate(['/home']);
+                }
+
+            } catch (e) { // <--- Capturamos cualquier error al guardar
+                console.error('Error al guardar datos en Preferences:', e);
+                this.showToast('Error al guardar la sesión.', 'danger');
+            }
+        },
+        error: async (error: HttpErrorResponse) => {
+            await loading.dismiss();
+            this.showToast('Usuario o contraseña incorrectos ❌', 'danger');
+        }
+    });
+    }
+
+    // FUNCIÓN PARA LOGUEARSE
+    /*
+    
 	async onLogin() {
 		// Muestra un indicador de carga para el usuario
 		const loading = await this.loadingCtrl.create({
@@ -91,37 +126,7 @@ export class LoginPage {
 			}
 		});
 	}
-                // --- INICIO DE LA DEPURACIÓN ---
-                const roleNameToSave = response.user?.role?.name; // Obtenemos el valor de forma segura
-                console.log('Valor del rol ANTES de guardar:', roleNameToSave); // Log ANTES
-
-                if (roleNameToSave) {
-                    await Preferences.set({ key: 'userRole', value: roleNameToSave });
-                    console.log('Rol guardado en Preferences.'); // Log DESPUÉS (si tuvo éxito)
-                } else {
-                    console.error('ERROR: No se encontró el nombre del rol en la respuesta!');
-                }
-                // --- FIN DE LA DEPURACIÓN ---
-
-                // Redirigimos (usando el valor que acabamos de obtener)
-                const userRole = roleNameToSave ? roleNameToSave.toLowerCase() : null;
-                if (userRole === 'kdt') {
-                    this.router.navigate(['/kdt-home']);
-                } else {
-                    this.router.navigate(['/home']);
-                }
-
-            } catch (e) { // <--- Capturamos cualquier error al guardar
-                console.error('Error al guardar datos en Preferences:', e);
-                this.showToast('Error al guardar la sesión.', 'danger');
-            }
-        },
-        error: async (error: HttpErrorResponse) => {
-            await loading.dismiss();
-            this.showToast('Usuario o contraseña incorrectos ❌', 'danger');
-        }
-    });
-}
+    */
 
     togglePassword() {
         this.showPassword = !this.showPassword;
