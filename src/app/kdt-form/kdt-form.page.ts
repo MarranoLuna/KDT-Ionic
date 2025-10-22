@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router'; 
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-kdt-form',
@@ -12,6 +13,9 @@ import { RouterModule } from '@angular/router';
   imports: [IonicModule, CommonModule, FormsModule, RouterModule] 
 })
 export class KdtFormPage implements OnInit {
+
+  frontDniImage: string | null = null;
+  backDniImage: string | null = null;
 
   formData = {
     name: '',
@@ -24,18 +28,51 @@ export class KdtFormPage implements OnInit {
   ngOnInit() {
   }
 
-  selectFrontDni() {
-    console.log('Abriendo cámara/galería para el frente del DNI...');
-    
+
+  async selectFrontDni() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl, // Devuelve la imagen como base64
+        source: CameraSource.Prompt, // Muestra el aviso (Cámara o Galería)
+        promptLabelHeader: 'Seleccionar Foto',
+        promptLabelPhoto: 'Elegir de la galería',
+        promptLabelPicture: 'Tomar foto con la cámara'
+      });
+
+      if (image.dataUrl) {
+        this.frontDniImage = image.dataUrl;
+      }
+    } catch (error) {
+      console.error('Error al seleccionar la imagen frontal', error);
+    }
   }
 
-  selectBackDni() {
-    console.log('Abriendo cámara/galería para el dorso del DNI...');
-    
-  }
 
+  async selectBackDni() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Prompt,
+        promptLabelHeader: 'Seleccionar Foto',
+        promptLabelPhoto: 'Elegir de la galería',
+        promptLabelPicture: 'Tomar foto con la cámara'
+      });
+
+      if (image.dataUrl) {
+        this.backDniImage = image.dataUrl;
+      }
+    } catch (error) {
+      console.error('Error al seleccionar la imagen dorsal', error);
+    }
+  }
   submitForm() {
     console.log('Datos del formulario a enviar:', this.formData);
     
   }
 }
+
+  

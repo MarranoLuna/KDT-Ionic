@@ -1,10 +1,12 @@
 // register-bicycle.page.ts
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from 'src/app/services/api'; 
 import { Brand } from 'src/app/interfaces/interfaces'; 
+import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonSelect, IonInput, IonButtons, IonBackButton, IonImg, IonList, IonItem, IonSelectOption, IonButton} from '@ionic/angular/standalone';
 
 
@@ -17,11 +19,13 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonSelect, IonInput, IonBu
 })
 export class RegisterBicyclePage implements OnInit {
 
+  @ViewChild('myForm') myForm!: NgForm;
+
   brands: Brand[] = [];
   selectedBrandId: number | null = null;
   color: string = '';
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private router: Router) { }
 
   ngOnInit() {
     this.loadBrands();
@@ -39,7 +43,13 @@ export class RegisterBicyclePage implements OnInit {
   }
   
   continue() {
-    console.log('ID de Marca seleccionada:', this.selectedBrandId);
-    console.log('Color seleccionado:', this.color);
+  
+    if (this.myForm.valid) {
+      console.log('Formulario válido, navegando...');
+      this.router.navigateByUrl('/request-sent-kdt');
+    } else {
+      console.log('Formulario inválido');
+      this.myForm.control.markAllAsTouched();
+    }
   }
 }

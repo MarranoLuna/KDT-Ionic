@@ -24,16 +24,6 @@ export class KdtForm2Page implements OnInit {
   ngOnInit() {
   }
 
-  selectFrontDni() {
-    console.log('Abriendo cámara/galería para el frente del DNI...');
-    
-  }
-
-  selectBackDni() {
-    console.log('Abriendo cámara/galería para el dorso del DNI...');
-    
-  }
-
   submitForm() {
     console.log('Datos del formulario a enviar:', this.formData);
     
