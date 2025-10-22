@@ -105,8 +105,12 @@ export const routes: Routes = [
     loadComponent: () => import('./kdt-home/kdt-home.page').then( m => m.KdtHomePage),
      canActivate: [authGuard, kdtGuard] // Requiere login Y ser 'kdt'
   },
+  {
+    path: 'see-list',
+    loadComponent: () => import('./see-list/see-list.page').then( m => m.SeeListPage),
+    canActivate: [authGuard, kdtGuard] // Protegida para KDTs logueados
+  },
 
- 
 
 ];
 

@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { Preferences } from '@capacitor/preferences';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-kdt-home',
   templateUrl: './kdt-home.page.html',
   styleUrls: ['./kdt-home.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, GoogleMapsModule]
+  imports: [IonicModule, CommonModule, FormsModule, GoogleMapsModule, RouterModule]
 })
 export class KdtHomePage implements OnInit {
 
