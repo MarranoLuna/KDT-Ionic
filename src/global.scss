@@ -38,8 +38,30 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
+ion-toolbar{
+  height: 3rem;
+}
+
+ion-title{
+  font-size: 2rem;
+}
+ion-toggle{
+  border:none !important;
+}
+
+ion-input{
+  font-size: 1.2rem !important;
+  border-bottom: 1px solid rgb(57, 57, 57);
+}
+ion-label{
+  font-size: 1.1rem !important;
+  margin-left: 1rem;
+  font-weight: 600;
+}
+
 ion-content {
   font-size: 1.4rem;
+  --background: #f4edebcf;
 }
 
 ion-button {
@@ -60,4 +82,6 @@ body{
   user-select: none;
 }
 
-
+.tostada{
+  font-size: 1.5rem;
+}

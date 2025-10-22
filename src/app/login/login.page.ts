@@ -45,39 +45,39 @@ export class LoginPage {
 
 	// FUNCIÓN PARA LOGUEARSE
 	async onLogin() {
-  // Muestra un indicador de carga para el usuario
-  const loading = await this.loadingCtrl.create({
-    message: 'Iniciando sesión...',
-    spinner: 'crescent'
-  });
-  await loading.present();
+		// Muestra un indicador de carga para el usuario
+		const loading = await this.loadingCtrl.create({
+			message: 'Iniciando sesión...',
+			spinner: 'crescent'
+		});
+		await loading.present();
 
-  // Llama al servicio que se encarga de la petición a la API
-  this.userService.login(this.credentials).subscribe({
-    // Esto se ejecuta si el login es EXITOSO
-    next: async (response: any) => {
-      console.log('Login exitoso', response);
-      await loading.dismiss();
-      
-      // Guarda los datos recibidos del backend
-      this.userService.saveUser(response.user);
-      await Preferences.set({ key: 'authToken', value: response.token });
-      await Preferences.set({ key: 'userRole', value: response.user.role.name });
+		// Llama al servicio que se encarga de la petición a la API
+		this.userService.login(this.credentials).subscribe({
+			// Esto se ejecuta si el login es EXITOSO
+			next: async (response: any) => {
+				console.log('Login exitoso', response);
+				await loading.dismiss();
 
-      // Revisa el rol del usuario y lo redirige a la pantalla correcta
-      if (response.user.role.name === 'kdt') {
-        this.router.navigate(['/kdt-home']);
-      } else {
-        this.router.navigate(['/home']);
-      }
-    },
-    // Esto se ejecuta si el login FALLA
-    error: async (error: HttpErrorResponse) => {
-      await loading.dismiss();
-      this.showToast('Usuario o contraseña incorrectos ❌', 'danger');
-    }
-  });
-}
+				// Guarda los datos recibidos del backend
+				this.userService.saveUser(response.user);
+				await Preferences.set({ key: 'authToken', value: response.token });
+				await Preferences.set({ key: 'userRole', value: response.user.role.name });
+
+				// Revisa el rol del usuario y lo redirige a la pantalla correcta
+				if (response.user.role.name === 'kdt') {
+					this.router.navigate(['/kdt-home']);
+				} else {
+					this.router.navigate(['/home']);
+				}
+			},
+			// Esto se ejecuta si el login FALLA
+			error: async (error: HttpErrorResponse) => {
+				await loading.dismiss();
+				this.showToast('Usuario o contraseña incorrectos ❌', 'danger');
+			}
+		});
+	}
 
 	togglePassword() {
 		this.showPassword = !this.showPassword;
