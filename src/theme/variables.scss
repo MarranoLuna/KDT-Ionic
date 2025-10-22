@@ -20,4 +20,10 @@
   --ion-color-medium: #92949c;
   --ion-color-light: #f4f5f8;
 
+  --ion-card-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); // Sombra para modo claro
 }
+
+body.dark {
+  --ion-card-box-shadow: none; // Sin sombra en modo oscuro (o una más sutil)
+}
+

@@ -10,12 +10,12 @@ import { Brand } from '../interfaces/interfaces';
 
 
 export interface UserData {
-  id?: number; 
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  birthday: string;
+	id?: number;
+	firstname: string;
+	lastname: string;
+	email: string;
+	password: string;
+	birthday: string;
 }
 
 @Injectable({
@@ -34,9 +34,9 @@ export class ApiService {
 
 
 	login(credentials: any): Observable<LoginResponse> {
-        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        return this.http.post<LoginResponse>(`${this.apiUrl}/ion_login`, credentials, { headers });
-    }
+		const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+		return this.http.post<LoginResponse>(`${this.apiUrl}/ion_login`, credentials, { headers });
+	}
 
 
 
@@ -45,8 +45,15 @@ export class ApiService {
 		return this.http.post(`${this.apiUrl}/register`, userData, { headers });
 	}
 
-	createRequest(data: any) {
-		return this.http.post(`${this.apiUrl}/requests`, data);
+	///// FUNCIONES DE REQUESTS.----------------------------------------------------------------------------
+
+	async createRequest(data: any) {
+		const { value: token } = await Preferences.get({ key: 'authToken' });
+		const headers = new HttpHeaders({ 
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${token}`
+		 });
+		return this.http.post(`${this.apiUrl}/requests/create`, data, { headers, withCredentials: true });
 	}
 
 	deleteRequest(id: number) {
@@ -66,48 +73,52 @@ export class ApiService {
 		return this.http.put<UserData>(`${this.apiUrl}/users/${userId}`, data, { headers });
 	}
 
-  // Nuevo método para guardar una dirección
-  saveAddress(addressData: any): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      // Si necesitas enviar un token de autenticación (por ejemplo, JWT), añádelo aquí
-      // 'Authorization': `Bearer ${token}` 
-    });
+	// Nuevo método para guardar una dirección
+	saveAddress(addressData: any): Observable<any> {
+		const headers = new HttpHeaders({
+			'Content-Type': 'application/json',
+			// Si necesitas enviar un token de autenticación (por ejemplo, JWT), añádelo aquí
+			// 'Authorization': `Bearer ${token}` 
+		});
 
-    return this.http.post(`${this.apiUrl}/addresses`, addressData, { headers });
-  }
+		return this.http.post(`${this.apiUrl}/addresses`, addressData, { headers });
+	}
 
-  updatePassword(passwordData: any): Observable<any> {
-    // Convertimos la promesa de Preferences en un Observable para poder encadenar operaciones
-    return from(Preferences.get({ key: 'authToken' })).pipe(
-      // Usamos switchMap para tomar el valor del token y "cambiar" a una nueva operación (la llamada HTTP)
-      switchMap(token => {
-        // Si no hay token, podemos devolver un error o simplemente no hacer la llamada
-        if (!token || !token.value) {
-          throw new Error('Token de autenticación no encontrado');
-        }
+	updatePassword(passwordData: any): Observable<any> {
+		// Convertimos la promesa de Preferences en un Observable para poder encadenar operaciones
+		return from(Preferences.get({ key: 'authToken' })).pipe(
+			// Usamos switchMap para tomar el valor del token y "cambiar" a una nueva operación (la llamada HTTP)
+			switchMap(token => {
+				// Si no hay token, podemos devolver un error o simplemente no hacer la llamada
+				if (!token || !token.value) {
+					throw new Error('Token de autenticación no encontrado');
+				}
 
-        // Creamos los encabezados con el token
-        const headers = new HttpHeaders({
-          'Authorization': `Bearer ${token.value}`
-        });
+				// Creamos los encabezados con el token
+				const headers = new HttpHeaders({
+					'Authorization': `Bearer ${token.value}`
+				});
 
-        // Hacemos la llamada HTTP y la retornamos
-        return this.http.put(`${this.apiUrl}/user/password`, passwordData, { headers });
-      })
-    );
-  }
+				// Hacemos la llamada HTTP y la retornamos
+				return this.http.put(`${this.apiUrl}/user/password`, passwordData, { headers });
+			})
+		);
+	}
 
- // getBrands(): Observable<Brand[]> {
- //   return this.http.get<Brand[]>(`${this.apiUrl}/brands`);
- // }
+	// getBrands(): Observable<Brand[]> {
+	//   return this.http.get<Brand[]>(`${this.apiUrl}/brands`);
+	// }
 
- getMotorcycleBrands(): Observable<Brand[]> {
-  return this.http.get<Brand[]>(`${this.apiUrl}/motorcycle-brands`);
-}
+	getMotorcycleBrands(): Observable<Brand[]> {
+		return this.http.get<Brand[]>(`${this.apiUrl}/motorcycle-brands`);
+	}
 
-getBicycleBrands(): Observable<Brand[]> {
-  return this.http.get<Brand[]>(`${this.apiUrl}/bicycle-brands`);
-}
+	getBicycleBrands(): Observable<Brand[]> {
+		return this.http.get<Brand[]>(`${this.apiUrl}/bicycle-brands`);
+	}
+
+
+
+
 
 }

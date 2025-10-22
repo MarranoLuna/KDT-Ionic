@@ -1,0 +1,135 @@
+ion-content {
+  --background: var(--ion-background-color);
+}
+
+
+
+ion-button.boton {
+  width: 80%;
+  justify-content: center; 
+  align-items: center;
+  margin-bottom: 20px;
+  display: block;        
+  margin: 20px auto;     
+  max-width: 300px; 
+  font-weight: bold;
+}
+
+ion-toolbar {
+  ion-title {
+    font-weight: 600;
+  }
+}
+
+.request-card {
+  margin-bottom: 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  ion-card-content {
+    padding: 16px;
+  }
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; // Alinea arriba
+  margin-bottom: 12px;
+}
+
+.address-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; // Espacio entre origen y destino
+  flex-grow: 1; // Ocupa el espacio disponible
+}
+
+.address-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  ion-icon {
+    font-size: 1.2rem;
+  }
+}
+
+.address-text {
+  display: flex;
+  flex-direction: column;
+
+  .label {
+    font-size: 0.8em;
+    color: var(--ion-color-medium-shade);
+  }
+  .value {
+    font-weight: 500;
+    font-size: 0.95em;
+    // Evita que el texto se desborde feo
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px; // Ajusta este ancho según necesites
+  }
+}
+
+.status-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 4px solid var(--ion-color-success-tint); // Borde verde claro
+  background-color: var(--ion-color-success); // Relleno verde
+  margin-left: 10px; // Espacio a la izquierda
+}
+
+.description-section {
+  margin-bottom: 12px;
+  border-top: 1px solid var(--ion-color-step-200, #e0e0e0); // Línea divisoria
+  padding-top: 12px;
+
+  .label {
+    font-size: 0.8em;
+    color: var(--ion-color-medium-shade);
+    display: block;
+    margin-bottom: 4px;
+  }
+  p {
+    margin: 0;
+    font-size: 0.9em;
+    color: var(--ion-color-dark-shade);
+  }
+}
+
+.ofertar-button {
+    text-align: center;
+    display: block;
+    font-size: 1em;
+}
+
+.status-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 4px solid var(--ion-color-success-tint); // Verde claro por defecto
+  background-color: var(--ion-color-success); // Verde por defecto
+  margin-left: 10px;
+  transition: background-color 0.3s ease, border-color 0.3s ease; // Animación suave
+}
+
+// Nuevo estilo para el círculo cuando está ofertado
+.status-circle-offered {
+  border-color: var(--ion-color-warning-tint); // Naranja claro
+  background-color: var(--ion-color-warning); // Naranja
+}
+
+// Estilo para el chip "Ofertada"
+.ofertada-chip {
+  display: block; // Para poder centrarlo
+  margin: 10px auto 0 auto; // Centrado horizontal
+  --background: var(--ion-color-warning); // Fondo naranja
+  --color: var(--ion-color-warning-contrast); // Color de texto (usualmente blanco o negro)
+  font-weight: 500;
+  height: 28px;
+  padding: 0 12px;
+}

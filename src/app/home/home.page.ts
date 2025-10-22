@@ -41,7 +41,8 @@ export class HomePage implements OnInit {
 
         if (currentUser) {
             this.userName = currentUser.firstname; 
-            this.userName = 'Invitado'; 
+        }else{
+          this.userName = 'Invitado'; 
         }
 
     } catch (error) {

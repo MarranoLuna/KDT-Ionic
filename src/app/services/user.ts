@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserData } from './api'; 
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Preferences } from '@capacitor/preferences';
 import { Router } from '@angular/router';
 import { ApiService } from './api';
@@ -14,8 +13,6 @@ import { LoginResponse } from '../interfaces/interfaces';
   providedIn: 'root'
 })
 export class UserService {
-
-  private apiUrl = 'https://api.tu-dominio.com/api';
 
   constructor(
         private apiService: ApiService, // Inyectamos ApiService

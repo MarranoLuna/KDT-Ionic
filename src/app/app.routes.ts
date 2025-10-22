@@ -1,6 +1,8 @@
 
 import { Routes } from '@angular/router';
-
+import { authGuard } from './guards/auth-guard'; // Guardián de login
+import { kdtGuard } from './guards/kdt-guard';   // Guardián de KDT
+import { userGuard } from './guards/user-guard'; // Guardián de User
 
 export const routes: Routes = [
   {
@@ -22,16 +24,21 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    loadComponent: () => import('./home/home.page').then( m => m.HomePage)
+    loadComponent: () => import('./home/home.page').then( m => m.HomePage),
+    canActivate: [authGuard, userGuard] // Requiere login Y ser 'user'
   },
+
   {
     path: 'new-requests',
-    loadComponent: () => import('./new-requests/new-requests.page').then( m => m.NewRequestsPage)
+    loadComponent: () => import('./new-requests/new-requests.page').then( m => m.NewRequestsPage),
+    canActivate: [authGuard, userGuard] // Requiere login Y ser 'user'
   },
   {
     path: 'requests',
-    loadComponent: () => import('./requests/requests.page').then( m => m.RequestsPage)
+    loadComponent: () => import('./requests/requests.page').then( m => m.RequestsPage),
+    canActivate: [authGuard, userGuard] // Requiere login Y ser 'user'
   },
+
   {
     path: 'orders',
     loadComponent: () => import('./orders/orders.page').then( m => m.OrdersPage)
@@ -51,12 +58,13 @@ export const routes: Routes = [
   
   {
     path: 'address',
-    loadComponent: () => import('./address/address.page').then( m => m.AddressPage)
+    loadComponent: () => import('./address/address.page').then( m => m.AddressPage),
+    canActivate: [authGuard, userGuard] // Requiere login Y ser 'user'
   },
- 
     {
       path: 'profile-edit',
-    loadComponent: () => import('./profile-edit/profile-edit.page').then( m => m.ProfileEditPage)
+    loadComponent: () => import('./profile-edit/profile-edit.page').then( m => m.ProfileEditPage),
+    canActivate: [authGuard] // Solo requiere estar logueado
   },
   {
     path: 'edit-password',
@@ -91,12 +99,22 @@ export const routes: Routes = [
   {
     path: 'validate-vehicle',
     loadComponent: () => import('./validate-vehicle/validate-vehicle.page').then( m => m.ValidateVehiclePage )
-  },  {
+  },
+  {
     path: 'kdt-home',
-    loadComponent: () => import('./kdt-home/kdt-home.page').then( m => m.KdtHomePage)
+    loadComponent: () => import('./kdt-home/kdt-home.page').then( m => m.KdtHomePage),
+     canActivate: [authGuard, kdtGuard] // Requiere login Y ser 'kdt'
+  },
+  {
+    path: 'see-list',
+    loadComponent: () => import('./see-list/see-list.page').then( m => m.SeeListPage),
+    canActivate: [authGuard, kdtGuard] // Protegida para KDTs logueados
   },
 
-]
+
+];
+
+
 
 
  
