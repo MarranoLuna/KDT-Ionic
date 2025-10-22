@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, LoadingController, ToastController } from '@ionic/angular';
@@ -21,6 +23,9 @@ import { Router } from '@angular/router';
   ]
 })
 export class RegisterPage {
+
+  @ViewChild('registerForm') registerForm!: NgForm;
+
   formData = {
     firstname: '',
     lastname: '',
@@ -50,6 +55,15 @@ export class RegisterPage {
 }
 
   async onRegister() {
+    
+
+    if (this.registerForm.invalid) {
+      // Si es inválido, marcamos todos los campos como "tocados" para mostrar los errores
+      this.registerForm.control.markAllAsTouched();
+      // Y detenemos la ejecución de la función aquí
+      return; 
+    }
+
     const loading = await this.loadingCtrl.create({
       message: 'Registrando...',
       spinner: 'crescent'

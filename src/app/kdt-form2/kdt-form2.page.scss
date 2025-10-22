@@ -13,10 +13,10 @@
   }
   
   p {
-    font-size: 1.8em;
+    font-size: 1.4em;
     text-align:  center;
-
-    color: var(--ion-color-medium-shade);
+    color: black;
+    font-weight: bold;
   }
 
 
@@ -65,16 +65,6 @@ ion-footer {
   }
 }
 
-ion-button.boton{
-width: 80%;
-justify-content: center; 
-align-items: center;
-margin-bottom: 20px;
-display: block;        
-margin: 50px auto;     
-max-width: 300px; 
-font-weight: bold;
-}
 
 .card-link {
   text-decoration: none; 

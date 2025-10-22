@@ -51,15 +51,26 @@
   </ion-list>
  
   
-  <div class="upload-box" (click)="selectFrontDni()" > 
-    <ion-icon  name="cloud-upload-outline" color="medium"></ion-icon>
-    <p>Foto del frente del D.N.I.</p>
-  </div>
 
-  <div class="upload-box" (click)="selectBackDni()">
+<div class="upload-box" (click)="selectFrontDni()">
+  <ng-container *ngIf="!frontDniImage">
+    <ion-icon name="cloud-upload-outline" color="medium"></ion-icon>
+    <p>Foto del frente del D.N.I.</p>
+  </ng-container>
+
+  <img *ngIf="frontDniImage" [src]="frontDniImage" class="image-preview" />
+</div>
+
+
+<div class="upload-box" (click)="selectBackDni()">
+  <ng-container *ngIf="!backDniImage">
     <ion-icon name="cloud-upload-outline" color="medium"></ion-icon>
     <p>Foto del dorso del D.N.I.</p>
-  </div>
+  </ng-container>
+
+  <img *ngIf="backDniImage" [src]="backDniImage" class="image-preview" />
+</div>
+
 
   <p class="terms-text ion-text-center">
     Al enviar este formulario estás aceptando los 

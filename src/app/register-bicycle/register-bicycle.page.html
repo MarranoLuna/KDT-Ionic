@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="warning">
     <ion-buttons slot="start">
-           <ion-back-button defaultHref="/home" text=""></ion-back-button>
+           <ion-back-button defaultHref="/kdt-form2" text=""></ion-back-button>
     </ion-buttons>
     <ion-title>Ser cadete</ion-title>
   </ion-toolbar>
@@ -42,6 +42,7 @@
 </svg>
 
 
+<form #myForm="ngForm">
 
 <ion-list>
 
@@ -52,7 +53,11 @@
         placeholder="Marca..." 
         [(ngModel)]="selectedBrandId"
         name="brand"
-        [disabled]="brands.length === 0"> <ion-select-option *ngFor="let brandItem of brands" [value]="brandItem.id">
+        [disabled]="brands.length === 0" 
+        required 
+        errorText="Complete este campo"
+        > 
+        <ion-select-option *ngFor="let brandItem of brands" [value]="brandItem.id">
           {{ brandItem.name }}
         </ion-select-option>
       </ion-select> 
@@ -63,7 +68,9 @@
     <ion-input 
       placeholder="Color..."
       [(ngModel)]="color" 
-      name="color">
+      name="color" 
+      required
+      errorText="Complete este campo">
     </ion-input>
   </ion-item>
 
@@ -72,6 +79,9 @@
   <ion-button expand="block" (click)="continue()" class="boton">
       Continuar
   </ion-button>
+
+</form>
+
 
 
   </ion-content>
