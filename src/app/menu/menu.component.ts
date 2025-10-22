@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, NavController } from '@ionic/angular';
-import { RouterModule } from '@angular/router'; // Necesario para [routerLink]
-import { Preferences } from '@capacitor/preferences'; // Para leer datos guardados
+import { RouterModule } from '@angular/router';
+import { Preferences } from '@capacitor/preferences'; 
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, RouterModule] // Importamos RouterModule
+  imports: [IonicModule, CommonModule, RouterModule] 
 })
 export class MenuComponent implements OnInit {
 
@@ -18,14 +18,14 @@ export class MenuComponent implements OnInit {
 
   constructor(private navController: NavController) { }
 
-  // Usamos ngOnInit para cargar el rol una vez al inicio
+  // cargar el rol una vez al inicio
   async ngOnInit() {
     await this.loadUserRole();
   }
 
-  // ionViewWillEnter sigue siendo útil si el rol pudiera cambiar sin recargar la app
+  //  si el rol pudiera cambiar sin recargar la app
   ionViewWillEnter() {
-    this.loadUserRole(); // Llama de nuevo por si acaso
+    this.loadUserRole(); 
   }
 
   async loadUserRole() {
