@@ -33,7 +33,7 @@ export class LoginPage {
         private router: Router,
         private loadingCtrl: LoadingController,
         private toastCtrl: ToastController,
-        private userService: UserService // Nota: Inyectaste UserService dos veces, una podría ser innecesaria.
+    
     ) {
         
         this.userService.verifyLogin();
