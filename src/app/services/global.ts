@@ -9,7 +9,7 @@ export class Global {
 		private toastController: ToastController
 	) { }
 
-	// ACA ESCRIBIMOS TODAS LAS FUNCIONES GLOBALES QUE QUEREMOS USAR EN LA APP
+	// ACA ESCRIBIMOS TODAS LAS FUNCIONES GLOBALES QUE QUEREMOS USAR EN LA APP (LA API FUNCIONA DE LA MISMA MANERA)
 	/*
 		En el ts de la view se agrega este import:      import { Global } from '../services/global';
 		también se agrega en el constructor:       private Global: Global

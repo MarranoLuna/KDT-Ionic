@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
-import { IonicModule, IonInput, NavController, LoadingController, ToastController } from '@ionic/angular';
+import { HttpErrorResponse} from '@angular/common/http';
+import { IonicModule, IonInput, NavController, LoadingController } from '@ionic/angular';
 import { Preferences } from '@capacitor/preferences';
-import { ApiService } from '../services/api';
+import { ApiService } from '../services/api'; //// necesario para usar la api
 import { Global } from '../services/global';
 
 // Interfaz para el formulario, incluyendo los componentes de dirección para enviar al backend
@@ -68,7 +68,6 @@ export class NewRequestsPage implements OnInit {
 	constructor(
 		private apiService: ApiService,
 		private ngZone: NgZone,
-		private http: HttpClient,
 		private navController: NavController,
 		private loadingController: LoadingController,
 		private Global: Global,
@@ -167,7 +166,7 @@ export class NewRequestsPage implements OnInit {
 		this.mostrarCantidadDinero = event.detail.checked;
 	}
 
-	async onSubmit() {
+	async onSubmit() { /// Para enviar los datos.
 		if (!this.formData.origin_address || !this.formData.destination_address || !this.formData.description || !this.formData.payment_method) {
 			this.Global.presentToast('Por favor, completa los campos obligatorios.', 'danger');
 			return;
@@ -187,7 +186,7 @@ export class NewRequestsPage implements OnInit {
 			this.Global.presentToast('Error de autenticación. Por favor, inicia sesión de nuevo.', 'danger');
 			return;
 		}
-		////// SE CREA LA REQUEST PERO NO AVANZA.
+		////// SE CREA LA REQUEST 
 		(await this.apiService.createRequest(this.formData)).subscribe({
 			// Esto se ejecuta si se crea con éxito la solicitud
 			next: async (response: any) => {
@@ -202,25 +201,6 @@ export class NewRequestsPage implements OnInit {
 			}
 		});
 
-		/*
-		this.http.post(apiUrl, this.formData, { headers, withCredentials: true }).subscribe({
-			next: async (response) => {
-				await loading.dismiss();
-				if (this.formData.amount) {
-					await Preferences.set({ key: 'last_request_amount', value: this.formData.amount.toString() });
-				}
-				await this.Global.presentToast('¡Solicitud creada con éxito!', 'success');
-				this.navController.navigateRoot('/request-sent');
-			},
-			error: async (error) => {
-				await loading.dismiss();
-				console.error('Error al crear la solicitud:', error);
-				const errorMessage = error.error?.message || 'Hubo un error al crear la solicitud.';
-				await this.Global.presentToast(errorMessage, 'danger');
-			}
-		});
-
-		*/
 	}
 
 
