@@ -2,271 +2,272 @@ import { Component, OnInit, ViewChildren, QueryList, NgZone } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IonicModule, LoadingController, ToastController, AlertController, IonInput } from '@ionic/angular';
+import { IonicModule, ToastController, AlertController, IonInput, LoadingController } from '@ionic/angular';
 import { Preferences } from '@capacitor/preferences';
+import { ApiService } from '../services/api'; ////------------- NECESARIO PARA USAR LA API, también agregar en constructor
+import { Global } from '../services/global'; //// ------------- Para usar funciones globales como la de mostrar el "Cargando..." y los errores
 
 @Component({
-  selector: 'app-requests',
-  templateUrl: './requests.page.html',
-  styleUrls: ['./requests.page.scss'],
-  standalone: true,
-  imports: [ CommonModule, FormsModule, IonicModule ]
+	selector: 'app-requests',
+	templateUrl: './requests.page.html',
+	styleUrls: ['./requests.page.scss'],
+	standalone: true,
+	imports: [CommonModule, FormsModule, IonicModule]
 })
 export class RequestsPage implements OnInit {
 
-  @ViewChildren('editingOriginInput') editingOriginInputs!: QueryList<IonInput>;
-  @ViewChildren('editingDestinationInput') editingDestinationInputs!: QueryList<IonInput>;
-  // AÑADIDO: "Observador" para el input de la parada que aparece al editar.
-  @ViewChildren('editingStopInput') editingStopInputs!: QueryList<IonInput>;
+	@ViewChildren('editingOriginInput') editingOriginInputs!: QueryList<IonInput>;
+	@ViewChildren('editingDestinationInput') editingDestinationInputs!: QueryList<IonInput>;
+	// AÑADIDO: "Observador" para el input de la parada que aparece al editar.
+	@ViewChildren('editingStopInput') editingStopInputs!: QueryList<IonInput>;
 
-  requests: any[] = [];
-  isLoading = true;
-  expandedId: number | null = null;
-  editingId: number | null = null;
-  editableRequest: any = {};
-  
-  private apiUrl = 'http://localhost:8000/api';
+	requests: any[] = [];
+	///isLoading = true;     // loading anterior
+	expandedId: number | null = null;
+	editingId: number | null = null;
+	editableRequest: any = {};
 
-  constructor(
-    private http: HttpClient,
-    private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController,
-    private alertCtrl: AlertController,
-    private ngZone: NgZone,
-  ) {}
+	private apiUrl = 'http://localhost:8000/api'; /// cambiar para que use el archivo api.ts
 
-  ngOnInit() {}
-  
-  ionViewWillEnter() {
-    this.loadRequests();
-  }
+	constructor(
+		private API: ApiService, // para llamar a la api como: this.API.funcion()
+		private global: Global, // para usar funciones globales como: this.Global.presentToast('Mensaje', 'success');
+		private http: HttpClient,
+		private loadingController: LoadingController,
+		private toastCtrl: ToastController,
+		private alertCtrl: AlertController,
+		private ngZone: NgZone,
+	) { }
 
-  async loadRequests() {
-  this.isLoading = true;
-  const { value: token } = await Preferences.get({ key: 'authToken' });
-  if (!token) {
-    this.isLoading = false;
-    this.presentToast('Error de autenticación.', 'danger');
-    return;
-  }
-  const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+	async ngOnInit() { 
+	}
 
-  this.http.get<any[]>(`${this.apiUrl}/requests`, { headers, withCredentials: true }).subscribe({
-    next: async (data) => { // <-- Se convierte la función en async
+	async ionViewWillEnter() {
+		console.log("entra aca");
+		this.loadRequests();
+	}
 
-      // --- INICIO DE LA CORRECCIÓN ---
-      // Recorremos cada solicitud recibida para buscar su monto guardado
-      for (const request of data) {
-        const { value } = await Preferences.get({ key: `request_amount_${request.id}` });
-        // Le añadimos la propiedad 'amount' al objeto de la solicitud
-        request.amount = value ? parseFloat(value) : null;
-      }
-      // --- FIN DE LA CORRECCIÓN ---
+	async loadRequests() {
+		const loading = await this.global.presentLoading('Cargando solicitudes...');
+		setTimeout(() => { loading.dismiss();}, 1000); // por las dudas si no se cierra solo en la logica
+		const { value: token } = await Preferences.get({ key: 'authToken' });
+		if (!token) {
+			loading.dismiss();
+			this.global.presentToast('Error de autenticación.', 'danger');
+			return;
+		}
+		const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
 
-      this.requests = data;
-      this.isLoading = false;
-    },
-    error: (err) => {
-      console.error('Error al cargar solicitudes', err);
-      this.isLoading = false;
-      this.presentToast('Error al cargar las solicitudes.', 'danger');
-    }
-  });
-}
-  toggleDetail(id: number) {
-    this.expandedId = this.expandedId === id ? null : id;
-    if (this.editingId) {
-      this.cancelEditing();
-    }
-  }
+		this.http.get<any[]>(`${this.apiUrl}/requests`, { headers, withCredentials: true }).subscribe({
+			next: async (data) => { // <-- Se convierte la función en async
 
-  // MODIFICADO: La función ahora es 'async' para poder leer el 'amount' guardado.
-  async startEditing(request: any) {
-    this.editingId = request.id;
-    this.editableRequest = JSON.parse(JSON.stringify(request));
+				// --- INICIO DE LA CORRECCIÓN ---
+				// Recorremos cada solicitud recibida para buscar su monto guardado
+				for (const request of data) {
+					const { value } = await Preferences.get({ key: `request_amount_${request.id}` });
+					// Le añadimos la propiedad 'amount' al objeto de la solicitud
+					request.amount = value ? parseFloat(value) : null;
+				}
+				// --- FIN DE LA CORRECCIÓN ---
 
-    // AÑADIDO: Si la solicitud no tiene una parada, inicializamos el objeto para evitar errores.
-    if (!this.editableRequest.address) {
-      this.editableRequest.address = { address: '' };
-    }
+				this.requests = data;
+				//this.isLoading = false;
+			},
+			error: (err) => {
+				console.error('Error al cargar solicitudes', err);
+				//this.isLoading = false;
+				this.global.presentToast('Error al cargar las solicitudes.', 'danger');
+			}
+		});
+		///loading.dismiss();
+	}
+	toggleDetail(id: number) {
+		this.expandedId = this.expandedId === id ? null : id;
+		if (this.editingId) {
+			this.cancelEditing();
+		}
+	}
 
-    // AÑADIDO: Cargamos el monto guardado en localStorage para esta solicitud específica.
-    const { value } = await Preferences.get({ key: `request_amount_${request.id}` });
-    this.editableRequest.amount = value ? parseFloat(value) : null;
-    
-    setTimeout(() => this.setupEditAutocomplete(), 150);
-  }
+	// MODIFICADO: La función ahora es 'async' para poder leer el 'amount' guardado.
+	async startEditing(request: any) {
+		this.editingId = request.id;
+		this.editableRequest = JSON.parse(JSON.stringify(request));
 
-  setupEditAutocomplete() {
-    // MODIFICADO: Rellenamos el código que faltaba.
-    const gualeguaychuBounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(-33.033, -58.553),
-      new google.maps.LatLng(-32.988, -58.484)
-    );
-    const options = {
-      bounds: gualeguaychuBounds,
-      fields: ["address_components", "formatted_address", "geometry"]
-    };
+		// AÑADIDO: Si la solicitud no tiene una parada, inicializamos el objeto para evitar errores.
+		if (!this.editableRequest.address) {
+			this.editableRequest.address = { address: '' };
+		}
 
-    // Origen y Destino (sin cambios)
-    this.editingOriginInputs.first?.getInputElement().then(input => {
-      const autocomplete = new google.maps.places.Autocomplete(input, options);
-      autocomplete.addListener('place_changed', () => this.ngZone.run(() => this.updateEditableAddress('origin', autocomplete.getPlace())));
-    });
-    this.editingDestinationInputs.first?.getInputElement().then(input => {
-      const autocomplete = new google.maps.places.Autocomplete(input, options);
-      autocomplete.addListener('place_changed', () => this.ngZone.run(() => this.updateEditableAddress('destination', autocomplete.getPlace())));
-    });
+		// AÑADIDO: Cargamos el monto guardado en localStorage para esta solicitud específica.
+		const { value } = await Preferences.get({ key: `request_amount_${request.id}` });
+		this.editableRequest.amount = value ? parseFloat(value) : null;
 
-    // AÑADIDO: Activamos el autocompletado para el campo de la parada.
-    this.editingStopInputs.first?.getInputElement().then(input => {
-      const autocomplete = new google.maps.places.Autocomplete(input, options);
-      autocomplete.addListener('place_changed', () => {
-        this.ngZone.run(() => this.updateEditableAddress('stop', autocomplete.getPlace()));
-      });
-    });
-  }
+		setTimeout(() => this.setupEditAutocomplete(), 150);
+	}
 
-  // MODIFICADO: Ahora también maneja el tipo 'stop'.
-  updateEditableAddress(type: 'origin' | 'destination' | 'stop', place: google.maps.places.PlaceResult) {
-    if (!place.geometry) return;
-    const key = (type === 'stop') ? 'address' : `${type}_address`;
-    
-    this.editableRequest[key] = {
-      address: place.formatted_address,
-      lat: place.geometry.location?.lat() || null,
-      lng: place.geometry.location?.lng() || null
-    };
-    (this.editableRequest as any)[`${type}_components`] = place.address_components;
-  }
+	setupEditAutocomplete() {
+		// MODIFICADO: Rellenamos el código que faltaba.
+		const gualeguaychuBounds = new google.maps.LatLngBounds(
+			new google.maps.LatLng(-33.033, -58.553),
+			new google.maps.LatLng(-32.988, -58.484)
+		);
+		const options = {
+			bounds: gualeguaychuBounds,
+			fields: ["address_components", "formatted_address", "geometry"]
+		};
 
-  cancelEditing() {
-    this.editingId = null;
-    this.editableRequest = {};
-  }
+		// Origen y Destino (sin cambios)
+		this.editingOriginInputs.first?.getInputElement().then(input => {
+			const autocomplete = new google.maps.places.Autocomplete(input, options);
+			autocomplete.addListener('place_changed', () => this.ngZone.run(() => this.updateEditableAddress('origin', autocomplete.getPlace())));
+		});
+		this.editingDestinationInputs.first?.getInputElement().then(input => {
+			const autocomplete = new google.maps.places.Autocomplete(input, options);
+			autocomplete.addListener('place_changed', () => this.ngZone.run(() => this.updateEditableAddress('destination', autocomplete.getPlace())));
+		});
 
-  async saveChanges() {
-    const loading = await this.loadingCtrl.create({ message: 'Guardando...' });
-    await loading.present();
+		// AÑADIDO: Activamos el autocompletado para el campo de la parada.
+		this.editingStopInputs.first?.getInputElement().then(input => {
+			const autocomplete = new google.maps.places.Autocomplete(input, options);
+			autocomplete.addListener('place_changed', () => {
+				this.ngZone.run(() => this.updateEditableAddress('stop', autocomplete.getPlace()));
+			});
+		});
+	}
 
-    const { value: token } = await Preferences.get({ key: 'authToken' });
-    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
-    
-    // MODIFICADO: Preparamos el objeto a enviar con los nuevos campos.
-    const dataToSend = {
-      description: this.editableRequest.description,
-      payment_method: this.editableRequest.payment_method, // <-- AÑADIDO
-      
-      origin_address: this.editableRequest.origin_address.address,
-      origin_lat: this.editableRequest.origin_address.lat,
-      origin_lng: this.editableRequest.origin_address.lng,
-      origin_components: (this.editableRequest as any).origin_components,
-      
-      destination_address: this.editableRequest.destination_address.address,
-      destination_lat: this.editableRequest.destination_address.lat,
-      destination_lng: this.editableRequest.destination_address.lng,
-      destination_components: (this.editableRequest as any).destination_components,
-      
-      // AÑADIDO: Enviamos los datos de la parada si se seleccionó una.
-      stop_address: this.editableRequest.address?.address,
-      stop_lat: this.editableRequest.address?.lat,
-      stop_lng: this.editableRequest.address?.lng,
-      stop_components: (this.editableRequest as any).stop_components,
-    };
+	// MODIFICADO: Ahora también maneja el tipo 'stop'.
+	updateEditableAddress(type: 'origin' | 'destination' | 'stop', place: google.maps.places.PlaceResult) {
+		if (!place.geometry) return;
+		const key = (type === 'stop') ? 'address' : `${type}_address`;
 
-    // AÑADIDO: Guardamos el monto en Preferences ANTES de la llamada a la API.
-    if (this.editableRequest.amount) {
-      await Preferences.set({ key: `request_amount_${this.editingId}`, value: this.editableRequest.amount.toString() });
-    } else {
-      await Preferences.remove({ key: `request_amount_${this.editingId}` });
-    }
+		this.editableRequest[key] = {
+			address: place.formatted_address,
+			lat: place.geometry.location?.lat() || null,
+			lng: place.geometry.location?.lng() || null
+		};
+		(this.editableRequest as any)[`${type}_components`] = place.address_components;
+	}
 
-    this.http.put(`${this.apiUrl}/requests/${this.editingId}`, dataToSend, { headers, withCredentials: true }).subscribe({
-      next: (updatedRequest: any) => {
-        const index = this.requests.findIndex(r => r.id === this.editingId);
-        if (index !== -1) {
-          // AÑADIDO: Re-asignamos el monto local a la respuesta para que se vea en la lista.
-          updatedRequest.amount = this.editableRequest.amount;
-          this.requests[index] = updatedRequest;
-        }
-        loading.dismiss();
-        this.presentToast('Solicitud actualizada.', 'success');
-        this.cancelEditing();
-      },
-      error: (err) => {
-        loading.dismiss();
-        console.error('Error al actualizar:', err); // AÑADIDO: Log del error para más detalles.
-        this.presentToast('No se pudo actualizar la solicitud.', 'danger');
-      }
-    });
-  }
-  
- async confirmDelete(request: any) {
+	cancelEditing() {
+		this.editingId = null;
+		this.editableRequest = {};
+	}
 
- const alert = await this.alertCtrl.create({
+	async saveChanges() {
+		const loading = await this.loadingController.create({ message: 'Guardando...' });
+		await loading.present();
 
-header: 'Confirmar Eliminación',
+		const { value: token } = await Preferences.get({ key: 'authToken' });
+		const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
 
- message: `¿Estás seguro?`,
+		// MODIFICADO: Preparamos el objeto a enviar con los nuevos campos.
+		const dataToSend = {
+			description: this.editableRequest.description,
+			payment_method: this.editableRequest.payment_method, // <-- AÑADIDO
 
- buttons: [
+			origin_address: this.editableRequest.origin_address.address,
+			origin_lat: this.editableRequest.origin_address.lat,
+			origin_lng: this.editableRequest.origin_address.lng,
+			origin_components: (this.editableRequest as any).origin_components,
 
- { text: 'Cancelar', role: 'cancel' },
+			destination_address: this.editableRequest.destination_address.address,
+			destination_lat: this.editableRequest.destination_address.lat,
+			destination_lng: this.editableRequest.destination_address.lng,
+			destination_components: (this.editableRequest as any).destination_components,
 
- { text: 'Eliminar', role: 'destructive', handler: () => this.deleteRequest(request.id) }
+			// AÑADIDO: Enviamos los datos de la parada si se seleccionó una.
+			stop_address: this.editableRequest.address?.address,
+			stop_lat: this.editableRequest.address?.lat,
+			stop_lng: this.editableRequest.address?.lng,
+			stop_components: (this.editableRequest as any).stop_components,
+		};
 
- ]
+		// AÑADIDO: Guardamos el monto en Preferences ANTES de la llamada a la API.
+		if (this.editableRequest.amount) {
+			await Preferences.set({ key: `request_amount_${this.editingId}`, value: this.editableRequest.amount.toString() });
+		} else {
+			await Preferences.remove({ key: `request_amount_${this.editingId}` });
+		}
 
- });
+		this.http.put(`${this.apiUrl}/requests/${this.editingId}`, dataToSend, { headers, withCredentials: true }).subscribe({
+			next: (updatedRequest: any) => {
+				const index = this.requests.findIndex(r => r.id === this.editingId);
+				if (index !== -1) {
+					// AÑADIDO: Re-asignamos el monto local a la respuesta para que se vea en la lista.
+					updatedRequest.amount = this.editableRequest.amount;
+					this.requests[index] = updatedRequest;
+				}
+				loading.dismiss();
+				this.global.presentToast('Solicitud actualizada.', 'success');
+				this.cancelEditing();
+			},
+			error: (err) => {
+				loading.dismiss();
+				console.error('Error al actualizar:', err); // AÑADIDO: Log del error para más detalles.
+				this.global.presentToast('No se pudo actualizar la solicitud.', 'danger');
+			}
+		});
+	}
 
- await alert.present();
+	async confirmDelete(request: any) {
 
- }
+		const alert = await this.alertCtrl.create({
 
+			header: 'Confirmar Eliminación',
 
+			message: `¿Estás seguro?`,
 
- async deleteRequest(id: number) {
+			buttons: [
 
-const loading = await this.loadingCtrl.create({ message: 'Eliminando...' });
+				{ text: 'Cancelar', role: 'cancel' },
 
- await loading.present();
+				{ text: 'Eliminar', role: 'destructive', handler: () => this.deleteRequest(request.id) }
+
+			]
+
+		});
+
+		await alert.present();
+
+	}
 
 
 
- const { value: token } = await Preferences.get({ key: 'authToken' });
+	async deleteRequest(id: number) {
 
- const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+		const loading = await this.loadingController.create({ message: 'Eliminando...' });
+
+		await loading.present();
 
 
- this.http.delete(`${this.apiUrl}/requests/${id}`, { headers, withCredentials: true }).subscribe({
 
- next: () => {
+		const { value: token } = await Preferences.get({ key: 'authToken' });
 
- this.requests = this.requests.filter(r => r.id !== id);
+		const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
 
- loading.dismiss();
 
- this.presentToast('Solicitud eliminada.', 'success');
+		this.http.delete(`${this.apiUrl}/requests/${id}`, { headers, withCredentials: true }).subscribe({
 
-},
+			next: () => {
 
- error: (err) => {
+				this.requests = this.requests.filter(r => r.id !== id);
 
- loading.dismiss();
+				loading.dismiss();
 
- this.presentToast('No se pudo eliminar la solicitud.', 'danger');
-}
+				this.global.presentToast('Solicitud eliminada.', 'success');
 
- });
+			},
 
- }
+			error: (err) => {
 
- async presentToast(message: string, color: 'success' | 'danger') {
+				loading.dismiss();
 
- const toast = await this.toastCtrl.create({ message, duration: 2000, color, position: 'top' });
+				this.global.presentToast('No se pudo eliminar la solicitud.', 'danger');
+			}
 
- await toast.present();
+		});
 
- }
+	}
+
 
 }

@@ -29,14 +29,20 @@ export class ApiService {
 
 	constructor(
 		private http: HttpClient,
-		private router: Router
+		//private router: Router
 	) { }
 
 	/////// LOGIN ----------------------------------------------------------------------------------------------------
 
-	login(credentials: any): Observable<LoginResponse> {
-		const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-		return this.http.post<LoginResponse>(`${this.apiUrl}/ion_login`, credentials, { headers });
+	login(credentials: any): Observable<LoginResponse> { /// recibe las credenciales y devuelve la respuesta del login
+		const headers = new HttpHeaders({ 'Content-Type': 'application/json' });/// indica que los datos se envían como json
+		return this.
+			http.
+			post<LoginResponse>( /// el método post recibe la api
+				`${this.apiUrl}/ion_login`, /// el link de la ruta
+				credentials, // los datos a enviar
+				{ headers } // los headers 
+			);
 	}
 
 
