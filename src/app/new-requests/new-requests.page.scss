@@ -11,8 +11,7 @@ ion-button.boton {
 }
 
 .address-list ion-item {
-	margin-top: 1rem;
-	margin-bottom: 1rem;
+	margin-bottom: 1rem !important
 }
 
 .description{
@@ -24,11 +23,10 @@ ion-button.boton {
 	margin-right: 3rem;
 }
 
-ion-note.custom-note {
-	display: block;
-	margin-bottom: 0.3rem;
+.custom-note {
+	margin: 0.3rem;
 	color: #5a5a5a;
-	font-size: 0.8rem;
+	font-size: 0.9rem;
 	font-style: italic;
 }
 
@@ -52,4 +50,11 @@ ion-textarea {
 .amount ion-input{
 	font-size: 1.6rem !important;
 	font-weight: bold;
+}
+
+ion-select{
+	font-size: 1.3rem;
+}
+ion-select ion-label{
+	margin:0 !important;
 }

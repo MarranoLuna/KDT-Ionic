@@ -29,15 +29,21 @@ export class ApiService {
 
 	constructor(
 		private http: HttpClient,
-		private router: Router
+		//private router: Router
 	) { }
 
+	/////// LOGIN ----------------------------------------------------------------------------------------------------
 
-	login(credentials: any): Observable<LoginResponse> {
-		const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-		return this.http.post<LoginResponse>(`${this.apiUrl}/ion_login`, credentials, { headers });
+	login(credentials: any): Observable<LoginResponse> { /// recibe las credenciales y devuelve la respuesta del login
+		const headers = new HttpHeaders({ 'Content-Type': 'application/json' });/// indica que los datos se envían como json
+		return this.
+			http.
+			post<LoginResponse>( /// el método post recibe la api
+				`${this.apiUrl}/ion_login`, /// el link de la ruta
+				credentials, // los datos a enviar
+				{ headers } // los headers 
+			);
 	}
-
 
 
 	registerUser(userData: any): Observable<any> {
@@ -45,15 +51,15 @@ export class ApiService {
 		return this.http.post(`${this.apiUrl}/register`, userData, { headers });
 	}
 
-	///// FUNCIONES DE REQUESTS.----------------------------------------------------------------------------
+	///// FUNCIONES DE NEW REQUEST----------------------------------------------------------------------------
 
 	async createRequest(data: any) {
-		const { value: token } = await Preferences.get({ key: 'authToken' });
-		const headers = new HttpHeaders({ 
+		const { value: token } = await Preferences.get({ key: 'authToken' }); //// obtiene el token de sesión
+		const headers = new HttpHeaders({  /// acá ingresamos el token en el header
 			'Content-Type': 'application/json',
 			'Authorization': `Bearer ${token}`
 		 });
-		return this.http.post(`${this.apiUrl}/requests/create`, data, { headers, withCredentials: true });
+		return this.http.post(`${this.apiUrl}/requests/create`, data, { headers, withCredentials: true }); /// enviamos los datos y devolvemos la respuesta. Hay que ver que los datos estén bien antes de llamar a esta función!
 	}
 
 	deleteRequest(id: number) {
@@ -64,6 +70,7 @@ export class ApiService {
 		return this.http.put<any>(`http://localhost:8000/api/requests/${request.id}`, request);
 	}
 
+	/// DATOS DE USUARIO --------------------------------------------------------------------------------------
 	getUserData(userId: number): Observable<UserData> {
 		return this.http.get<UserData>(`${this.apiUrl}/users/${userId}`);
 	}
@@ -73,7 +80,7 @@ export class ApiService {
 		return this.http.put<UserData>(`${this.apiUrl}/users/${userId}`, data, { headers });
 	}
 
-	// Nuevo método para guardar una dirección
+	/// Nuevo método para guardar una dirección
 	saveAddress(addressData: any): Observable<any> {
 		const headers = new HttpHeaders({
 			'Content-Type': 'application/json',

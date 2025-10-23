@@ -36,21 +36,23 @@
 			ACA NO ENTRA
 		</ion-note>
 
-
-		<ion-item>
-			<ion-label>Agregar parada</ion-label>
-			<ion-toggle slot="end" (ionChange)="toggleParada($event)" [(ngModel)]="mostrarParada"></ion-toggle>
-		</ion-item>
-
-		<div *ngIf="mostrarParada">
+		<!--              ////////// LAS PARADAS ESTÁN DESHABILITADAS TEMPORALMENTE ---- DISEÑAR EN BD ///////////
+		
 			<ion-item>
-				<ion-label position="stacked">	
-					Parada 
-				</ion-label>
-				<ion-input #paradaInput class="paradaInput" placeholder="Escribe la dirección completa" [(ngModel)]="formData.stop_address" name="stop_address">
-				</ion-input>
+				<ion-label>Agregar parada</ion-label>
+				<ion-toggle slot="end" (ionChange)="toggleParada($event)" [(ngModel)]="mostrarParada"></ion-toggle>
 			</ion-item>
-		</div>
+			<div *ngIf="mostrarParada">
+				<ion-item>
+					<ion-label position="stacked">	
+						Parada 
+					</ion-label>
+					<ion-input #paradaInput class="paradaInput" placeholder="Escribe la dirección completa" [(ngModel)]="formData.stop_address" name="stop_address">
+					</ion-input>
+				</ion-item>
+			</div>
+		
+		-->
 	</ion-list>
 
 	<ion-list [inset]="true">
@@ -68,6 +70,7 @@
 		</ion-item>
 	</ion-list>
 
+	<!--			  ////////// EL MONTO ESTÁ DESHABILITADO TEMPORALMENTE ---- DISEÑAR EN BD ///////////
 	<ion-list [inset]="true">
 		<ion-item>
 			<ion-toggle [(ngModel)]="mostrarCantidadDinero">
@@ -88,10 +91,10 @@
 			</ion-item>
 		</div>
 	</ion-list>
-
+	-->
 	<ion-list [inset]="true">
 		<ion-item>
-			<ion-select placeholder="Seleccionar método de pago" [(ngModel)]="formData.payment_method">
+			<ion-select placeholder="Seleccionar..." interface="popover" [(ngModel)]="formData.payment_method">
 				<ion-label slot="label">Método de pago *</ion-label>
 				<ion-select-option value="efectivo">Efectivo</ion-select-option>
 				<ion-select-option value="mercadoPago">Mercado Pago</ion-select-option>
