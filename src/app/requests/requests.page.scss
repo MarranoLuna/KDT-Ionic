@@ -4,11 +4,13 @@
    gap: 10px;
    padding-top: 10px;
    width: 100%;
+   padding-left: 8px;      
+  padding-right: 8px;     
  }
  .botones-container ion-button {
    margin: 0; // Quita márgenes por defecto del botón
  }
- 
+
 ion-button.botonAction {
   width: 45%;               
   --height: 30px;
