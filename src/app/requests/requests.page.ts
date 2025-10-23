@@ -43,7 +43,7 @@ export class RequestsPage implements OnInit {
 	}
 
 	async ionViewWillEnter() {
-		console.log("entra aca");
+		//console.log("entra aca");
 		this.loadRequests();
 	}
 

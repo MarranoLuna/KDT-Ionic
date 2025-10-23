@@ -1,9 +1,14 @@
-.botones-container {
-  display: flex;
-  justify-content: flex-end; 
-  gap: 8px; 
-  padding-top: 10px;
-}
+ .botones-container {
+   display: flex;
+   justify-content: center; 
+   gap: 10px;
+   padding-top: 10px;
+   width: 100%;
+ }
+ .botones-container ion-button {
+   margin: 0; // Quita márgenes por defecto del botón
+ }
+ 
 ion-button.botonAction {
   width: 45%;               
   --height: 30px;

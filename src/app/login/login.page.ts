@@ -61,16 +61,14 @@ export class LoginPage {
 
                     // Obtiene y guarda el rol
                     const roleNameToSave = response.user?.role?.name; 
-                    console.log('Valor del rol ANTES de guardar:', roleNameToSave); 
+                    //console.log('Valor del rol ANTES de guardar:', roleNameToSave); 
 
                     if (roleNameToSave) {
                         await Preferences.set({ key: 'userRole', value: roleNameToSave });
-                        console.log('Rol guardado en Preferences.'); 
+                        //console.log('Rol guardado en Preferences.'); 
 
-                        
                         await Preferences.set({ key: 'user', value: JSON.stringify(response.user) });
 
-                        
                         const userRole = roleNameToSave.toLowerCase();
                         if (userRole === 'kdt') {
                             this.router.navigate(['/kdt-home']);
