@@ -10,6 +10,7 @@ import { Global } from '../services/global';
 
 // Interfaz para el formulario, incluyendo los componentes de dirección para enviar al backend
 interface AppFormData {
+	title: string;
 	origin_address: string;
 	origin_lat: number | null;
 	origin_lng: number | null;
@@ -46,6 +47,7 @@ export class NewRequestsPage implements OnInit {
 	@ViewChild('paradaInput', { static: false }) paradaInput!: IonInput;
 
 	formData = <AppFormData>{
+		title:"",
 		origin_address: '',
 		origin_lat: null,
 		origin_lng: null,
@@ -154,6 +156,9 @@ export class NewRequestsPage implements OnInit {
 			setTimeout(() => this.setupAutocomplete(), 0);
 		}
 	}
+	toggleDinero(event: any) {
+		this.mostrarCantidadDinero = event.detail.checked;
+	}
 
 	formatearDireccion(components: any){
 		// Función para mostrar la direción simplificada en el formulario
@@ -163,7 +168,15 @@ export class NewRequestsPage implements OnInit {
 		//Devuelve dirección simplificada
 		return (`${route} ${streetNumber}, ${locality}`.trim());
 	}
+	
+	async onSubmit() { /// Para enviar los datos.
+		this.Global.verifyLogin(); 
+		if (!this.formData.title || !this.formData.origin_address || !this.formData.destination_address || !this.formData.description || !this.formData.payment_method) {
+			this.Global.presentToast('Por favor, completa los campos obligatorios.', 'danger');
+			return;
+		}
 
+  /*
 	toggleDinero(event: any) {
 		this.mostrarCantidadDinero = event.detail.checked;
 	}
@@ -184,6 +197,7 @@ export class NewRequestsPage implements OnInit {
         this.myForm.control.markAllAsTouched();
 		return;
     }
+    */
 	
 		if (!this.formData.origin_lat || !this.formData.destination_lat) {
 		this.Global.presentToast('Por favor, selecciona una dirección válida de la lista de sugerencias.', 'danger');
@@ -193,13 +207,6 @@ export class NewRequestsPage implements OnInit {
 		const loading = await this.loadingController.create({ message: 'Creando solicitud...' });
 		await loading.present();
 
-		const { value: token } = await Preferences.get({ key: 'authToken' });
-
-		if (!token) {
-			loading.dismiss();
-			this.Global.presentToast('Error de autenticación. Por favor, inicia sesión de nuevo.', 'danger');
-			return;
-		}
 		////// SE CREA LA REQUEST 
 		(await this.apiService.createRequest(this.formData)).subscribe({
 			// Esto se ejecuta si se crea con éxito la solicitud
