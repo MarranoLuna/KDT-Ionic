@@ -214,8 +214,6 @@ export class NewRequestsPage implements OnInit {
 				await loading.dismiss();
 				this.navController.navigateRoot('/request-sent');
 			},
-		
 		});
-
 	}
 }
