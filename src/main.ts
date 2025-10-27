@@ -6,7 +6,7 @@ import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 
 import { addIcons } from 'ionicons';
-import { locateOutline,chevronDownOutline, locationOutline, trashOutline, exitOutline,rocketOutline, cubeOutline, notificationsOutline,newspaperOutline,cartOutline, peopleOutline,personCircleOutline, homeOutline, cloud, cloudUploadOutline, listOutline, addCircleOutline, cashOutline, archiveOutline, mapOutline, swapHorizontalOutline, eye, flagOutline, pinOutline} from 'ionicons/icons';
+import { locateOutline,chevronDownOutline, locationOutline, trashOutline, exitOutline,rocketOutline, cubeOutline, notificationsOutline,newspaperOutline,cartOutline, peopleOutline,personCircleOutline, homeOutline, cloud, cloudUploadOutline, listOutline, addCircleOutline, cashOutline, archiveOutline, mapOutline, swapHorizontalOutline, eye, flagOutline, pinOutline, carSportOutline} from 'ionicons/icons';
 
 addIcons({
   'location-outline': locationOutline,
@@ -32,6 +32,7 @@ addIcons({
   'eye':eye,
   'flag-outline': flagOutline,
   'pin-outline':pinOutline,
+  'car-sport-outline': carSportOutline,
 
 }); 
 

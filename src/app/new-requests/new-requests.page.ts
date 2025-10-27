@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse} from '@angular/common/http';
@@ -39,6 +40,7 @@ interface AppFormData {
 })
 
 export class NewRequestsPage implements OnInit {
+	@ViewChild('requestForm') myForm!: NgForm;
 
 	@ViewChild('origenInput', { static: false }) origenInput!: IonInput;
 	@ViewChild('destinoInput', { static: false }) destinoInput!: IonInput;
@@ -166,7 +168,6 @@ export class NewRequestsPage implements OnInit {
 		//Devuelve dirección simplificada
 		return (`${route} ${streetNumber}, ${locality}`.trim());
 	}
-
 	
 	async onSubmit() { /// Para enviar los datos.
 		this.Global.verifyLogin(); 
@@ -174,10 +175,34 @@ export class NewRequestsPage implements OnInit {
 			this.Global.presentToast('Por favor, completa los campos obligatorios.', 'danger');
 			return;
 		}
+
+  /*
+	toggleDinero(event: any) {
+		this.mostrarCantidadDinero = event.detail.checked;
+	}
+
+	onAddressInput(fieldType: 'origin' | 'destination' | 'stop') {
+
+		this.formData[`${fieldType}_lat`] = null;
+		this.formData[`${fieldType}_lng`] = null;
+
+		// También reseteamos tus errores personalizados
+		if (fieldType === 'origin') this.originMissingNumber = false;
+		if (fieldType === 'destination') this.destinationMissingNumber = false;
+	}
+
+	async onSubmit() { /// Para enviar los datos.
+		if (this.myForm.invalid) {
+    
+        this.myForm.control.markAllAsTouched();
+		return;
+    }
+    */
+	
 		if (!this.formData.origin_lat || !this.formData.destination_lat) {
-			this.Global.presentToast('Las direcciones de Origen y Destino deben tener una altura (número) válida.', 'danger');
-			return;
-		}
+		this.Global.presentToast('Por favor, selecciona una dirección válida de la lista de sugerencias.', 'danger');
+		return;
+	}
 
 		const loading = await this.loadingController.create({ message: 'Creando solicitud...' });
 		await loading.present();
@@ -189,15 +214,8 @@ export class NewRequestsPage implements OnInit {
 				await loading.dismiss();
 				this.navController.navigateRoot('/request-sent');
 			},
-			// Esto se ejecuta si FALLA ------ VER
-			error: async (error: HttpErrorResponse) => {
-				await loading.dismiss();
-				const errorMessage = error.error?.message || 'Hubo un problema al crear la solicitud. Reintenta en unos minutos';
-				await this.Global.presentToast(errorMessage, 'danger');
-			}
+		
 		});
 
 	}
-
-
 }

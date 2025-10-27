@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router'; 
+import { Router } from '@angular/router';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
@@ -23,19 +25,20 @@ export class KdtFormPage implements OnInit {
     dni: ''
   };
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
 
   async selectFrontDni() {
+    console.log('abriendo camara');
     try {
       const image = await Camera.getPhoto({
         quality: 90,
         allowEditing: false,
-        resultType: CameraResultType.DataUrl, // Devuelve la imagen como base64
-        source: CameraSource.Prompt, // Muestra el aviso (Cámara o Galería)
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Prompt, 
         promptLabelHeader: 'Seleccionar Foto',
         promptLabelPhoto: 'Elegir de la galería',
         promptLabelPicture: 'Tomar foto con la cámara'
@@ -51,6 +54,7 @@ export class KdtFormPage implements OnInit {
 
 
   async selectBackDni() {
+    console.log('abriendo camara');
     try {
       const image = await Camera.getPhoto({
         quality: 90,
@@ -65,14 +69,16 @@ export class KdtFormPage implements OnInit {
       if (image.dataUrl) {
         this.backDniImage = image.dataUrl;
       }
+      
     } catch (error) {
       console.error('Error al seleccionar la imagen dorsal', error);
     }
   }
   submitForm() {
     console.log('Datos del formulario a enviar:', this.formData);
+    this.router.navigateByUrl('/kdt-form2');
     
   }
 }
 
-  
+defineCustomElements(window);

@@ -75,6 +75,23 @@
 
 					<ion-item>
 						<ion-label position="stacked">Método de pago:</ion-label>
+					<!-- De momento no usamos hasta version 2
+					 <ion-item>
+						<ion-label position="stacked"><strong>Parada (Opcional):</strong></ion-label>
+						<ion-input *ngIf="editingId === request.id" #editingStopInput
+							[(ngModel)]="editableRequest.address.address"
+							placeholder="Buscar dirección de parada"></ion-input>
+						<p *ngIf="editingId !== request.id">{{ request.address?.address }}</p>
+					</ion-item> -->
+
+					<!-- De momento no usamos hasta version 2
+					<ion-item>
+						<ion-label position="stacked"><strong>Monto que necesita el cadete:</strong></ion-label>
+						<ion-input *ngIf="editingId === request.id" [(ngModel)]="editableRequest.amount" type="number"
+							placeholder="Ingrese el monto (opcional)"></ion-input>
+						<p *ngIf="editingId !== request.id">{{ request.amount | currency:'$' }}</p>
+					</ion-item> -->
+
 						<ion-select *ngIf="editingId === request.id" [(ngModel)]="editableRequest.payment_method"
 							interface="popover">
 							<ion-select-option value="efectivo">Efectivo</ion-select-option>
@@ -92,8 +109,10 @@
 						<ion-button fill="clear" color="danger" class="botones_solicitud" (click)="confirmDelete(request)">Eliminar</ion-button>
 					</ng-container>
 					<ng-container *ngIf="editingId === request.id">
+
 						<ion-button fill="solid" color="success" class="botones_solicitud" (click)="saveChanges()">Guardar</ion-button>
 						<ion-button fill="outline" color="medium" class="botones_solicitud" (click)="cancelEditing()">Cancelar</ion-button>
+
 					</ng-container>
 				</div>
 			</div>
