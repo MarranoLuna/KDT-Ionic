@@ -78,3 +78,22 @@ margin: 20px auto;
 max-width: 300px; 
 font-weight: bold;
 }
+
+.error-message {
+  /* 1. Ponerlos en rojo */
+  color: var(--ion-color-danger); /* Usa el color rojo estándar de Ionic */
+
+  /* 2. Ponerlos más chicos */
+  font-size: 0.9em; /* Un 10% más chico que el texto normal */
+  
+  /* 3. Centrar los textos */
+  text-align: center;
+  
+  /* Ajustes para que el centrado funcione bien */
+  width: 100%;
+  display: block; /* Asegura que ocupe toda la línea */
+  
+  /* Opcional: añade espacio para que no quede pegado a la caja */
+  margin-top: 4px; 
+  margin-bottom: 12px; 
+}

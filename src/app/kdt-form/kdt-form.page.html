@@ -10,53 +10,44 @@
 
 <ion-content >
 
-  <div class="intro-section">
+<form #kdtForm="ngForm">
+
+<div class="intro-section">
     <img src="assets/logo.png" alt="Logo KDT" class="logo">
     <p class="ion-text-wrap">
       Los datos y la documentación solicitada en este formulario son recopilados solo con el fin de garantizar la seguridad en nuestra plataforma. De parte de K.D.T nunca compartiremos datos personales a terceros.
     </p>
   </div>
 
- <ion-list [inset]="true">
-    <ion-item>
-      <ion-input
-        label="Nombre/s"
-        label-placement="stacked"
-        placeholder="Ingrese su nombre"
-        [(ngModel)]="formData.name"
-      ></ion-input>
-    </ion-item>
-    
-    
-    <ion-item>
-      <ion-input
-        label="Apellido/s"
-        label-placement="stacked"
-        placeholder="Ingrese su apellido"
-        [(ngModel)]="formData.lastName"
-      ></ion-input>
-    </ion-item>
-
     <ion-item>
       <ion-input
         label="DNI"
         label-placement="stacked"
         placeholder="Número de D.N.I"
-        type="number"
+        type="tel"
         [(ngModel)]="formData.dni"
+        name="dni" required errorText="Completa este campo"
       ></ion-input>
     </ion-item>
-  </ion-list>
- 
-  
+
+
 
 <div class="upload-box" (click)="selectFrontDni()">
   <ng-container *ngIf="!frontDniImage">
     <ion-icon name="cloud-upload-outline" color="medium"></ion-icon>
     <p>Foto del frente del D.N.I.</p>
   </ng-container>
-
   <img *ngIf="frontDniImage" [src]="frontDniImage" class="image-preview" />
+</div>
+
+<input type="hidden" 
+       [(ngModel)]="frontDniImage" 
+       name="frontDniImage" 
+       required>
+
+<div *ngIf="kdtForm.controls['frontDniImage']?.invalid && kdtForm.controls['frontDniImage']?.touched" 
+     class="error-message">
+  La foto del frente es obligatoria
 </div>
 
 
@@ -65,8 +56,17 @@
     <ion-icon name="cloud-upload-outline" color="medium"></ion-icon>
     <p>Foto del dorso del D.N.I.</p>
   </ng-container>
-
   <img *ngIf="backDniImage" [src]="backDniImage" class="image-preview" />
+</div>
+
+<input type="hidden" 
+       [(ngModel)]="backDniImage" 
+       name="backDniImage" 
+       required>
+
+<div *ngIf="kdtForm.controls['backDniImage']?.invalid && kdtForm.controls['backDniImage']?.touched" 
+     class="error-message">
+  La foto del dorso es obligatoria
 </div>
 
 
@@ -76,7 +76,14 @@
     del servicio.
   </p>
 
-<ion-button class="boton" color="warning" expand="block" routerLink="/kdt-form2" (click)="submitForm()"> Siguiente</ion-button>
+<ion-button class="boton" color="warning" expand="block" (click)="submitForm()" type="button">
+  Siguiente
+</ion-button>
+
+
+</form>
+
+  
 
 </ion-content>
 
