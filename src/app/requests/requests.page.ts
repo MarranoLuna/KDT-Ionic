@@ -34,7 +34,6 @@ export class RequestsPage implements OnInit {
 		private global: Global, // para usar funciones globales como: this.Global.presentToast('Mensaje', 'success');
 		private http: HttpClient,
 		private loadingController: LoadingController,
-		private toastCtrl: ToastController,
 		private alertCtrl: AlertController,
 		private ngZone: NgZone,
 	) { }
@@ -42,25 +41,19 @@ export class RequestsPage implements OnInit {
 	async ngOnInit() { 
 	}
 
-	async ionViewWillEnter() {
-		console.log("entra aca");
+	async ionViewWillEnter() { /// ejcuta antes de entrar a la view
+		this.global.verifyLogin(); // Verifica si el usuario está logueado
 		this.loadRequests();
 	}
 
 	async loadRequests() {
 		const loading = await this.global.presentLoading('Cargando solicitudes...');
-		setTimeout(() => { loading.dismiss();}, 1000); // por las dudas si no se cierra solo en la logica
-		const { value: token } = await Preferences.get({ key: 'authToken' });
-		if (!token) {
-			loading.dismiss();
-			this.global.presentToast('Error de autenticación.', 'danger');
-			return;
-		}
-		const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+		setTimeout(() => { loading.dismiss();}, 2000); // por las dudas si no se cierra solo en la logica
+		this.global.verifyLogin(); // Verifica si el usuario está logueado
 
-		this.http.get<any[]>(`${this.apiUrl}/requests`, { headers, withCredentials: true }).subscribe({
+		(await this.API.getRequests()).subscribe({
 			next: async (data) => { // <-- Se convierte la función en async
-
+				/*
 				// --- INICIO DE LA CORRECCIÓN ---
 				// Recorremos cada solicitud recibida para buscar su monto guardado
 				for (const request of data) {
@@ -69,18 +62,18 @@ export class RequestsPage implements OnInit {
 					request.amount = value ? parseFloat(value) : null;
 				}
 				// --- FIN DE LA CORRECCIÓN ---
-
+				*/
 				this.requests = data;
-				//this.isLoading = false;
+				loading.dismiss();
 			},
 			error: (err) => {
 				console.error('Error al cargar solicitudes', err);
-				//this.isLoading = false;
-				this.global.presentToast('Error al cargar las solicitudes.', 'danger');
+				loading.dismiss();
+				this.global.presentToast('Error al cargar las solicitudes. Reintenta en unos minutos', 'danger');
 			}
 		});
-		///loading.dismiss();
 	}
+	
 	toggleDetail(id: number) {
 		this.expandedId = this.expandedId === id ? null : id;
 		if (this.editingId) {
@@ -235,11 +228,7 @@ export class RequestsPage implements OnInit {
 
 	async deleteRequest(id: number) {
 
-		const loading = await this.loadingController.create({ message: 'Eliminando...' });
-
-		await loading.present();
-
-
+		const loading = await this.global.presentLoading('Eliminando solicitud...');
 
 		const { value: token } = await Preferences.get({ key: 'authToken' });
 

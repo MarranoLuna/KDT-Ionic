@@ -1,31 +1,93 @@
-.botones-container {
-  display: flex;
-  justify-content: flex-end; 
-  gap: 8px; 
-  padding-top: 10px;
-}
-ion-button.botonAction {
-  width: 45%;               
-  --height: 30px;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  max-width: 200px;
-  font-size: 15px; 
-
-}
-
-.detalle-container {
-  margin-top: 10px;
-  padding: 10px;
-  background: #f9f9f9;
-  border-radius: 10px;
-}
-
 
 .ver-mas {
   cursor: pointer;
   text-decoration: underline;
   font-weight: bold;
   margin-left: auto; /* lo manda a la derecha */
+}
+
+ion-card{
+  padding:1rem;
+  margin:0;
+  border-radius: 0.5rem;
+}
+ion-card-header {
+  padding:0;
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+ion-card-title{
+  font-size: 1rem;
+  font-weight: 550;
+  max-width: 60%;
+}
+ion-card-subtitle {
+  color:grey;
+  font-size: 1rem;
+  font-weight: 550;
+  margin:0;
+  max-width: 40%;
+}
+ion-card-content{
+  padding: 0;
+}
+.ver_detalles{
+  font-size: 1.2rem;
+  margin:0;
+  padding:0;
+}
+.request_title{
+  font-size: 1.3rem;
+  color: black;
+  font-weight: 600;
+}
+
+.detalle {
+  margin: 0;
+  padding: 0;
+  
+}
+
+.detalle ion-list{
+  margin:0 !important;
+  padding:0;
+}
+.detalle ion-item{
+  padding: 0 !important;
+  height: fit-content;
+  margin-bottom: 0.8rem !important;
+}
+.detalle ion-label{
+  margin:0;
+  font-size: 1.4rem !important;
+}
+.detalle p{
+  font-size: 1.2rem;
+  //border:1px solid black;
+  width: 100%;
+  margin-top: 0.2rem;
+}
+
+ion-textarea{
+  margin-top: 0.5rem;
+  border: 1px solid grey;
+  font-size: 1.3rem !important;
+  width: 100%;
+  padding:0 !important;
+  padding-inline: 0.5rem !important;
+}
+
+.botones-container {
+  display: flex;
+  justify-content: center; 
+  gap: 1rem; 
+  padding-top: 1rem;
+}
+
+.botones_solicitud{
+  font-size: 1.2rem;
+  border: 1px solid grey;
+  border-radius: 0.5rem;
 }

@@ -23,58 +23,58 @@
 	<ion-card *ngFor="let request of requests">
 		<ion-card-header>
 			<ion-card-title>Solicitud #{{ request.id }}</ion-card-title>
-			<ion-card-subtitle color="success" class="ion-text-end">{{ request.status?.name }}</ion-card-subtitle>
+			<ion-card-subtitle class="ion-text-end" color="">{{request.status?.name}}</ion-card-subtitle>
 		</ion-card-header>
 
 		<ion-card-content>
-			<p>{{ request.description | slice:0:40 }}...</p>
-			<div class="ion-text-end" style="margin-top: 5px;">
+			<p class="request_title">{{request.title}}</p>
+			<div class="ver_detalles ion-text-end" style="margin-top: 0.2rem;">
 				<a (click)="toggleDetail(request.id)">
 					{{ expandedId === request.id ? 'Ocultar' : 'Ver detalles' }}
 				</a>
 			</div>
 
 			<div *ngIf="expandedId === request.id" class="detalle">
-				<ion-list lines="none">
-
+				<ion-list >
 					<ion-item>
-						<ion-label position="stacked"><strong>Descripción:</strong></ion-label>
+						<ion-label position="stacked">Descripción:</ion-label>
 						<ion-textarea *ngIf="editingId === request.id" [(ngModel)]="editableRequest.description"
 							autoGrow></ion-textarea>
 						<p *ngIf="editingId !== request.id">{{ request.description }}</p>
 					</ion-item>
 
 					<ion-item>
-						<ion-label position="stacked"><strong>Origen:</strong></ion-label>
+						<ion-label position="stacked">Origen:</ion-label>
 						<ion-input *ngIf="editingId === request.id" #editingOriginInput
 							[(ngModel)]="editableRequest.origin_address.address"></ion-input>
 						<p *ngIf="editingId !== request.id">{{ request.origin_address?.address }}</p>
 					</ion-item>
 
 					<ion-item>
-						<ion-label position="stacked"><strong>Destino:</strong></ion-label>
+						<ion-label position="stacked">Destino:</ion-label>
 						<ion-input *ngIf="editingId === request.id" #editingDestinationInput
 							[(ngModel)]="editableRequest.destination_address.address"></ion-input>
 						<p *ngIf="editingId !== request.id">{{ request.destination_address?.address }}</p>
 					</ion-item>
+					<!--
+						<ion-item>
+							<ion-label position="stacked">Parada (Opcional):</ion-label>
+							<ion-input *ngIf="editingId === request.id" #editingStopInput
+								[(ngModel)]="editableRequest.address.address"
+								placeholder="Buscar dirección de parada"></ion-input>
+							<p *ngIf="editingId !== request.id">{{ request.address?.address }}</p>
+						</ion-item>
+						
+						<ion-item>
+							<ion-label position="stacked"><strong>Monto que necesita el cadete:</strong></ion-label>
+							<ion-input *ngIf="editingId === request.id" [(ngModel)]="editableRequest.amount" type="number"
+								placeholder="Ingrese el monto (opcional)"></ion-input>
+							<p *ngIf="editingId !== request.id">{{ request.amount | currency:'$' }}</p>
+						</ion-item>
+					-->
 
 					<ion-item>
-						<ion-label position="stacked"><strong>Parada (Opcional):</strong></ion-label>
-						<ion-input *ngIf="editingId === request.id" #editingStopInput
-							[(ngModel)]="editableRequest.address.address"
-							placeholder="Buscar dirección de parada"></ion-input>
-						<p *ngIf="editingId !== request.id">{{ request.address?.address }}</p>
-					</ion-item>
-
-					<ion-item>
-						<ion-label position="stacked"><strong>Monto que necesita el cadete:</strong></ion-label>
-						<ion-input *ngIf="editingId === request.id" [(ngModel)]="editableRequest.amount" type="number"
-							placeholder="Ingrese el monto (opcional)"></ion-input>
-						<p *ngIf="editingId !== request.id">{{ request.amount | currency:'$' }}</p>
-					</ion-item>
-
-					<ion-item>
-						<ion-label position="stacked"><strong>Método de pago:</strong></ion-label>
+						<ion-label position="stacked">Método de pago:</ion-label>
 						<ion-select *ngIf="editingId === request.id" [(ngModel)]="editableRequest.payment_method"
 							interface="popover">
 							<ion-select-option value="efectivo">Efectivo</ion-select-option>
@@ -88,12 +88,12 @@
 
 				<div class="botones-container">
 					<ng-container *ngIf="editingId !== request.id">
-						<ion-button fill="clear" color="primary" (click)="startEditing(request)">Editar</ion-button>
-						<ion-button fill="clear" color="danger" (click)="confirmDelete(request)">Eliminar</ion-button>
+						<ion-button fill="clear" color="primary" class="botones_solicitud" (click)="startEditing(request)">Editar</ion-button>
+						<ion-button fill="clear" color="danger" class="botones_solicitud" (click)="confirmDelete(request)">Eliminar</ion-button>
 					</ng-container>
 					<ng-container *ngIf="editingId === request.id">
-						<ion-button fill="solid" color="success" (click)="saveChanges()">Guardar</ion-button>
-						<ion-button fill="outline" color="medium" (click)="cancelEditing()">Cancelar</ion-button>
+						<ion-button fill="solid" color="success" class="botones_solicitud" (click)="saveChanges()">Guardar</ion-button>
+						<ion-button fill="outline" color="medium" class="botones_solicitud" (click)="cancelEditing()">Cancelar</ion-button>
 					</ng-container>
 				</div>
 			</div>

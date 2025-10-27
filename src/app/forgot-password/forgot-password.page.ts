@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { LoadingController } from '@ionic/angular';
-import { UserService } from '../services/user';
+import { Global } from '../services/global';
 
 @Component({
   selector: 'app-forgot-password',
@@ -15,7 +15,7 @@ import { UserService } from '../services/user';
 export class ForgotPasswordPage implements OnInit {
 
   constructor(
-    private userService: UserService,
+    private global: Global,
     private loadingCtrl: LoadingController,
   ) { }
 
@@ -24,7 +24,7 @@ export class ForgotPasswordPage implements OnInit {
 			spinner: 'crescent'
 		});
 		await loading.present();
-		await this.userService.verifyLogin().then(() => loading.dismiss());
+		await this.global.verifyLogin().then(() => loading.dismiss());
   }
 
 }
