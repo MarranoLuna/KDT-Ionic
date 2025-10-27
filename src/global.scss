@@ -43,10 +43,12 @@ ion-title {
 
 ion-list{
   border-radius: 10px !important;
+  padding: 0;
 }
 
 ion-item {
-  margin: 0.2rem !important
+  margin: 0.2rem !important;
+  padding:0;
 }
 
 ion-toggle {
@@ -62,6 +64,9 @@ ion-label {
   font-size: 1.2rem !important;
   margin-left: 1rem;
   font-weight: 600;
+}
+ion-select{
+	font-size: 1.4rem;
 }
 
 ion-content {

@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, LoadingController, ToastController } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-import { UserService } from '../services/user'; 
+import { UserService } from '../services/user';
+import { Global } from '../services/global';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Preferences } from '@capacitor/preferences';
@@ -33,10 +34,9 @@ export class LoginPage {
         private router: Router,
         private loadingCtrl: LoadingController,
         private toastCtrl: ToastController,
-    
+        private global: Global
     ) {
-        
-        this.userService.verifyLogin();
+        this.global.verifyLogin(); // Verifica si el usuario inicio sesión y se guardó un token
     }
 
 

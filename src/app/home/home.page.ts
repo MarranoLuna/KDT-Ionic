@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from 'src/app/services/user';
+import { Global } from 'src/app/services/global';
 import { OnInit } from '@angular/core';
 import { IonMenuButton,IonAvatar,IonContent,IonGrid,IonRow,IonCol,IonCard,} from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
@@ -22,7 +23,8 @@ export class HomePage implements OnInit {
 	userName: string = '';
 
 	constructor(
-		private userService: UserService,
+		private userService: UserService, 
+    private global: Global,
 		private apiService: ApiService,
 		private loadingCtrl: LoadingController,
 	) {
@@ -34,7 +36,7 @@ export class HomePage implements OnInit {
     await loading.present();
 
     try {
-        await this.userService.verifyLogin();
+        await this.global.verifyLogin();
 
        
         const currentUser = await this.userService.getCurrentUser();

@@ -10,9 +10,16 @@
 
 
 <ion-content>
-	<form #requestForm="ngForm">
-
-<ion-list [inset]="true" class="address-list">
+	<ion-list [inset]="true">
+		<ion-item>
+			<ion-label position="stacked" class="new_title">	
+				Título *
+			</ion-label>
+			<ion-input #titleInput placeholder="Escribe una breve descripción" [(ngModel)]="formData.title" name="title">
+			</ion-input>
+		</ion-item>
+	</ion-list>
+	<ion-list [inset]="true" class="address-list">
 
 		<ion-item>
 			<ion-label position="stacked">	

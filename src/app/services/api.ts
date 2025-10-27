@@ -95,6 +95,18 @@ export class ApiService {
 		return this.http.put<any>(`http://localhost:8000/api/requests/${request.id}`, request);
 	}
 
+
+	///// SOLICITUDES -  REQUESTS----------------------------------------------------------------------------
+	async getRequests() {
+		const { value: token } = await Preferences.get({ key: 'authToken' }); //// obtiene el token de sesión
+		const headers = new HttpHeaders({  /// acá ingresamos el token en el header
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${token}`
+		 });
+		return this.http.get<any>(`${this.apiUrl}/requests`, { headers, withCredentials: true }); /// enviamos los datos y devolvemos la respuesta. Hay que ver que los datos estén bien antes de llamar a esta función!
+	}
+
+
 	/// DATOS DE USUARIO --------------------------------------------------------------------------------------
 	getUserData(userId: number): Observable<UserData> {
 		return this.http.get<UserData>(`${this.apiUrl}/users/${userId}`);
@@ -148,9 +160,6 @@ export class ApiService {
 	getBicycleBrands(): Observable<Brand[]> {
 		return this.http.get<Brand[]>(`${this.apiUrl}/bicycle-brands`);
 	}
-
-
-
 
 
 }

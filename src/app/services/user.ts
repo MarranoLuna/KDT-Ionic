@@ -42,6 +42,9 @@ export class UserService {
     }
 
     // Verifica si el usuario está logueado y redirige si no lo está
+    /*
+    
+    */
     async verifyLogin(): Promise<void> {
         const { value } = await Preferences.get({ key: 'authToken' });
         if (!value) {
