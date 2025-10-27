@@ -31,7 +31,7 @@
 			[(ngModel)]="formData.origin_address" 
 			name="origin_address"
 			required errorText="Completa este campo"
-			(ionInput)="onAddressInput('origin')">
+			>
 			</ion-input>
 		</ion-item>
 		<ion-note color="danger" *ngIf="originMissingNumber" class="ion-padding-start">
@@ -127,7 +127,4 @@
 
 	<ion-button class="boton" color="warning" expand="block" (click)="onSubmit()" type="button"> Solicitar </ion-button>
 
-		
-	</form>
-	
 </ion-content>
