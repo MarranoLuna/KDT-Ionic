@@ -173,18 +173,17 @@ export class NewRequestsPage implements OnInit {
 		this.formData[`${fieldType}_lat`] = null;
 		this.formData[`${fieldType}_lng`] = null;
 
-		// También reseteamos tus errores personalizados
 		if (fieldType === 'origin') this.originMissingNumber = false;
 		if (fieldType === 'destination') this.destinationMissingNumber = false;
 	}
 
-	async onSubmit() { /// Para enviar los datos.
+	async onSubmit() { 
 		if (this.myForm.invalid) {
     
         this.myForm.control.markAllAsTouched();
 		return;
     }
-	
+
 		if (!this.formData.origin_lat || !this.formData.destination_lat) {
 		this.Global.presentToast('Por favor, selecciona una dirección válida de la lista de sugerencias.', 'danger');
 		return;

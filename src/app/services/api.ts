@@ -51,6 +51,31 @@ export class ApiService {
 		return this.http.post(`${this.apiUrl}/register`, userData, { headers });
 	}
 
+	
+	registerCourier(data: any): Observable<any> {
+    // 1. Convierte la promesa de Preferences (obtener token) en un Observable
+    return from(Preferences.get({ key: 'authToken' })).pipe(
+      
+      // 2. Usa 'switchMap' para tomar el token y "cambiar" a una llamada HTTP
+      switchMap(tokenData => {
+        
+        if (!tokenData.value) {
+          // Si no hay token, lanza un error
+          throw new Error('Token de autenticación no encontrado.');
+        }
+
+        // 3. Crea los headers con el token
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${tokenData.value}`,
+          'Accept': 'application/json'
+        });
+
+        // 4. Llama a la ruta de tu backend
+        return this.http.post(`${this.apiUrl}/courier/register`, data, { headers });
+      })
+    );
+  }
+
 	///// FUNCIONES DE NEW REQUEST----------------------------------------------------------------------------
 
 	async createRequest(data: any) {
