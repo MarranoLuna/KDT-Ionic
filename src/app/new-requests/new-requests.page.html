@@ -7,8 +7,6 @@
 	</ion-toolbar>
 </ion-header>
 
-
-
 <ion-content>
 	<ion-list [inset]="true">
 		<ion-item>
@@ -25,13 +23,7 @@
 			<ion-label position="stacked">	
 				Origen *
 			</ion-label>
-			<ion-input 
-			#origenInput 
-			placeholder="Escribe la dirección completa" 
-			[(ngModel)]="formData.origin_address" 
-			name="origin_address"
-			required errorText="Completa este campo"
-			>
+			<ion-input #origenInput placeholder="Escribe la dirección completa" [(ngModel)]="formData.origin_address" name="origin_address">
 			</ion-input>
 		</ion-item>
 		<ion-note color="danger" *ngIf="originMissingNumber" class="ion-padding-start">
@@ -43,13 +35,7 @@
 			<ion-label position="stacked">	
 				Destino *
 			</ion-label>
-			<ion-input 
-			#destinoInput 
-			placeholder="Escribe la dirección completa" 
-			[(ngModel)]="formData.destination_address" 
-			name="destination_address"
-			required errorText="Completa este campo"
-			(ionInput)="onAddressInput('destination')">
+			<ion-input #destinoInput placeholder="Escribe la dirección completa" [(ngModel)]="formData.destination_address" name="destination_address">
 			</ion-input>
 		</ion-item>
 		<ion-note color="danger" *ngIf="destinationMissingNumber" class="ion-padding-start">
@@ -85,7 +71,7 @@
 				Recuerda ingresar todos los detalles necesarios para que el cadete entienda tu solititud.
 			</ion-note>
 			<ion-textarea class="description" [(ngModel)]="formData.description" 
-				rows="5" name="description" required errorText="Completa este campo">
+				rows="5">
 			</ion-textarea>
 			
 		</ion-item>
@@ -115,8 +101,7 @@
 	-->
 	<ion-list [inset]="true">
 		<ion-item>
-			<ion-select placeholder="Seleccionar..." interface="popover" [(ngModel)]="formData.payment_method"
-			name="payment_method" required errorText="Selecciona un método de pago">
+			<ion-select placeholder="Seleccionar..." interface="popover" [(ngModel)]="formData.payment_method">
 				<ion-label slot="label">Método de pago *</ion-label>
 				<ion-select-option value="efectivo">Efectivo</ion-select-option>
 				<ion-select-option value="mercadoPago">Mercado Pago</ion-select-option>
@@ -125,6 +110,6 @@
 		</ion-item>
 	</ion-list>
 
-	<ion-button class="boton" color="warning" expand="block" (click)="onSubmit()" type="button"> Solicitar </ion-button>
+	<ion-button class="boton" color="warning" expand="block" (click)="onSubmit()"> Solicitar </ion-button>
 
 </ion-content>

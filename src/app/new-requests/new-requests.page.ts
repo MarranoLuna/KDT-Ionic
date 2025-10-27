@@ -2,9 +2,7 @@ import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpErrorResponse} from '@angular/common/http';
 import { IonicModule, IonInput, NavController, LoadingController } from '@ionic/angular';
-import { Preferences } from '@capacitor/preferences';
 import { ApiService } from '../services/api'; //// necesario para usar la api
 import { Global } from '../services/global';
 
@@ -175,34 +173,11 @@ export class NewRequestsPage implements OnInit {
 			this.Global.presentToast('Por favor, completa los campos obligatorios.', 'danger');
 			return;
 		}
-
-  /*
-	toggleDinero(event: any) {
-		this.mostrarCantidadDinero = event.detail.checked;
-	}
-
-	onAddressInput(fieldType: 'origin' | 'destination' | 'stop') {
-
-		this.formData[`${fieldType}_lat`] = null;
-		this.formData[`${fieldType}_lng`] = null;
-
-		if (fieldType === 'origin') this.originMissingNumber = false;
-		if (fieldType === 'destination') this.destinationMissingNumber = false;
-	}
-
-	async onSubmit() { 
-		if (this.myForm.invalid) {
-    
-        this.myForm.control.markAllAsTouched();
-		return;
-    }
-
-    */
 	
 		if (!this.formData.origin_lat || !this.formData.destination_lat) {
-		this.Global.presentToast('Por favor, selecciona una dirección válida de la lista de sugerencias.', 'danger');
-		return;
-	}
+			this.Global.presentToast('Por favor, selecciona una dirección válida de la lista de sugerencias.', 'danger');
+			return;
+		}
 
 		const loading = await this.loadingController.create({ message: 'Creando solicitud...' });
 		await loading.present();
@@ -214,6 +189,18 @@ export class NewRequestsPage implements OnInit {
 				await loading.dismiss();
 				this.navController.navigateRoot('/request-sent');
 			},
+		
 		});
+
+	}
+
+	onAddressInput(fieldType: 'origin' | 'destination' | 'stop') {
+
+		this.formData[`${fieldType}_lat`] = null;
+		this.formData[`${fieldType}_lng`] = null;
+
+		if (fieldType === 'origin') this.originMissingNumber = false;
+		if (fieldType === 'destination') this.destinationMissingNumber = false;
 	}
 }
+
