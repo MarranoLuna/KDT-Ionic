@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular'; 
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
-import { Global } from '../services/global';
+import { Preferences } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-index',
@@ -24,11 +24,15 @@ export class IndexPage {
 
   constructor(
     private router: Router,
-    private global: Global
   ) {
+    this.verifyLogin();
+  }
 
-    this.global.verifyLogin();//Verifica si el usuario inicio sesión y se guardó un token
-
+  private async verifyLogin(): Promise<void> {
+    const { value } = await Preferences.get({ key: 'authToken' });
+    if (value) {
+      this.router.navigate(['/home']);
+    }
   }
 
 }
