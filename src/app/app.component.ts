@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular'; 
-import { MenuComponent } from './menu/menu.component';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +8,6 @@ import { MenuComponent } from './menu/menu.component';
   standalone: true,
   imports: [
     IonicModule,    
-    MenuComponent,
-    
   ]
 })
 export class AppComponent {
