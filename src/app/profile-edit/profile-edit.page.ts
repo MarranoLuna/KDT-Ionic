@@ -7,7 +7,6 @@ import {
   IonToolbar, 
   IonTitle, 
   IonButtons, 
-  IonMenuButton, 
   IonAvatar,
   IonContent, 
   IonBackButton,
@@ -32,7 +31,7 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./profile-edit.page.scss'],
   standalone: true,
   imports: [
-    IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton, IonAvatar,
+    IonHeader, IonToolbar, IonTitle, IonButtons,  IonAvatar,
 
     IonContent, 
     RouterLink, RouterLink, IonContent,  IonToolbar,  IonHeader,  IonButtons, IonTitle, 

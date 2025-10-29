@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, from, throwError } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 import { Router } from '@angular/router';
 import { LoginResponse } from '../interfaces/interfaces';
-import { from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Brand } from '../interfaces/interfaces';
 
@@ -24,13 +23,34 @@ export interface UserData {
 
 export class ApiService {
 
-	private apiUrl = 'http://localhost:8000/api';
+	public apiUrl = 'http://localhost:8000/api';
 
 
 	constructor(
 		private http: HttpClient,
 		//private router: Router
 	) { }
+
+
+	private getToken(): Observable<string | null> {
+        return from(Preferences.get({ key: 'authToken' })).pipe(
+            switchMap(token => {
+                if (!token || !token.value) {
+                    return throwError(() => new Error('Token de autenticación no encontrado'));
+                }
+                return from([token.value]); 
+            })
+        );
+    }
+
+    // --- Helper para crear cabeceras con token ---
+    private createAuthHeaders(token: string): HttpHeaders {
+        return new HttpHeaders({
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        });
+    }
 
 	/////// LOGIN ----------------------------------------------------------------------------------------------------
 
@@ -160,6 +180,25 @@ export class ApiService {
 	getBicycleBrands(): Observable<Brand[]> {
 		return this.http.get<Brand[]>(`${this.apiUrl}/bicycle-brands`);
 	}
+
+	getRequestOffers(requestId: number): Observable<any[]> {
+        return this.getToken().pipe(
+            switchMap(token => {
+                const headers = this.createAuthHeaders(token as string);
+                return this.http.get<any[]>(`${this.apiUrl}/requests/${requestId}/offers`, { headers, withCredentials: true });
+            })
+        );
+    }
+
+    // AÑADIDO: Aceptar una oferta
+    acceptOffer(requestId: number, offerId: number): Observable<any> {
+        return this.getToken().pipe(
+            switchMap(token => {
+                const headers = this.createAuthHeaders(token as string);
+                return this.http.post(`${this.apiUrl}/requests/${requestId}/offers/${offerId}/accept`, {}, { headers, withCredentials: true });
+            })
+        );
+    }
 
 
 }
