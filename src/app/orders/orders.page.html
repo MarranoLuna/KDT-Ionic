@@ -7,15 +7,37 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content >
- <ion-list [inset]="true">
-  <ion-note color="medium" class="custom-note">No tienes Pedidos</ion-note>
-</ion-list>
 
-<div class="container">
+<ion-content class="ion-padding">
+
+  <div *ngIf="isLoading" class="ion-text-center">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando pedidos...</p>
+  </div>
+  <div *ngIf="!isLoading && orders.length === 0" class="ion-text-center">
+    <p>No tienes pedidos activos.</p>
+    <div class="container">
         <img src="assets/orders.png" />
       </div>
+  </div>
 
-
+  <ion-card *ngFor="let order of orders" class="request-card">
+    <ion-card-header>
+      <ion-card-title>Pedido #{{ order.id }} (Solicitud #{{ order.offer.request_id }})</ion-card-title>
+      <ion-card-subtitle class="ion-text-end" color="success">
+        {{ order.status?.name || 'En Proceso' }}
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-label>
+          <p><strong>Origen:</strong> {{ order.offer.request.origin_address?.address }}</p>
+          <p><strong>Destino:</strong> {{ order.offer.request.destination_address?.address }}</p>
+          <p><strong>KDT Asignado:</strong> {{ order.offer.courier?.firstname }}</p>
+          <p><strong>Precio Final:</strong> {{ order.offer.price | currency:'$' }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

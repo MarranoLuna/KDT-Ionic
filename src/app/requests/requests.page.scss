@@ -89,3 +89,68 @@ ion-textarea{
   border: 1px solid grey;
   border-radius: 0.5rem;
 }
+
+.ver-ofertas-btn {
+  width: 100%; // Ocupa todo el ancho
+  height: 48px;
+  --border-radius: 12px;
+  --border-width: 2px;
+  font-weight: 600;
+  --color: var(--ion-color-secondary); // Color del borde y texto
+}
+
+.request-card {
+  margin-bottom: 16px; // Añade espacio entre las tarjetas
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); // Sombra suave
+}
+.boton-aceptar {
+  margin-top: 10px; // Añade espacio sobre el botón
+  --padding-start: 16px; // Ajusta el padding del botón
+  --padding-end: 16px;
+}
+
+// Contenedor para cada oferta
+.offer-item {
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+  --padding-start: 0;
+  
+  // Añade un borde inferior para separar múltiples ofertas
+  border-bottom: 1px solid var(--ion-color-step-200, #e0e0e0);
+  
+  // Quita el borde de la última oferta de la lista
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+// Estilo para el texto (nombre y precio)
+.offer-value {
+  font-size: 1em;
+  color: var(--ion-text-color);
+  padding-left: 0;
+  margin-left: 5;
+  margin-top: 4px; // Espacio desde el label
+  margin-bottom: 8px; // Espacio antes del siguiente label
+}
+
+// Añade espacio sobre la etiqueta de "Precio"
+.price-label {
+  margin-top: 12px;
+}
+
+
+
+.boton {
+   margin-top: 16px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+.subtle-divider {
+  border-bottom: 1px solid var(--ion-color-step-200, #e0e0e0);
+  margin-top: 16px;
+  margin-bottom: 8px;
+}

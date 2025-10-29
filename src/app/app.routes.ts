@@ -111,7 +111,21 @@ export const routes: Routes = [
     canActivate: [authGuard, kdtGuard] // Protegida para KDTs logueados
   },
 
+{
+    path: 'offer-list/:requestId', 
+    loadComponent: () => import('./offer-list/offer-list.page').then( m => m.OfferListPage),
+    canActivate: [authGuard, userGuard] // Protegida para usuarios
+  },
+  {
+    path: 'offer-list',
+    loadComponent: () => import('./offer-list/offer-list.page').then( m => m.OfferListPage)
+  },
 
+  {
+  path: 'orders',
+  loadComponent: () => import('./orders/orders.page').then( m => m.OrdersPage),
+  canActivate: [authGuard, userGuard] // Protegida para usuarios
+},
 ];
 
 

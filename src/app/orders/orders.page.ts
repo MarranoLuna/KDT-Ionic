@@ -1,44 +1,57 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { 
-  IonContent, IonHeader, IonTitle, IonBackButton,IonList, 
- IonToolbar, IonButtons, LoadingController,IonNote
-} from '@ionic/angular/standalone';
+import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router'; // Importar RouterModule
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Preferences } from '@capacitor/preferences';
+import { Global } from '../services/global';
 import { ApiService } from '../services/api';
-
-import { MenuComponent } from '../menu/menu.component';
-import { UserService } from '../services/user';
-  //import { RouterLink } from '@angular/router';
-  
- 
-
 
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.page.html',
   styleUrls: ['./orders.page.scss'],
   standalone: true,
-  imports: [
-    IonContent, IonHeader, IonTitle,IonBackButton,IonList, 
-    IonToolbar,CommonModule, FormsModule, IonButtons,  IonNote]
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule] // Añadir RouterModule
 })
 export class OrdersPage implements OnInit {
-  
+
+  orders: any[] = [];
+  isLoading = true;
+  private apiUrl = this.API.apiUrl; // Usar la URL del servicio
+
   constructor(
-    private userService: UserService,
-    private loadingCtrl: LoadingController,
+    private http: HttpClient, // Usaremos http directo si no tienes getOrders en ApiService
+    private global: Global,
+    private API: ApiService
   ) { }
 
-  async ngOnInit() {
-    const loading = await this.loadingCtrl.create({
-      spinner: 'crescent'
-    });
-    await loading.present();
-    await this.userService.verifyLogin().then(() => loading.dismiss());
+  ngOnInit() {}
+
+  async ionViewWillEnter() {
+    this.loadOrders();
   }
-  
 
-  
+  async loadOrders() {
+    this.isLoading = true;
+    const loading = await this.global.presentLoading('Cargando pedidos...');
+    const { value: token } = await Preferences.get({ key: 'authToken' });
+    if (!token) { /* ... manejo de error ... */ return; }
+    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    
+    this.http.get<any[]>(`${this.apiUrl}/orders`, { headers, withCredentials: true }).subscribe({
+      next: (data) => {
+        this.orders = data;
+        this.isLoading = false;
+        loading.dismiss();
+      },
+      error: (err) => {
+        console.error('Error al cargar pedidos', err);
+        this.isLoading = false;
+        loading.dismiss();
+        this.global.presentToast('Error al cargar los pedidos.', 'danger');
+      }
+    });
+  }
 }
-
