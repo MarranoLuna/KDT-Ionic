@@ -28,7 +28,7 @@ export class HomePage implements OnInit {
 		private apiService: ApiService,
 		private loadingCtrl: LoadingController,
 	) {
-    	this.mostrarUSer();
+    	this.mostrarUser();
 	}
 
 	async ngOnInit() {
@@ -54,7 +54,7 @@ export class HomePage implements OnInit {
     }
 }
 
-	private async mostrarUSer(){
+	private async mostrarUser(){
     const { value } = await Preferences.get({ key: 'user' });
     if (value) {
       console.log('User data:', JSON.parse(value));

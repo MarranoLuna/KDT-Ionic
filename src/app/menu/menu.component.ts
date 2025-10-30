@@ -14,7 +14,7 @@ import { Preferences } from '@capacitor/preferences';
 export class MenuComponent implements OnInit {
 
   // Variable pública para guardar el rol ('user' o 'kdt')
-  public userRole: string | null = null;
+  public userRole: number | null = null;
 
   constructor(private navController: NavController) { }
 
@@ -23,14 +23,12 @@ export class MenuComponent implements OnInit {
     await this.loadUserRole();
   }
 
-  //  si el rol pudiera cambiar sin recargar la app
-  ionViewWillEnter() {
-    this.loadUserRole(); 
-  }
-
   async loadUserRole() {
-    const { value } = await Preferences.get({ key: 'userRole' });
-    this.userRole = value ? value.toLowerCase() : null;
+    const {value} = await Preferences.get({ key: 'user' });
+    if(value){
+      const user = JSON.parse(value);
+      this.userRole = user.role_id;
+    }
     console.log('Rol cargado en el menú:', this.userRole);
   }
 
