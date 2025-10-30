@@ -6,8 +6,7 @@
 	</ion-header>
 
 	<ion-content>
-		<ion-list>
-
+		<ion-list class="options">
 			<ng-container *ngIf="userRole === 1">
 				<ion-item routerLink="/home" routerDirection="root" menuClose>
 					<ion-icon name="home-outline" slot="start"></ion-icon>
@@ -58,9 +57,10 @@
 					<ion-label>Mis Vehiculos</ion-label>
 				</ion-item>
 			</ng-container>
-			<br>
-			<ion-item-divider></ion-item-divider>
 
+		</ion-list>
+		<ion-list class="obligatory_options">
+			<div class="espacio"></div>
 			<ion-item routerLink="/profile-edit" routerDirection="root" menuClose>
 				<ion-icon name="person-circle-outline" slot="start"></ion-icon>
 				<ion-label>Mi Perfil</ion-label>
@@ -69,30 +69,23 @@
 				<ion-icon name="exit-outline" slot="start"></ion-icon>
 				<ion-label>Cerrar Sesión</ion-label>
 			</ion-item>
-
 		</ion-list>
+		<ion-footer>
+			<ion-toolbar>
+				<ng-container *ngIf="userRole === 1">
+					<ion-button expand="block" color="warning" routerLink="/be-kdt" menuClose>
+						<ion-icon name="rocket-outline" slot="start"></ion-icon>
+						¡Ser cadete!
+					</ion-button>
+				</ng-container>
+				<ng-container *ngIf="userRole === 2">
+					<ion-button expand="block" color="warning" routerLink="/" menuClose>
+						<ion-icon name="swap-horizontal-outline" slot="start"></ion-icon>
+						Modo Cliente
+					</ion-button>
+				</ng-container>
+			</ion-toolbar>
+		</ion-footer>
 	</ion-content>
-
-	<ng-container *ngIf="userRole === 1">
-		<ion-footer>
-			<ion-toolbar>
-				<ion-button expand="block" color="warning" routerLink="/be-kdt" menuClose>
-					<ion-icon name="rocket-outline" slot="start"></ion-icon>
-					¡Ser cadete!
-				</ion-button>
-			</ion-toolbar>
-		</ion-footer>
-	</ng-container>
-
-	<ng-container *ngIf="userRole === 2">
-		<ion-footer>
-			<ion-toolbar>
-				<ion-button expand="block" color="warning" routerLink="/" menuClose>
-					<ion-icon name="swap-horizontal-outline" slot="start"></ion-icon>
-					Modo Cliente
-				</ion-button>
-			</ion-toolbar>
-		</ion-footer>
-	</ng-container>
-
+	
 </ion-menu>
