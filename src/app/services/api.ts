@@ -17,6 +17,11 @@ export interface UserData {
 	birthday: string;
 }
 
+export interface ToggleStatusResponse {
+  message: string;
+  new_status: boolean;
+}
+
 @Injectable({
 	providedIn: 'root'
 })
@@ -200,5 +205,21 @@ export class ApiService {
         );
     }
 
+	toggleCourierStatus(): Observable<ToggleStatusResponse> {
+    return this.getToken().pipe(
+      switchMap(token => {
+        // getToken() ya lanza un error si no lo encuentra,
+        // así que podemos asumir que 'token' existe aquí.
+        const headers = this.createAuthHeaders(token as string);
+        
+        // Hacemos la llamada POST a la ruta de Laravel
+        return this.http.post<ToggleStatusResponse>(
+          `${this.apiUrl}/courier/toggle-status`,
+          {}, // Cuerpo vacío
+          { headers }
+        );
+      })
+    );
+  }
 
 }
