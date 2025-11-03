@@ -5,7 +5,14 @@ import { IonicModule } from '@ionic/angular';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { Preferences } from '@capacitor/preferences';
 import { RouterModule } from '@angular/router';
+import { ApiService } from '../services/api';
+import { ToastController } from '@ionic/angular';
+import { HttpErrorResponse } from '@angular/common/http';
 
+export interface ToggleStatusResponse {
+  message: string;
+  new_status: boolean;
+}
 @Component({
   selector: 'app-kdt-home',
   templateUrl: './kdt-home.page.html',
@@ -17,6 +24,8 @@ export class KdtHomePage implements OnInit {
 
   userName: string = '';
   isKdtActive: boolean = true;
+  courier: any;
+  isToggling: boolean = false;
 
   // Mapa
   mapCenter: google.maps.LatLngLiteral = { lat: -33.0078, lng: -58.5244 };
@@ -30,7 +39,9 @@ export class KdtHomePage implements OnInit {
     { id: 2, position: { lat: -33.002, lng: -58.515 } },
   ];
 
-  constructor() { }
+  constructor(
+    private apiService: ApiService,
+    private toastCtrl: ToastController) { }
 
   ngOnInit() {}
 
@@ -52,10 +63,47 @@ async loadUserData() {
   }
 }
 
+toggleStatus() {
+    // 1. Previene clics múltiples si ya está cargando
+    if (this.isToggling) {
+      return; 
+    }
+    this.isToggling = true; 
 
-  toggleStatus() {
-    this.isKdtActive = !this.isKdtActive;
-    console.log('Estado KDT:', this.isKdtActive ? 'Activo' : 'Inactivo');
-    // Futuro: Llamar API para guardar estado
+    const previousState = this.isKdtActive;
+    this.isKdtActive = !this.isKdtActive; // Actualización optimista de la UI
+    console.log('Estado KDT cambiado a:', this.isKdtActive ? 'Activo' : 'Inactivo');
+
+    // 2. Llama a la función que AHORA SÍ EXISTE en ApiService
+    this.apiService.toggleCourierStatus().subscribe({
+      
+      // 3. --- ARREGLADO: Añadidos los tipos 'response' y 'err' ---
+      next: (response: ToggleStatusResponse) => { 
+        this.isKdtActive = response.new_status; // Sincroniza con el estado real del backend
+        this.isToggling = false;
+        
+        const message = response.new_status ? 'Ahora estás ACTIVO' : 'Ahora estás INACTIVO';
+        this.presentToast(message, 'success');
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error al cambiar el estado', err);
+        // 4. Revertimos el cambio si la API falla
+        this.isKdtActive = previousState; 
+        this.isToggling = false;
+        this.presentToast('Error al cambiar tu estado. Intenta de nuevo.', 'danger');
+      }
+    });
   }
+
+  // Tu función helper de Toast
+  async presentToast(message: string, color: 'success' | 'danger') {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      color: color,
+      position: 'top'
+    });
+    toast.present();
+  }
+
 }

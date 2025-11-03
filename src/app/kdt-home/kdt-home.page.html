@@ -15,11 +15,18 @@
       </div>
     </div>
 
-    <div class="status-toggle" (click)="toggleStatus()" [ngClass]="{'inactive-status': !isKdtActive}">
-      <div class="status-indicator"></div>
-      <span>{{ isKdtActive ? 'Activo' : 'Inactivo' }}</span>
-      <ion-icon name="chevron-down-outline"></ion-icon>
-    </div>
+   <div class="status-toggle" 
+     (click)="toggleStatus()" 
+     [ngClass]="{
+        'inactive-status': !isKdtActive, 
+        'toggling-status': isToggling 
+     }">
+
+  <div class="status-indicator"></div>
+  <span>{{ isKdtActive ? 'Activo' : 'Inactivo' }}</span>
+  <ion-icon name="chevron-down-outline"></ion-icon>
+
+</div>
 
     <p class="status-message">¡Hay solicitudes esperando su oferta! <BR>EN PROCESOOO</p>
 
