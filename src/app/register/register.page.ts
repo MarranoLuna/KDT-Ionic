@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, LoadingController, ToastController } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../services/api';
+import{Global} from '../services/global';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -19,7 +20,7 @@ import { Router } from '@angular/router';
     CommonModule,
     FormsModule,
     IonicModule, 
-    RouterModule
+    RouterModule,
   ]
 })
 export class RegisterPage {
@@ -41,7 +42,8 @@ export class RegisterPage {
     private apiService: ApiService,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
-    private router: Router
+    private router: Router,
+    private Global : Global,
   ) {}
 
   private async showToast(message: string, color: 'success' | 'danger') {
@@ -57,11 +59,12 @@ export class RegisterPage {
   async onRegister() {
     
 
-    if (this.registerForm.invalid) {
+    if (!this.formData.firstname || !this.formData.lastname || !this.formData.email || !this.formData.password || !this.formData.password_confirmation || !this.formData.birthday) {
+      // si algún campo está vacío muestra el toast
+      this.Global.presentToast('Por favor, completa todos los campos.', 'danger');
       // Si es inválido, marcamos todos los campos como "tocados" para mostrar los errores
       this.registerForm.control.markAllAsTouched();
-      // Y detenemos la ejecución de la función aquí
-      return; 
+      return;       // Y detenemos la ejecución de la función aquí
     }
 
     const loading = await this.loadingCtrl.create({

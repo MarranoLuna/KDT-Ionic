@@ -1,85 +1,83 @@
 .content-container {
   display: flex;
   flex-direction: column;
-  justify-content: center; 
+  justify-content: center;
   align-items: center;
   height: 100%;
   padding: 0.5rem;
 }
 
 .image-container {
-  margin-bottom: 30px;
-  
+  margin-bottom: 2.5rem;
+
   img {
     width: 35%;
     height: auto;
-    display: flex; 
-    margin: 0 auto; 
+    display: flex;
+    margin: 0 auto;
   }
 }
 
-.form-list {
-  margin: 10px auto;
+ion-list {
+  margin: 1rem auto;
   width: 90%;
   background-color: transparent;
-  
-  ion-item {
-    --padding-start: 0;
-    --inner-padding-end: 0;
-    margin: 0;
-    font-size: 15px;
-    
-    ion-label {
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-      font-weight: bold;
-      font-size: 1.5rem;
-    }
-  }
-  .icon-button {
-    --padding-start: 0;
-    --padding-end: 0;
-    display: none;
-    align-items: center;
-  }
+}
 
+ion-item {
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --background: transparent;
+  background: transparent;
+
+  ion-label {
+    margin-bottom: 1rem;
+    font-weight: bold;
+    font-size: 1.5rem !important;
+
+  }
+  ion-input{
+    background-color: #FFFFFF;
+    border-radius: 1rem;
+    border: none;
+  }
+}
+
+
+.icon-button {
+  --padding-start: 0;
+  --padding-end: 0;
+  display: none;
+  align-items: center;
 }
 
 .rememberMeItem {
-  color: #7e7e7e; 
-  margin-top: 1%; 
+  color: #484848;
+  margin-top: 1%;
   padding-left: 2%;
-  margin-bottom: 40px; 
-  width: 90%; 
+  width: 90%;
   text-align: left;
   --padding-start: 0;
-  --inner-padding-end: 0; 
+  --inner-padding-end: 0;
+  margin-bottom: 3rem !important;
 }
 
 
-.rememberMeItem ion-checkbox {
-  --size: 20px;
-  font-size: 14px; 
+ion-checkbox {
+  --size: 1.5rem;
+  font-size: 1rem;
   --checkbox-background-checked: #f1a80a;
-  width: 100%;
 }
 
-ion-item{
-  --border-width: 0 !important;
-  --border-style: none !important;
-  --box-shadow: none !important;
-}
 
 .forgot_password {
-  color: #7e7e7e; 
+  color: #7e7e7e;
   font-size: 1rem;
   margin-top: 20%;
 }
 
-.campo{
+.campo {
   background-color: #eaeaea8a;
   font-size: 1.3rem;
   padding: 0.5rem !important;
 }
-
-

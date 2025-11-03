@@ -29,7 +29,7 @@ export class RequestsPage implements OnInit {
     expandedId: number | null = null;
     editingId: number | null = null;
     editableRequest: any = {};
-    
+
     // Almacena las ofertas por ID de solicitud
     offers: { [requestId: number]: any[] } = {};
     // Controla el spinner de carga de ofertas
@@ -58,49 +58,49 @@ export class RequestsPage implements OnInit {
 
     // Carga las solicitudes del usuario
     async loadRequests() {
-    this.isLoading = true;
-    const loading = await this.global.presentLoading('Cargando solicitudes...');
+        this.isLoading = true;
+        const loading = await this.global.presentLoading('Cargando solicitudes...');
 
-    // CORRECCIÓN: Añadimos (await ...) antes de la llamada
-    (await this.API.getRequests()).subscribe({ 
-        next: async (data: any) => { 
-            for (const request of data) {
-                const { value } = await Preferences.get({ key: `request_amount_${request.id}` });
-                request.amount = value ? parseFloat(value) : null;
+        // CORRECCIÓN: Añadimos (await ...) antes de la llamada
+        (await this.API.getRequests()).subscribe({
+            next: async (data: any) => {
+                for (const request of data) {
+                    const { value } = await Preferences.get({ key: `request_amount_${request.id}` });
+                    request.amount = value ? parseFloat(value) : null;
+                }
+                this.requests = data;
+                this.isLoading = false;
+                loading.dismiss();
+            },
+            error: (err: any) => {
+                console.error('Error al cargar solicitudes', err);
+                this.isLoading = false;
+                loading.dismiss();
+                this.global.presentToast('Error al cargar las solicitudes.', 'danger');
             }
-            this.requests = data;
-            this.isLoading = false; 
-            loading.dismiss();
-        },
-        error: (err: any) => {
-            console.error('Error al cargar solicitudes', err);
-            this.isLoading = false; 
-            loading.dismiss();
-            this.global.presentToast('Error al cargar las solicitudes.', 'danger');
-        }
-    });
-}
+        });
+    }
 
     getStatusColor(statusName: string | undefined): string {
-    if (!statusName) return 'medium'; 
-    const lowerCaseStatus = statusName.toLowerCase();
+        if (!statusName) return 'medium';
+        const lowerCaseStatus = statusName.toLowerCase();
 
-    if (lowerCaseStatus.includes('pendiente')) {
-        return 'medium'; // Gris
-    } else if (lowerCaseStatus.includes('ofertada')) { // 'Con Ofertas' o 'Ofertada'
-        return 'secondary'; // Color (ej: Violeta)
-    } else if (lowerCaseStatus.includes('aceptado')) {
-        return 'success'; // Verde
-    } else {
-        return 'medium'; // Color por defecto
+        if (lowerCaseStatus.includes('pendiente')) {
+            return 'medium'; // Gris
+        } else if (lowerCaseStatus.includes('ofertada')) { // 'Con Ofertas' o 'Ofertada'
+            return 'secondary'; // Color (ej: Violeta)
+        } else if (lowerCaseStatus.includes('aceptado')) {
+            return 'success'; // Verde
+        } else {
+            return 'medium'; // Color por defecto
+        }
     }
-  }
-  
+
     // Muestra/Oculta los detalles de la solicitud y carga las ofertas
     async toggleDetail(id: number) {
         const isOpening = this.expandedId !== id;
         this.expandedId = isOpening ? id : null;
-        
+
         if (this.editingId) { this.cancelEditing(); }
 
         const request = this.requests.find(r => r.id === id);
@@ -113,7 +113,7 @@ export class RequestsPage implements OnInit {
     // Carga las ofertas para una solicitud específica
     async loadOffersForRequest(requestId: number) {
         this.loadingOffersForRequest = requestId;
-        this.API.getRequestOffers(requestId).subscribe({
+        (await this.API.getRequestOffers(requestId)).subscribe({
             next: (data: any) => {
                 this.ngZone.run(() => {
                     this.offers[requestId] = data;
@@ -178,12 +178,12 @@ export class RequestsPage implements OnInit {
 
     setupEditAutocomplete() {
         const gualeguaychuBounds = new google.maps.LatLngBounds(
-             new google.maps.LatLng(-33.033, -58.553),
-             new google.maps.LatLng(-32.988, -58.484)
+            new google.maps.LatLng(-33.033, -58.553),
+            new google.maps.LatLng(-32.988, -58.484)
         );
         const options = {
-             bounds: gualeguaychuBounds,
-             fields: ["address_components", "formatted_address", "geometry"]
+            bounds: gualeguaychuBounds,
+            fields: ["address_components", "formatted_address", "geometry"]
         };
 
         this.editingOriginInputs.first?.getInputElement().then((input: HTMLInputElement) => {
@@ -217,31 +217,31 @@ export class RequestsPage implements OnInit {
     }
 
     async saveChanges() {
-    if (this.editingId === null) {
-        this.global.presentToast('Error: No se ha seleccionado una solicitud para editar.', 'danger');
-        return; 
-    }
+        if (this.editingId === null) {
+            this.global.presentToast('Error: No se ha seleccionado una solicitud para editar.', 'danger');
+            return;
+        }
 
-    const loading = await this.global.presentLoading('Guardando...');
+        const loading = await this.global.presentLoading('Guardando...');
 
-    // CORRECCIÓN: Añadimos el 'id' al objeto dataToSend
-    const dataToSend = {
-        id: this.editingId, // <-- ID AÑADIDO AQUÍ
-        description: this.editableRequest.description,
-        payment_method: this.editableRequest.payment_method,
-        origin_address: this.editableRequest.origin_address?.address,
-        origin_lat: this.editableRequest.origin_address?.lat,
-        origin_lng: this.editableRequest.origin_address?.lng,
-        origin_components: (this.editableRequest as any).origin_components,
-        destination_address: this.editableRequest.destination_address?.address,
-        destination_lat: this.editableRequest.destination_address?.lat,
-        destination_lng: this.editableRequest.destination_address?.lng,
-        destination_components: (this.editableRequest as any).destination_components,
-        stop_address: this.editableRequest.address?.address,
-        stop_lat: this.editableRequest.address?.lat,
-        stop_lng: this.editableRequest.address?.lng,
-        stop_components: (this.editableRequest as any).stop_components,
-    };
+        // CORRECCIÓN: Añadimos el 'id' al objeto dataToSend
+        const dataToSend = {
+            id: this.editingId, // <-- ID AÑADIDO AQUÍ
+            description: this.editableRequest.description,
+            payment_method: this.editableRequest.payment_method,
+            origin_address: this.editableRequest.origin_address?.address,
+            origin_lat: this.editableRequest.origin_address?.lat,
+            origin_lng: this.editableRequest.origin_address?.lng,
+            origin_components: (this.editableRequest as any).origin_components,
+            destination_address: this.editableRequest.destination_address?.address,
+            destination_lat: this.editableRequest.destination_address?.lat,
+            destination_lng: this.editableRequest.destination_address?.lng,
+            destination_components: (this.editableRequest as any).destination_components,
+            stop_address: this.editableRequest.address?.address,
+            stop_lat: this.editableRequest.address?.lat,
+            stop_lng: this.editableRequest.address?.lng,
+            stop_components: (this.editableRequest as any).stop_components,
+        };
 
         if (this.editableRequest.amount) {
             await Preferences.set({ key: `request_amount_${this.editingId}`, value: this.editableRequest.amount.toString() });
@@ -249,24 +249,24 @@ export class RequestsPage implements OnInit {
             await Preferences.remove({ key: `request_amount_${this.editingId}` });
         }
 
-       this.API.updateRequest(dataToSend).subscribe({ 
-        next: (updatedRequest: any) => {
-            const index = this.requests.findIndex(r => r.id === this.editingId);
-            if (index !== -1) {
-                updatedRequest.amount = this.editableRequest.amount;
-                this.requests[index] = updatedRequest;
+        this.API.updateRequest(dataToSend).subscribe({
+            next: (updatedRequest: any) => {
+                const index = this.requests.findIndex(r => r.id === this.editingId);
+                if (index !== -1) {
+                    updatedRequest.amount = this.editableRequest.amount;
+                    this.requests[index] = updatedRequest;
+                }
+                loading.dismiss();
+                this.global.presentToast('Solicitud actualizada.', 'success');
+                this.cancelEditing();
+            },
+            error: (err: any) => {
+                loading.dismiss();
+                console.error('Error al actualizar:', err);
+                this.global.presentToast('No se pudo actualizar la solicitud.', 'danger');
             }
-            loading.dismiss();
-            this.global.presentToast('Solicitud actualizada.', 'success');
-            this.cancelEditing();
-        },
-        error: (err: any) => {
-            loading.dismiss();
-            console.error('Error al actualizar:', err);
-            this.global.presentToast('No se pudo actualizar la solicitud.', 'danger');
-        }
-    });
-}
+        });
+    }
 
     // --- Funciones de Eliminación ---
     async confirmDelete(request: any) {

@@ -38,24 +38,24 @@ export class ApiService {
 
 
 	private getToken(): Observable<string | null> {
-        return from(Preferences.get({ key: 'authToken' })).pipe(
-            switchMap(token => {
-                if (!token || !token.value) {
-                    return throwError(() => new Error('Token de autenticación no encontrado'));
-                }
-                return from([token.value]); 
-            })
-        );
-    }
+		return from(Preferences.get({ key: 'authToken' })).pipe(
+			switchMap(token => {
+				if (!token || !token.value) {
+					return throwError(() => new Error('Token de autenticación no encontrado'));
+				}
+				return from([token.value]);
+			})
+		);
+	}
 
-    // --- Helper para crear cabeceras con token ---
-    private createAuthHeaders(token: string): HttpHeaders {
-        return new HttpHeaders({
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        });
-    }
+	// --- Helper para crear cabeceras con token ---
+	private createAuthHeaders(token: string): HttpHeaders {
+		return new HttpHeaders({
+			'Authorization': `Bearer ${token}`,
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		});
+	}
 
 	/////// LOGIN ----------------------------------------------------------------------------------------------------
 
@@ -76,30 +76,30 @@ export class ApiService {
 		return this.http.post(`${this.apiUrl}/register`, userData, { headers });
 	}
 
-	
+
 	registerCourier(data: any): Observable<any> {
-    // 1. Convierte la promesa de Preferences (obtener token) en un Observable
-    return from(Preferences.get({ key: 'authToken' })).pipe(
-      
-      // 2. Usa 'switchMap' para tomar el token y "cambiar" a una llamada HTTP
-      switchMap(tokenData => {
-        
-        if (!tokenData.value) {
-          // Si no hay token, lanza un error
-          throw new Error('Token de autenticación no encontrado.');
-        }
+		// 1. Convierte la promesa de Preferences (obtener token) en un Observable
+		return from(Preferences.get({ key: 'authToken' })).pipe(
 
-        // 3. Crea los headers con el token
-        const headers = new HttpHeaders({
-          'Authorization': `Bearer ${tokenData.value}`,
-          'Accept': 'application/json'
-        });
+			// 2. Usa 'switchMap' para tomar el token y "cambiar" a una llamada HTTP
+			switchMap(tokenData => {
 
-        // 4. Llama a la ruta de tu backend
-        return this.http.post(`${this.apiUrl}/courier/register`, data, { headers });
-      })
-    );
-  }
+				if (!tokenData.value) {
+					// Si no hay token, lanza un error
+					throw new Error('Token de autenticación no encontrado.');
+				}
+
+				// 3. Crea los headers con el token
+				const headers = new HttpHeaders({
+					'Authorization': `Bearer ${tokenData.value}`,
+					'Accept': 'application/json'
+				});
+
+				// 4. Llama a la ruta de tu backend
+				return this.http.post(`${this.apiUrl}/courier/register`, data, { headers });
+			})
+		);
+	}
 
 	///// FUNCIONES DE NEW REQUEST----------------------------------------------------------------------------
 
@@ -108,7 +108,7 @@ export class ApiService {
 		const headers = new HttpHeaders({  /// acá ingresamos el token en el header
 			'Content-Type': 'application/json',
 			'Authorization': `Bearer ${token}`
-		 });
+		});
 		return this.http.post(`${this.apiUrl}/requests/create`, data, { headers, withCredentials: true }); /// enviamos los datos y devolvemos la respuesta. Hay que ver que los datos estén bien antes de llamar a esta función!
 	}
 
@@ -127,8 +127,17 @@ export class ApiService {
 		const headers = new HttpHeaders({  /// acá ingresamos el token en el header
 			'Content-Type': 'application/json',
 			'Authorization': `Bearer ${token}`
-		 });
+		});
 		return this.http.get<any>(`${this.apiUrl}/requests`, { headers, withCredentials: true }); /// enviamos los datos y devolvemos la respuesta. Hay que ver que los datos estén bien antes de llamar a esta función!
+	}
+
+	async getRequestOffers(requestId: number) {
+		const { value: token } = await Preferences.get({ key: 'authToken' }); //// obtiene el token de sesión
+		const headers = new HttpHeaders({  /// 
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${token}`
+		});
+		return this.http.get<any>(`${this.apiUrl}/requests/${requestId}/offers`, { headers, withCredentials: true });
 	}
 
 
@@ -186,24 +195,15 @@ export class ApiService {
 		return this.http.get<Brand[]>(`${this.apiUrl}/bicycle-brands`);
 	}
 
-	getRequestOffers(requestId: number): Observable<any[]> {
-        return this.getToken().pipe(
-            switchMap(token => {
-                const headers = this.createAuthHeaders(token as string);
-                return this.http.get<any[]>(`${this.apiUrl}/requests/${requestId}/offers`, { headers, withCredentials: true });
-            })
-        );
-    }
-
-    // AÑADIDO: Aceptar una oferta
-    acceptOffer(requestId: number, offerId: number): Observable<any> {
-        return this.getToken().pipe(
-            switchMap(token => {
-                const headers = this.createAuthHeaders(token as string);
-                return this.http.post(`${this.apiUrl}/requests/${requestId}/offers/${offerId}/accept`, {}, { headers, withCredentials: true });
-            })
-        );
-    }
+	// AÑADIDO: Aceptar una oferta
+	acceptOffer(requestId: number, offerId: number): Observable<any> {
+		return this.getToken().pipe(
+			switchMap(token => {
+				const headers = this.createAuthHeaders(token as string);
+				return this.http.post(`${this.apiUrl}/requests/${requestId}/offers/${offerId}/accept`, {}, { headers, withCredentials: true });
+			})
+		);
+	}
 
 	toggleCourierStatus(): Observable<ToggleStatusResponse> {
     return this.getToken().pipe(
