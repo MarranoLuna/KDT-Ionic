@@ -1,64 +1,74 @@
 .content-container {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; 
+  justify-content: center;
   align-items: center;
   height: 100%;
-  padding-top: 50px; 
+  padding:0.5rem;
 }
 
 .image-container {
-  margin-bottom: 5px; 
+  margin-bottom: 1rem;
   img {
-    max-width: 40%; 
+    width: 20%;
     height: auto;
-    display: block;
+    display: flex;
     margin: 0 auto;
   }
 }
 
 
-.form-list {
-  margin: 10px auto;
-  width: 100%; 
-  
-  ion-item {
-    --padding-start: 0;
-    --inner-padding-end: 0;
-    margin-bottom: 10px;
-    font-size: 15px;
-    ion-label {
-      margin-top: 15px;
-      margin-bottom: 10px;
-      font-weight: bold;
-      font-size: 18px;
-    }
+ion-list {
+  margin: 1rem auto;
+  width: 75%;
+  background-color: transparent;
+}
+
+ion-item {
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --background: transparent;
+  background: transparent;
+
+  ion-label {
+    margin-bottom: 1rem;
+    font-weight: bold;
+    font-size: 1.5rem !important;
+
+  }
+
+  ion-input {
+    background-color: #FFFFFF;
+    border-radius: 1rem;
+    border: none;
+    padding:0.5rem !important;
   }
 }
 
 .buttons-container {
-  width: 90%; 
-  
+  width: 90%;
+
   ion-button {
     margin-top: 10px;
   }
 }
 
 ion-button {
-  --color: #ffffff; 
+  --color: #ffffff;
   --font-family: 'Poppins', sans-serif;
   font-weight: bold;
-  font-size: 18px; 
+  font-size: 18px;
 }
 
-.campo{
-  background-color: #eaeaea8a;
-  font-size: 1.3rem;
-  padding: 0.5rem !important;
-}
-
-ion-item{
+ion-item {
   --border-width: 0 !important;
   --border-style: none !important;
   --box-shadow: none !important;
+}
+
+.error-message {
+  color: var(--ion-color-danger);
+  font-size: 0.8em;
+  padding-left: 1rem;
+  padding-bottom: 1rem;
 }
