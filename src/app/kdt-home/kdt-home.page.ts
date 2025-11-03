@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { ApiService } from '../services/api';
 import { ToastController } from '@ionic/angular';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MenuComponent } from '../menu/menu.component';
 
 export interface ToggleStatusResponse {
   message: string;
@@ -18,7 +19,7 @@ export interface ToggleStatusResponse {
   templateUrl: './kdt-home.page.html',
   styleUrls: ['./kdt-home.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, GoogleMapsModule, RouterModule]
+  imports: [IonicModule, CommonModule, FormsModule, GoogleMapsModule, RouterModule, MenuComponent]
 })
 export class KdtHomePage implements OnInit {
 
