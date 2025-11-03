@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { UserService } from 'src/app/services/user';
 import { Global } from 'src/app/services/global';
 import { OnInit } from '@angular/core';
-import { IonMenuButton,IonAvatar,IonContent,IonGrid,IonRow,IonCol,IonCard,} from '@ionic/angular/standalone';
+import { IonicModule } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
 import { MenuComponent } from '../menu/menu.component';
 import { ApiService } from '../services/api';
@@ -14,9 +14,7 @@ import { LoadingController } from '@ionic/angular';
 	templateUrl: './home.page.html',
 	styleUrls: ['./home.page.scss'],
 	standalone: true,
-	imports: [ IonMenuButton, IonAvatar,IonContent, IonGrid, 
-           IonRow, IonCol,  IonCard, RouterLink, IonGrid, 
-           MenuComponent]})
+	imports: [ RouterLink, MenuComponent, IonicModule]})
 
 export class HomePage implements OnInit {
 

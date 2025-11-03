@@ -1,98 +1,95 @@
 <ion-menu contentId="menu_content">
-  <ion-header>
-    <ion-toolbar color="warning">
-      <ion-title>Menú</ion-title>
-    </ion-toolbar>
-  </ion-header>
+	<ion-header>
+		<ion-toolbar color="warning">
+			<ion-title>Menú</ion-title>
+		</ion-toolbar>
+	</ion-header>
 
-  <ion-content>
-    <ion-list>
+	<ion-content>
+		<ion-list>
+			<ng-container *ngIf="userRole === 'user'">
+				<ion-item routerLink="/home" routerDirection="root" menuClose>
+					<ion-icon name="home-outline" slot="start"></ion-icon>
+					<ion-label>Inicio</ion-label>
+				</ion-item>
+				<ion-item routerLink="/notifications" routerDirection="root" menuClose>
+					<ion-icon name="notifications-outline" slot="start"></ion-icon>
+					<ion-label>Notificaciones</ion-label>
+				</ion-item>
+				<ion-item routerLink="/new-requests" routerDirection="root" menuClose>
+					<ion-icon name="add-circle-outline" slot="start"></ion-icon>
+					<ion-label>Nueva Solicitud</ion-label>
+				</ion-item>
+				<ion-item routerLink="/requests" routerDirection="root" menuClose>
+					<ion-icon name="list-outline" slot="start"></ion-icon>
+					<ion-label>Mis Solicitudes</ion-label>
+				</ion-item>
+				<ion-item routerLink="/orders" routerDirection="root" menuClose>
+					<ion-icon name="cube-outline" slot="start"></ion-icon>
+					<ion-label>Mis Pedidos</ion-label>
+				</ion-item>
+				<ion-item routerLink="/address" routerDirection="root" menuClose>
+					<ion-icon name="location-outline" slot="start"></ion-icon>
+					<ion-label>Mis Direcciones</ion-label>
+				</ion-item>
 
-      <ng-container *ngIf="userRole === 'user'">
-        <ion-item routerLink="/home" routerDirection="root" menuClose>
-          <ion-icon name="home-outline" slot="start"></ion-icon>
-          <ion-label>Inicio</ion-label>
-        </ion-item>
-          <ion-item routerLink="/notifications" routerDirection="root" menuClose>
-           <ion-icon name="notifications-outline" slot="start"></ion-icon>
-           <ion-label>Notificaciones</ion-label>
-         </ion-item>
-        <ion-item routerLink="/new-requests" routerDirection="root" menuClose>
-          <ion-icon name="add-circle-outline" slot="start"></ion-icon>
-          <ion-label>Nueva Solicitud</ion-label>
-        </ion-item>
-        <ion-item routerLink="/requests" routerDirection="root" menuClose>
-          <ion-icon name="list-outline" slot="start"></ion-icon>
-          <ion-label>Mis Solicitudes</ion-label>
-        </ion-item>
-        <ion-item routerLink="/orders" routerDirection="root" menuClose>
-          <ion-icon name="cube-outline" slot="start"></ion-icon>
-          <ion-label>Mis Pedidos</ion-label>
-        </ion-item>
-        <ion-item routerLink="/address" routerDirection="root" menuClose>
-          <ion-icon name="location-outline" slot="start"></ion-icon>
-          <ion-label>Mis Direcciones</ion-label>
-        </ion-item>
-       
-      </ng-container>
+			</ng-container>
 
-      <ng-container *ngIf="userRole === 'kdt'">
-        <ion-item routerLink="/kdt-home" routerDirection="root" menuClose>
-          <ion-icon name="map-outline" slot="start"></ion-icon>
-          <ion-label>Mapa KDT</ion-label>
-        </ion-item>
-        <ion-item routerLink="/see-list" routerDirection="root" menuClose>
-          <ion-icon name="list-outline" slot="start"></ion-icon>
-          <ion-label>Ver Solicitudes</ion-label>
-        </ion-item>
-        <ion-item routerLink="/kdt-historial" routerDirection="root" menuClose>
-          <ion-icon name="archive-outline" slot="start"></ion-icon>
-          <ion-label>Historial</ion-label>
-        </ion-item>
-         <ion-item routerLink="/kdt-ganancias" routerDirection="root" menuClose>
-           <ion-icon name="cash-outline" slot="start"></ion-icon>
-           <ion-label>Mis Ganancias</ion-label>
-         </ion-item>
-         <ion-item routerLink="/kdt-ganancias" routerDirection="root" menuClose>
-           <ion-icon name="car-sport-outline" slot="start"></ion-icon>
-           <ion-label>Mis Vehiculos</ion-label>
-         </ion-item>
-      </ng-container>
-      <br>
-      <ion-item-divider></ion-item-divider>
+			<ng-container *ngIf="userRole === 'kdt'">
+				<ion-item routerLink="/kdt-home" routerDirection="root" menuClose>
+					<ion-icon name="map-outline" slot="start"></ion-icon>
+					<ion-label>Mapa KDT</ion-label>
+				</ion-item>
+				<ion-item routerLink="/see-list" routerDirection="root" menuClose>
+					<ion-icon name="list-outline" slot="start"></ion-icon>
+					<ion-label>Ver Solicitudes</ion-label>
+				</ion-item>
+				<ion-item routerLink="/kdt-historial" routerDirection="root" menuClose>
+					<ion-icon name="archive-outline" slot="start"></ion-icon>
+					<ion-label>Historial</ion-label>
+				</ion-item>
+				<ion-item routerLink="/kdt-ganancias" routerDirection="root" menuClose>
+					<ion-icon name="cash-outline" slot="start"></ion-icon>
+					<ion-label>Mis Ganancias</ion-label>
+				</ion-item>
+				<ion-item routerLink="/kdt-ganancias" routerDirection="root" menuClose>
+					<ion-icon name="car-sport-outline" slot="start"></ion-icon>
+					<ion-label>Mis Vehiculos</ion-label>
+				</ion-item>
+			</ng-container>
+			<ion-item-divider></ion-item-divider>
 
-      <ion-item routerLink="/profile-edit" routerDirection="root" menuClose>
-        <ion-icon name="person-circle-outline" slot="start"></ion-icon>
-        <ion-label>Mi Perfil</ion-label>
-      </ion-item>
-      <ion-item button (click)="logout()" menuClose>
-        <ion-icon name="exit-outline" slot="start"></ion-icon>
-        <ion-label>Cerrar Sesión</ion-label>
-      </ion-item>
+			<ion-item routerLink="/profile-edit" routerDirection="root" menuClose>
+				<ion-icon name="person-circle-outline" slot="start"></ion-icon>
+				<ion-label>Mi Perfil</ion-label>
+			</ion-item>
+			<ion-item button (click)="logout()" menuClose>
+				<ion-icon name="exit-outline" slot="start"></ion-icon>
+				<ion-label>Cerrar Sesión</ion-label>
+			</ion-item>
 
-    </ion-list>
-  </ion-content>
-
-<ng-container *ngIf="userRole === 'user'"> 
-  <ion-footer>
-    <ion-toolbar>
-      <ion-button expand="block" color="warning" routerLink="/be-kdt" menuClose>
-        <ion-icon name="rocket-outline" slot="start"></ion-icon>
-        ¡Ser cadete!
-      </ion-button>
-      </ion-toolbar>
-  </ion-footer>
-</ng-container>
-
-<ng-container *ngIf="userRole === 'kdt'"> 
-  <ion-footer>
-    <ion-toolbar>
-      <ion-button expand="block" color="warning" routerLink="/" menuClose>
-        <ion-icon name="swap-horizontal-outline" slot="start"></ion-icon>
-        Modo Cliente
-      </ion-button>
-      </ion-toolbar>
-  </ion-footer>
-</ng-container>
+		</ion-list>
+		<ion-item-divider class="espacio"></ion-item-divider>
+		<ng-container *ngIf="userRole === 'user'">
+			<ion-footer>
+				<ion-toolbar>
+					<ion-button expand="block" color="warning" routerLink="/be-kdt" menuClose>
+						<ion-icon name="rocket-outline" slot="start"></ion-icon>
+						¡Ser cadete!
+					</ion-button>
+				</ion-toolbar>
+			</ion-footer>
+		</ng-container>
+		<ng-container *ngIf="userRole === 'kdt'">
+			<ion-footer>
+				<ion-toolbar>
+					<ion-button expand="block" color="warning" routerLink="/" menuClose>
+						<ion-icon name="swap-horizontal-outline" slot="start"></ion-icon>
+						Modo Cliente
+					</ion-button>
+				</ion-toolbar>
+			</ion-footer>
+		</ng-container>
+	</ion-content>
 
 </ion-menu>
