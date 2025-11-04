@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { IonicModule, IonInput, LoadingController, ToastController,AlertController} from '@ionic/angular';
 import { Preferences } from '@capacitor/preferences';
+import { HttpErrorResponse } from '@angular/common/http';
+
 
 
 // Interfaz para tipar las direcciones que vienen de la API
@@ -56,7 +58,8 @@ export class AddressPage implements AfterViewInit {
     private http: HttpClient,
     private loadingController: LoadingController,
     private toastController: ToastController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private toastCtrl: ToastController,
   ) { }
 
   // actualiza cada vez que se entra a la página
@@ -226,15 +229,7 @@ onIntersectionInput() {
     this.isIntersectionSelected = false;
   }
 
-  async presentToast(message: string, color: 'success' | 'danger') {
-    const toast = await this.toastController.create({
-      message,
-      duration: 3000,
-      position: 'top',
-      color,
-    });
-    toast.present();
-  }
+
   
 //confirmación
     async confirmDelete(address: Address) {
@@ -259,31 +254,69 @@ onIntersectionInput() {
     }
 
     //llamada a API 
-    async deleteAddress(addressId: number) {
-        const loading = await this.loadingController.create({
-            message: 'Eliminando...',
-        });
-        await loading.present();
+   async deleteAddress(addressId: number) {
+    const loading = await this.loadingController.create({
+        message: 'Eliminando...',
+    });
+    await loading.present();
 
-        const { value: token } = await Preferences.get({ key: 'authToken' });
-        const headers = new HttpHeaders({
-            'Authorization': `Bearer ${token}`
-        });
+    const { value: token } = await Preferences.get({ key: 'authToken' });
+    const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+    });
 
+    
+    this.http.delete(`${this.apiUrl}/addresses/${addressId}`, { headers, withCredentials: true }).subscribe({
+        next: () => {
+            loading.dismiss();
+            this.presentToast('Dirección eliminada con éxito', 'success');
+            // Actualiza la lista en la UI
+            this.savedAddresses = this.savedAddresses.filter(addr => addr.id !== addressId); 
+        },
         
-        this.http.delete(`${this.apiUrl}/addresses/${addressId}`, { headers, withCredentials: true }).subscribe({
-            next: () => {
-                loading.dismiss();
-                this.presentToast('Dirección eliminada con éxito', 'success');
-                this.savedAddresses = this.savedAddresses.filter(addr => addr.id !== addressId);
-            },
-            error: (error) => {
-                loading.dismiss();
-                console.error('Error al eliminar la dirección', error);
-                this.presentToast('No se pudo eliminar la dirección.', 'danger');
+        // --- ¡BLOQUE DE ERROR MODIFICADO! ---
+        error: (err: HttpErrorResponse) => {
+            loading.dismiss();
+            console.error('Error al eliminar la dirección', err);
+
+            let toastMessage = 'No se pudo eliminar la dirección.';
+            let toastColor: 'danger' | 'warning' = 'danger'; // Color por defecto
+
+            // 1. Verificamos si es el error 409 (Conflict)
+            if (err.status === 409) {
+                toastColor = 'warning'; // Lo cambiamos a amarillo (advertencia)
+
+                // 2. Extraemos el mensaje específico que envió tu API
+                // (err.error.message viene de tu JSON: {message: "Esta dirección..."})
+                if (err.error && err.error.message) {
+                    toastMessage = err.error.message;
+                } else {
+                    // Mensaje de respaldo si la API no envía un mensaje
+                    toastMessage = 'Esta dirección está en uso y no se puede eliminar.';
+                }
             }
-        });
-    }
+            // (Puedes añadir más 'else if' para otros errores, como 401, 404, etc.)
+
+            // 3. Mostramos el toast (genérico o específico)
+            this.presentToast(toastMessage, toastColor);
+        }
+    });
+}
+
+/**
+ * Helper para mostrar Toasts
+ * (Asegúrate de tener esta función en tu página y de inyectar 'toastCtrl' 
+ * en tu constructor)
+ */
+async presentToast(message: string, color: 'success' | 'danger' | 'warning') {
+  const toast = await this.toastCtrl.create({
+    message: message,
+    duration: 3500, // Más tiempo para que se pueda leer el error
+    color: color,
+    position: 'top'
+  });
+  toast.present();
+}
 }
 
 

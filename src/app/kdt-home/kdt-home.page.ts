@@ -11,6 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MenuComponent } from '../menu/menu.component';
 import {  ToggleStatusResponse, Order } from '../interfaces/interfaces';
 import { Router, NavigationExtras } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
 
 
 
@@ -29,6 +30,9 @@ export class KdtHomePage implements OnInit {
   isToggling: boolean = false;
   currentOrder: Order | null = null;
   isLoadingOrder: boolean = true;
+  private isFirstLoad: boolean = true;
+
+  public availableRequestCount: number = 0;
 
   // Mapa
   mapCenter: google.maps.LatLngLiteral = { lat: -33.0078, lng: -58.5244 };
@@ -55,6 +59,8 @@ export class KdtHomePage implements OnInit {
     this.loadActiveOrder();
   }
 
+  
+
 async loadUserData() {
   const { value } = await Preferences.get({ key: 'user' });
   if (value) {
@@ -71,20 +77,24 @@ async loadUserData() {
 
 // Llama a la API para ver si hay un pedido en curso
   loadActiveOrder() {
+  // Solo mostramos el spinner la primera vez
+  if (this.isFirstLoad) {
     this.isLoadingOrder = true;
-    this.apiService.getActiveOrder().subscribe({
-      next: (order) => {
-        this.currentOrder = order; // 'order' será el objeto del pedido o 'null'
-        this.isLoadingOrder = false;
-        console.log('Pedido activo cargado:', this.currentOrder);
-      },
-      error: (err) => {
-        console.error("Error cargando pedido activo", err);
-        this.isLoadingOrder = false;
-        this.presentToast("Error al cargar tu pedido", "danger");
-      }
-    });
   }
+
+  this.apiService.getActiveOrder().subscribe({
+    next: (order) => {
+      this.currentOrder = order;
+      this.isLoadingOrder = false; // Oculta el spinner
+      this.isFirstLoad = false; // Marcamos que la primera carga ya pasó
+    },
+    error: (err) => {
+      console.error("Error cargando pedido activo", err);
+      this.isLoadingOrder = false; // Oculta el spinner en caso de error
+      this.isFirstLoad = false;
+    }
+  });
+}
 
   // El botónpara refrescar
   handleRefresh(event: any) {
@@ -117,7 +127,7 @@ goToActiveOrder() {
 
 
 toggleStatus() {
-    // 1. Previene clics múltiples si ya está cargando
+    // evita clics múltiples si ya está cargando
     if (this.isToggling) {
       return; 
     }
@@ -127,12 +137,11 @@ toggleStatus() {
     this.isKdtActive = !this.isKdtActive; // Actualización optimista de la UI
     console.log('Estado KDT cambiado a:', this.isKdtActive ? 'Activo' : 'Inactivo');
 
-    // 2. Llama a la función que AHORA SÍ EXISTE en ApiService
     this.apiService.toggleCourierStatus().subscribe({
       
-      // 3. --- ARREGLADO: Añadidos los tipos 'response' y 'err' ---
+
       next: (response: ToggleStatusResponse) => { 
-        this.isKdtActive = response.new_status; // Sincroniza con el estado real del backend
+        this.isKdtActive = response.new_status; 
         this.isToggling = false;
         
         const message = response.new_status ? 'Ahora estás ACTIVO' : 'Ahora estás INACTIVO';
@@ -140,7 +149,6 @@ toggleStatus() {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error al cambiar el estado', err);
-        // 4. Revertimos el cambio si la API falla
         this.isKdtActive = previousState; 
         this.isToggling = false;
         this.presentToast('Error al cambiar tu estado. Intenta de nuevo.', 'danger');
@@ -159,4 +167,33 @@ toggleStatus() {
     toast.present();
   }
 
+
+  async loadDashboardData(event: any | null) {
+    // Si es la carga inicial (no un refresco), muestra el spinner
+    if (!event) {
+      this.isLoadingOrder = true;
+    }
+
+    try {
+      // Llama a ambas APIs al mismo tiempo y espera a que las dos terminen
+      const [order, requestData] = await Promise.all([
+        lastValueFrom(this.apiService.getActiveOrder()),
+        lastValueFrom(this.apiService.getAvailableRequestsCount())
+      ]);
+
+      // Asigna los resultados
+      this.currentOrder = order;
+      this.availableRequestCount = requestData.available_count;
+      
+    } catch (err) {
+      console.error("Error cargando datos del dashboard", err);
+      this.presentToast("Error al refrescar los datos", "danger");
+    } finally {
+      // Pase lo que pase, oculta el spinner y/o el refresher
+      this.isLoadingOrder = false;
+      if (event) {
+        event.target.complete();
+      }
+    }
+  }
 }

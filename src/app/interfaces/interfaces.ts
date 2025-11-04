@@ -7,6 +7,11 @@ export interface UserData {
   password: string;
   birthday: string;
 }
+export interface SimpleUser {
+  id: number;
+  firstname: string;
+  lastname: string;
+}
 
 export interface LoginResponse {
   token: string;
@@ -32,31 +37,39 @@ export interface SimpleUser {
 
 export interface Address {
   id: number;
-  street: string;
-  number: string;
-  
+  street: string; 
+  number: string; 
+  address: string;
 }
 
 
 export interface Request {
   id: number;
-  user: SimpleUser; 
-  origin_address: Address; 
-  destination_address: Address; 
-  
+  user?: SimpleUser; 
+  origin_address?: Address; 
+  destination_address?: Address; 
+  courier?: SimpleUser;
 }
 
 
 export interface Offer {
   id: number;
   amount: number; 
-  request: Request;
+  price: number; 
+  request?: Request;
 
 }
-
+export interface OrderStatus {
+  id: number;
+  name: string;
+}
 
 export interface Order {
   id: number;
   is_completed: boolean;
   order_status_id: number;
-  offer: Offer; }
+  offer: Offer; 
+  status?: OrderStatus;
+  created_at: string; 
+  updated_at: string;
+}

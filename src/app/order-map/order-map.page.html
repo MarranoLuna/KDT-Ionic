@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color="warning"> <ion-buttons slot="start">  
+    <ion-back-button defaultHref="/home" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Recorrido del Pedido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <google-map
+    height="100%"
+    width="100%"
+    [center]="mapCenter"
+    [zoom]="mapZoom">
+    
+    <map-directions-renderer
+      *ngIf="directionsResults$ | async as directions"
+      [directions]="directions">
+    </map-directions-renderer>
+
+  </google-map>
+</ion-content>

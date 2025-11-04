@@ -36,7 +36,19 @@
         <ion-icon name="chevron-down-outline"></ion-icon>
       </div>
 
-      <p class="status-message">¡Hay solicitudes esperando su oferta! <BR>EN PROCESOOO</p>
+<p class="status-message">
+    ¡Hay solicitudes esperando su oferta!
+  </p>
+
+    <!-- <ng-container *ngIf="availableRequestCount > 0; else noRequests">
+  <p class="status-message">
+    ¡Hay {{ availableRequestCount }} solicitudes esperando su oferta!
+  </p>
+</ng-container>
+
+<ng-template #noRequests>
+  <p class="status-message-empty">No hay solicitudes activas por el momento.</p>
+</ng-template> -->
 
       <div class="location-info">
         <span>Gualeguaychú, 5 km</span>
