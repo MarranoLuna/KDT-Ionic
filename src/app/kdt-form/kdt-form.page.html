@@ -1,92 +1,75 @@
-<ion-header>
-  <ion-toolbar color="warning">
-    <ion-buttons slot="start">
-    <ion-back-button defaultHref="/home" text=""></ion-back-button>
-    </ion-buttons>
-    <ion-title>Ser Cadete</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <ion-header>
+    <ion-toolbar color="warning">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/home" text=""></ion-back-button>
+      </ion-buttons>
+      <ion-title>Ser Cadete</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
+  <form #kdtForm="ngForm">
 
-<ion-content >
-
-<form #kdtForm="ngForm">
-
-<div class="intro-section">
-    <img src="assets/logo.png" alt="Logo KDT" class="logo">
-    <p class="ion-text-wrap">
-      Los datos y la documentación solicitada en este formulario son recopilados solo con el fin de garantizar la seguridad en nuestra plataforma. De parte de K.D.T nunca compartiremos datos personales a terceros.
-    </p>
-  </div>
+    <div class="intro-section">
+      <img src="assets/logo.png" alt="Logo KDT" class="logo">
+      <p class="ion-text-wrap">
+        Los datos y la documentación solicitada en este formulario son recopilados solo con el fin de garantizar la
+        seguridad en nuestra plataforma. De parte de K.D.T nunca compartiremos datos personales a terceros.
+      </p>
+    </div>
 
     <ion-item>
-      <ion-input
-        label="DNI"
-        label-placement="stacked"
-        placeholder="Número de D.N.I"
-        type="tel"
-        [(ngModel)]="formData.dni"
-        name="dni" required errorText="Completa este campo"
-      ></ion-input>
+      <ion-label position="stacked">D.N.I.</ion-label>
+      <ion-input label-placement="stacked" placeholder="Número de D.N.I" type="number"
+        [(ngModel)]="formData.dni" name="dni" required errorText="Debes ingresar tu número de DNI"></ion-input>
     </ion-item>
 
 
+    <div class="upload-box" (click)="selectFrontDni()">
+      <ng-container *ngIf="!frontDniImage">
+        <ion-icon name="cloud-upload-outline" color="medium"></ion-icon>
+        <ion-label>Foto del frente del D.N.I.</ion-label>
+      </ng-container>
+      <img *ngIf="frontDniImage" [src]="frontDniImage" class="image-preview" />
+    </div>
 
-<div class="upload-box" (click)="selectFrontDni()">
-  <ng-container *ngIf="!frontDniImage">
-    <ion-icon name="cloud-upload-outline" color="medium"></ion-icon>
-    <p>Foto del frente del D.N.I.</p>
-  </ng-container>
-  <img *ngIf="frontDniImage" [src]="frontDniImage" class="image-preview" />
-</div>
+    <input type="hidden" [(ngModel)]="frontDniImage" name="frontDniImage" required>
 
-<input type="hidden" 
-       [(ngModel)]="frontDniImage" 
-       name="frontDniImage" 
-       required>
-
-<div *ngIf="kdtForm.controls['frontDniImage']?.invalid && kdtForm.controls['frontDniImage']?.touched" 
-     class="error-message">
-  La foto del frente es obligatoria
-</div>
+    <div *ngIf="kdtForm.controls['frontDniImage']?.invalid && kdtForm.controls['frontDniImage']?.touched"
+      class="error-message">
+      La foto del frente es obligatoria
+    </div>
 
 
-<div class="upload-box" (click)="selectBackDni()">
-  <ng-container *ngIf="!backDniImage">
-    <ion-icon name="cloud-upload-outline" color="medium"></ion-icon>
-    <p>Foto del dorso del D.N.I.</p>
-  </ng-container>
-  <img *ngIf="backDniImage" [src]="backDniImage" class="image-preview" />
-</div>
+    <div class="upload-box" (click)="selectBackDni()">
+      <ng-container *ngIf="!backDniImage">
+        <ion-icon name="cloud-upload-outline" color="medium"></ion-icon>
+        <ion-label>Foto del dorso del D.N.I.</ion-label>
+      </ng-container>
+      <img *ngIf="backDniImage" [src]="backDniImage" class="image-preview" />
+    </div>
 
-<input type="hidden" 
-       [(ngModel)]="backDniImage" 
-       name="backDniImage" 
-       required>
+    <input type="hidden" [(ngModel)]="backDniImage" name="backDniImage" required>
 
-<div *ngIf="kdtForm.controls['backDniImage']?.invalid && kdtForm.controls['backDniImage']?.touched" 
-     class="error-message">
-  La foto del dorso es obligatoria
-</div>
-
-
-  <p class="terms-text ion-text-center">
-    Al enviar este formulario estás aceptando los 
-    <a routerLink="/">términos y condiciones</a> 
-    del servicio.
+    <p *ngIf="kdtForm.controls['backDniImage']?.invalid && kdtForm.controls['backDniImage']?.touched"
+      class="error-message">
+      La foto del dorso es obligatoria
   </p>
 
-<ion-button class="boton" color="warning" expand="block" (click)="submitForm()" type="button">
-  Siguiente
-</ion-button>
+
+    <p class="terms-text ion-text-center">
+      Al enviar este formulario estás aceptando los
+      <a routerLink="/">términos y condiciones</a>
+      del servicio.
+    </p>
+
+    <ion-button class="boton" color="warning" expand="block" (click)="submitForm()" type="button">
+      Siguiente
+    </ion-button>
 
 
-</form>
+  </form>
 
-  
+
 
 </ion-content>
-
-
-
-
