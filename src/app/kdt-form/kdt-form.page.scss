@@ -1,47 +1,53 @@
 ion-content {
   --background: var(--ion-background-color);
 }
+
+ion-label {
+  font-weight: 450;
+}
+
 .intro-section {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-  margin-left: 24px;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  margin-left: 2rem;
 
 
 }
-  .logo {
-    width: 100px;
-    height: auto;
-  }
-  
-  p {
-    font-size: 0.8em;
-    text-align: justify;
-    margin-right: 24px;
-    color: var(--ion-color-medium-shade);
-  }
+
+.logo {
+  width: 6rem;
+  height: auto;
+}
+
+p {
+  font-size: 0.8em;
+  text-align: justify;
+  margin-right: 1.5rem;
+  color: var(--ion-color-medium-shade);
+}
 
 
 .upload-box {
   border: 1.5px solid var(--ion-color-medium-tint);
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 1.4rem;
+  padding: 1rem;
   margin: 24px;
-  
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  
+
   background: #D5D5D554;
-  
+
   ion-icon {
     font-size: 2.5rem;
   }
-  
+
   p {
-    margin-top: 8px;
+    margin-top: 1rem;
     margin-bottom: 0;
     font-weight: 500;
     color: var(--ion-color-medium-shade);
@@ -49,10 +55,11 @@ ion-content {
 }
 
 .terms-text {
-  margin-top: 32px;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
   font-size: 0.8em;
   color: var(--ion-color-medium-shade);
-  
+
   a {
     color: var(--ion-color-warning);
     font-weight: 600;
@@ -60,40 +67,32 @@ ion-content {
   }
 }
 
-ion-footer {
-  ion-button {
-    --border-radius: 12px;
-    height: 50px;
-    font-weight: 600;
-  }
-}
 
-ion-button.boton{
-width: 80%;
-justify-content: center; 
-align-items: center;
-margin-bottom: 20px;
-display: block;        
-margin: 20px auto;     
-max-width: 300px; 
-font-weight: bold;
+ion-button.boton {
+  width: 70%;
+  margin-left: 15%;
+  margin-bottom: 5rem;
 }
 
 .error-message {
   /* 1. Ponerlos en rojo */
-  color: var(--ion-color-danger); /* Usa el color rojo estándar de Ionic */
+  color: var(--ion-color-danger);
+  /* Usa el color rojo estándar de Ionic */
 
   /* 2. Ponerlos más chicos */
-  font-size: 0.9em; /* Un 10% más chico que el texto normal */
-  
+  font-size: 1rem;
+  padding:0;
+  /* Un 10% más chico que el texto normal */
+
   /* 3. Centrar los textos */
   text-align: center;
-  
+
   /* Ajustes para que el centrado funcione bien */
   width: 100%;
-  display: block; /* Asegura que ocupe toda la línea */
-  
+  display: block;
+  /* Asegura que ocupe toda la línea */
+
   /* Opcional: añade espacio para que no quede pegado a la caja */
-  margin-top: 4px; 
-  margin-bottom: 12px; 
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
 }
