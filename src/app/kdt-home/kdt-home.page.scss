@@ -135,3 +135,36 @@ ion-footer {
     font-weight: 600;
   }
 }
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+
+  ion-spinner {
+    width: 50px;
+    height: 50px;
+  }
+
+  p {
+    margin-top: 10px;
+    color: #888;
+  }
+}
+
+// Opcional: Estilos para la vista de pedido en curso
+.pedido-en-curso {
+  ion-list {
+    background: transparent;
+  }
+}
+.pulse-button {
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}

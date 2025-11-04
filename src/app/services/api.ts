@@ -3,10 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap, from, throwError } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 import { Router } from '@angular/router';
-import { LoginResponse } from '../interfaces/interfaces';
 import { switchMap } from 'rxjs/operators';
-import { Brand } from '../interfaces/interfaces';
-
+import { LoginResponse, Brand, Order, } from '../interfaces/interfaces';
 
 export interface UserData {
 	id?: number;
@@ -222,5 +220,58 @@ export class ApiService {
       })
     );
   }
+
+  /** OBTIENE EL PEDIDO ACTIVO*/
+  getActiveOrder(): Observable<Order | null> { // Es Order o null
+    return from(Preferences.get({ key: 'authToken' })).pipe(
+      switchMap(token => {
+        if (!token || !token.value) {
+          return throwError(() => new Error('Token no encontrado'));
+        }
+        
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token.value}`,
+          'Accept': 'application/json'
+        });
+        
+        return this.http.get<Order | null>(`${this.apiUrl}/courier/active-order`, { headers });
+      })
+    );
+  }
+
+  /** COMPLETA EL PEDIDO*/
+  completeOrder(orderId: number): Observable<any> {
+    return from(Preferences.get({ key: 'authToken' })).pipe(
+      switchMap(token => {
+        if (!token || !token.value) {
+          return throwError(() => new Error('Token no encontrado'));
+        }
+        
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token.value}`,
+          'Accept': 'application/json'
+        });
+        
+        // Es un POST, pero no necesita body, por eso enviamos {}
+        return this.http.post<any>(`${this.apiUrl}/orders/${orderId}/complete`, {}, { headers });
+      })
+    );
+  }
+
+  getOrderDetail(orderId: number): Observable<Order> {
+  return from(Preferences.get({ key: 'authToken' })).pipe(
+    switchMap(token => {
+      if (!token || !token.value) {
+        return throwError(() => new Error('Token no encontrado'));
+      }
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token.value}`,
+        'Accept': 'application/json'
+      });
+
+      return this.http.get<Order>(`${this.apiUrl}/orders/${orderId}/details`, { headers });
+    })
+  );
+}
 
 }
