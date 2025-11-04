@@ -73,7 +73,7 @@
 		<ng-container *ngIf="userRole === 'user'">
 			<ion-footer>
 				<ion-toolbar>
-					<ion-button expand="block" color="warning" routerLink="/be-kdt" menuClose>
+					<ion-button expand="block" color="warning" (click)="onBecomeCourierClick()" menuClose>
 						<ion-icon name="rocket-outline" slot="start"></ion-icon>
 						¡Ser cadete!
 					</ion-button>

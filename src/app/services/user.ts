@@ -8,11 +8,14 @@ import { tap } from 'rxjs/operators';
 import { LoginResponse } from '../interfaces/interfaces';
 
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+
+  private COURIER_ID_KEY = 'courier_id'; 
+  private currentUser: any = null;
+  
 
   constructor(
         private apiService: ApiService, // Inyectamos ApiService
@@ -76,7 +79,39 @@ export class UserService {
         }
         return null;
     }
-}
+
+    public async setCourierId(id: number) {
+      await Preferences.set({
+      key: this.COURIER_ID_KEY,
+      value: id.toString() // Lo guardamos como string
+      });
+      console.log('Courier ID guardado en Preferences:', id);
+    }
+
+    public async getCourierId(): Promise<number | null> {
+      const { value } = await Preferences.get({ key: this.COURIER_ID_KEY });
+          console.log('Buscando ID del courier. Valor encontrado:', value); 
+      if (value) {
+      return parseInt(value, 10); 
+      }
+      return null;
+    }
 
 
+    public async hasCourierApplication(): Promise<boolean> {
+  
+        // 1. Leemos al usuario desde el almacenamiento (Preferences)
+        const user = await this.getCurrentUser(); 
 
+        // 2. Comprobamos si el usuario y la relación 'courier' existen
+        if (user && user.courier) {
+            // Si 'user' existe Y 'user.courier' no es null,
+            // significa que ya tiene un registro de cadete.
+            return true;
+        }
+        
+        // En cualquier otro caso, no ha aplicado.
+        return false;
+    }
+  
+  }

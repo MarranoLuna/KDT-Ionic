@@ -24,6 +24,7 @@ export class RegisterMotorcyclePage implements OnInit {
 
   model: string = '';
   color: string = '';
+  registration_plate: string = '';
 
 
   constructor(private apiService: ApiService, private router: Router) { }

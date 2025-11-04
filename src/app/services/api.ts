@@ -15,6 +15,7 @@ export interface UserData {
 	email: string;
 	password: string;
 	birthday: string;
+	courier?: any;
 }
 
 export interface ToggleStatusResponse {
