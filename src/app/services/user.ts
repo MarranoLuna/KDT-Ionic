@@ -6,6 +6,10 @@ import { Router } from '@angular/router';
 import { ApiService } from './api';
 import { tap } from 'rxjs/operators';
 import { LoginResponse } from '../interfaces/interfaces';
+import { HttpClient } from '@angular/common/http';
+import { from} from 'rxjs'; 
+import { switchMap } from 'rxjs/operators'; 
+import { HttpHeaders } from '@angular/common/http';
 
 
 @Injectable({
@@ -13,13 +17,15 @@ import { LoginResponse } from '../interfaces/interfaces';
 })
 export class UserService {
 
+    public apiUrl = 'http://localhost:8000/api';
   private COURIER_ID_KEY = 'courier_id'; 
   private currentUser: any = null;
   
 
   constructor(
         private apiService: ApiService, // Inyectamos ApiService
-        private router: Router
+        private router: Router,
+        private http: HttpClient
     ) { }
 
 
@@ -109,9 +115,59 @@ export class UserService {
             // significa que ya tiene un registro de cadete.
             return true;
         }
-        
-        // En cualquier otro caso, no ha aplicado.
+    
         return false;
     }
-  
+
+   registerBicycle(data: { color: string, brand_id: number }): Observable<any> {
+    
+    // 1. Obtiene el token
+    return from(Preferences.get({ key: 'authToken' })).pipe(
+      
+      // 2. Usa switchMap para "cambiar" a la llamada HTTP
+      switchMap(tokenData => {
+        if (!tokenData.value) {
+          throw new Error('Token de autenticación no encontrado.');
+        }
+
+        // 3. Crea las cabeceras (headers)
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${tokenData.value}`,
+          'Accept': 'application/json'
+        });
+
+        // 4. Llama a la API con los datos Y las cabeceras
+        return this.http.post(`${this.apiUrl}/vehicles/register-bicycle`, data, { headers });
+      })
+    );
+  }
+
+  registerMotorcycle(data: { 
+    model: string, 
+    color: string, 
+    registration_plate: string, 
+    brand_id: number 
+  }): Observable<any> {
+
+    // 1. Obtiene el token
+    return from(Preferences.get({ key: 'authToken' })).pipe(
+      
+      // 2. Usa switchMap
+      switchMap(tokenData => {
+        if (!tokenData.value) {
+          throw new Error('Token de autenticación no encontrado.');
+        }
+
+        // 3. Crea las cabeceras
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${tokenData.value}`,
+          'Accept': 'application/json'
+        });
+
+        // 4. Llama a la API con los datos Y las cabeceras
+        return this.http.post(`${this.apiUrl}/vehicles/register-motorcycle`, data, { headers });
+      })
+    );
+  }
+
   }
