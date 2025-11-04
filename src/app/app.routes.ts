@@ -129,7 +129,8 @@ export const routes: Routes = [
   {
     path: 'order-detail/:id',
     loadComponent: () => import('./order-detail/order-detail.page').then( m => m.OrderDetailPage)
-  },  {
+  },
+  {
     path: 'kdt-historial',
     loadComponent: () => import('./kdt-historial/kdt-historial.page').then( m => m.KdtHistorialPage)
   },
@@ -141,7 +142,15 @@ export const routes: Routes = [
     path: 'kdt-vehicle',
     loadComponent: () => import('./kdt-vehicle/kdt-vehicle.page').then( m => m.KdtVehiclePage)
   },
+  {
+    path: 'order-map',
+    loadComponent: () => import('./order-map/order-map.page').then( m => m.OrderMapPage)
+  },
 
+  {
+    path: 'order-map',
+    loadComponent: () => import('./order-map/order-map.page').then( m => m.OrderMapPage)
+  },
   
 
 ];

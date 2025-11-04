@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, ActivatedRoute, RouterModule } from '@angular/router'; // Importa RouterModule y ActivatedRoute
+import { Router, ActivatedRoute, RouterModule,NavigationExtras } from '@angular/router'; 
 import { 
   IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, 
   IonLabel, IonIcon, IonButton, IonBackButton, IonButtons, IonSpinner
@@ -12,7 +12,8 @@ import { ToastController } from '@ionic/angular';
 // --- Importaciones de tu 'orders.page.ts' ---
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Preferences } from '@capacitor/preferences';
-import { Global } from '../services/global'; // Importa tu servicio Global
+import { Global } from '../services/global'; 
+
 
 @Component({
   selector: 'app-order-detail',
@@ -113,12 +114,25 @@ export class OrderDetailPage implements OnInit {
   }
   
   verRecorrido() {
-  // Por ahora, solo muestra una alerta o un log
-  const origen = this.currentOrder?.offer?.request?.origin_address?.address;
-  const destino = this.currentOrder?.offer?.request?.destination_address?.address;
+  if (!this.currentOrder) {
+    this.presentToast('No se pueden cargar los detalles de la ruta', 'danger');
+    return;
+  }
 
-  console.log('Ver recorrido de:', origen, 'a:', destino);
-  this.presentToast('Función "Ver Recorrido" aún no implementada.', 'warning');
+  // 1. Extraemos las direcciones (el texto)
+  const origen = this.currentOrder.offer.request.origin_address.address;
+  const destino = this.currentOrder.offer.request.destination_address.address;
+
+  // 2. Preparamos los datos para enviar
+  const navigationExtras: NavigationExtras = {
+    state: {
+      originAddress: origen,
+      destinationAddress: destino
+    }
+  };
+
+  // 3. Navegamos a la nueva página del mapa
+  this.router.navigate(['/order-map'], navigationExtras);
 }
 
   /**

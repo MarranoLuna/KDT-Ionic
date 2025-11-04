@@ -59,9 +59,9 @@
       (click)="completeOrder()" 
       [disabled]="isCompleting"
       expand="block" 
-      color="success">
+      color="warning">
       <ion-spinner *ngIf="isCompleting" slot="start"></ion-spinner>
-      Marcar como Completado
+      Completado
       <ion-icon name="checkmark-done-circle-outline" slot="end"></ion-icon>
     </ion-button>
   </div>
