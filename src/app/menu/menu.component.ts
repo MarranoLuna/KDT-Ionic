@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { IonicModule, NavController } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { Preferences } from '@capacitor/preferences'; 
+import { UserService } from 'src/app/services/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -16,7 +18,7 @@ export class MenuComponent implements OnInit {
   // Variable pública para guardar el rol ('user' o 'kdt')
   public userRole: string | null = null;
 
-  constructor(private navController: NavController) { }
+  constructor(private navController: NavController, private userService: UserService, private router: Router,) { }
 
   // cargar el rol una vez al inicio
   async ngOnInit() {
@@ -40,4 +42,13 @@ export class MenuComponent implements OnInit {
     await Preferences.remove({ key: 'user' });
     this.navController.navigateRoot('/login');
   }
+
+async onBecomeCourierClick() {
+
+ const hasApplied = await this.userService.hasCourierApplication(); 
+ if (hasApplied) {
+   this.router.navigateByUrl('/request-sent-kdt');
+} else {
+this.router.navigateByUrl('/kdt-form');
+}}
 }
