@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar color="warning"> <ion-buttons slot="start">
+      <ion-back-button defaultHref="/kdt-home" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Pedido Activo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="!isLoading && currentOrder" class="ion-padding pedido-en-curso">
+  
+  <ion-list lines="inset" class="ion-margin-top">
+    
+  <ion-item>
+    <ion-icon name="location-outline" slot="start" color="primary"></ion-icon>
+    <ion-label>
+      <h2>Retirar en:</h2>
+      <p>{{ currentOrder?.offer?.request?.origin_address?.address }}</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-icon name="flag-outline" slot="start" color="tertiary"></ion-icon>
+    <ion-label>
+      <h2>Entregar a:</h2>
+      <p>{{ currentOrder?.offer?.request?.destination_address?.address }}</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+    <ion-label>
+      <h2>Cliente:</h2>
+      <p>{{ currentOrder?.offer?.request?.user?.firstname }}</p>
+    </ion-label>
+  </ion-item>
+  
+  <ion-item lines="none">
+    <ion-icon name="cash-outline" slot="start" color="success"></ion-icon>
+    <ion-label>
+      <h2>Tu Ganancia:</h2>
+      <h3>{{ currentOrder?.offer?.price | currency:'ARS':'symbol' }}</h3>
+    </ion-label>
+  </ion-item>
+
+</ion-list>
+  
+  <div class="ion-padding-top">
+    <ion-button 
+      (click)="verRecorrido()"
+      expand="block" 
+      color="primary"
+      fill="outline"
+      class="ion-margin-bottom">
+      <ion-icon name="map-outline" slot="start"></ion-icon>
+      Ver Recorrido
+    </ion-button>
+    
+    <ion-button 
+      (click)="completeOrder()" 
+      [disabled]="isCompleting"
+      expand="block" 
+      color="success">
+      <ion-spinner *ngIf="isCompleting" slot="start"></ion-spinner>
+      Marcar como Completado
+      <ion-icon name="checkmark-done-circle-outline" slot="end"></ion-icon>
+    </ion-button>
+  </div>
+        
+</ion-content>
+
+<div *ngIf="isLoading" class="loading-container">
+  <ion-spinner name="crescent"></ion-spinner>
+  <p>Cargando pedido...</p>
+</div>

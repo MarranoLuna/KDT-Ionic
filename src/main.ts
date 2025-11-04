@@ -6,9 +6,15 @@ import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 
 import { addIcons } from 'ionicons';
-import { locateOutline,chevronDownOutline, locationOutline, trashOutline, exitOutline,rocketOutline, cubeOutline, notificationsOutline,newspaperOutline,cartOutline, peopleOutline,personCircleOutline, homeOutline, cloud, cloudUploadOutline, listOutline, addCircleOutline, cashOutline, archiveOutline, mapOutline, swapHorizontalOutline, eye, flagOutline, pinOutline, carSportOutline} from 'ionicons/icons';
+import { paperPlaneOutline, 
+  checkmarkDoneCircleOutline,
+  locateOutline,chevronDownOutline, locationOutline, trashOutline, exitOutline,rocketOutline, cubeOutline, notificationsOutline,newspaperOutline,cartOutline,
+   peopleOutline,personCircleOutline, homeOutline, cloud, cloudUploadOutline, listOutline, addCircleOutline, cashOutline, archiveOutline, mapOutline, swapHorizontalOutline, 
+   eye, flagOutline, pinOutline, carSportOutline} from 'ionicons/icons';
 
 addIcons({
+  'paperPlaneOutline':paperPlaneOutline,
+  'checkmarkDoneCircleOutline':checkmarkDoneCircleOutline,
   'location-outline': locationOutline,
   'exit-outline': exitOutline,
   'cube-outline': cubeOutline,

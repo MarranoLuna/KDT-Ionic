@@ -5,21 +5,21 @@ import { IonicModule } from '@ionic/angular';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { Preferences } from '@capacitor/preferences';
 import { RouterModule } from '@angular/router';
-import { ApiService } from '../services/api';
+import { ApiService, } from '../services/api';
 import { ToastController } from '@ionic/angular';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MenuComponent } from '../menu/menu.component';
+import {  ToggleStatusResponse, Order } from '../interfaces/interfaces';
+import { Router, NavigationExtras } from '@angular/router';
 
-export interface ToggleStatusResponse {
-  message: string;
-  new_status: boolean;
-}
+
+
 @Component({
   selector: 'app-kdt-home',
   templateUrl: './kdt-home.page.html',
   styleUrls: ['./kdt-home.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, GoogleMapsModule, RouterModule, MenuComponent]
+  imports: [IonicModule,CommonModule, FormsModule, GoogleMapsModule, RouterModule, MenuComponent]
 })
 export class KdtHomePage implements OnInit {
 
@@ -27,6 +27,8 @@ export class KdtHomePage implements OnInit {
   isKdtActive: boolean = true;
   courier: any;
   isToggling: boolean = false;
+  currentOrder: Order | null = null;
+  isLoadingOrder: boolean = true;
 
   // Mapa
   mapCenter: google.maps.LatLngLiteral = { lat: -33.0078, lng: -58.5244 };
@@ -42,12 +44,15 @@ export class KdtHomePage implements OnInit {
 
   constructor(
     private apiService: ApiService,
-    private toastCtrl: ToastController) { }
+    private toastCtrl: ToastController,
+    private router: Router,
+  ) { }
 
   ngOnInit() {}
 
   ionViewWillEnter() {
     this.loadUserData();
+    this.loadActiveOrder();
   }
 
 async loadUserData() {
@@ -63,6 +68,53 @@ async loadUserData() {
       this.userName = 'Usuario'; 
   }
 }
+
+// Llama a la API para ver si hay un pedido en curso
+  loadActiveOrder() {
+    this.isLoadingOrder = true;
+    this.apiService.getActiveOrder().subscribe({
+      next: (order) => {
+        this.currentOrder = order; // 'order' será el objeto del pedido o 'null'
+        this.isLoadingOrder = false;
+        console.log('Pedido activo cargado:', this.currentOrder);
+      },
+      error: (err) => {
+        console.error("Error cargando pedido activo", err);
+        this.isLoadingOrder = false;
+        this.presentToast("Error al cargar tu pedido", "danger");
+      }
+    });
+  }
+
+  // El botónpara refrescar
+  handleRefresh(event: any) {
+    this.apiService.getActiveOrder().subscribe({
+      next: (order) => {
+        this.currentOrder = order;
+        event.target.complete(); // Le dice al <ion-refresher> que termine
+      },
+      error: (err) => {
+        this.presentToast("Error al refrescar", "danger");
+        event.target.complete(); // También debe terminar si hay error
+      }
+    });
+  }
+
+goToActiveOrder() {
+  if (this.currentOrder && this.currentOrder.id) {
+      
+      this.router.navigate(['/order-detail', this.currentOrder.id]);
+    
+    } else {
+      
+      // Esto solo pasaría si la API devuelve algo raro.
+      console.error("Se intentó navegar, pero currentOrder no tiene un ID:", this.currentOrder);
+      this.presentToast("No se pudo cargar el pedido. Intenta refrescar.", "danger");
+      
+      this.loadActiveOrder(); 
+    }
+}
+
 
 toggleStatus() {
     // 1. Previene clics múltiples si ya está cargando

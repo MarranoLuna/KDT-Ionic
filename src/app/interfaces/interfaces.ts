@@ -1,3 +1,4 @@
+
 export interface UserData {
   id: number;
   firstname: string;
@@ -5,10 +6,8 @@ export interface UserData {
   email: string;
   password: string;
   birthday: string;
-  
 }
 
-// Define la estructura de la respuesta del login
 export interface LoginResponse {
   token: string;
   user: UserData;
@@ -18,3 +17,46 @@ export interface Brand {
   id: number;
   name: string;
 }
+
+export interface ToggleStatusResponse {
+  message: string;
+  new_status: boolean;
+}
+
+
+export interface SimpleUser {
+  id: number;
+  firstname: string;
+  lastname: string;
+}
+
+export interface Address {
+  id: number;
+  street: string;
+  number: string;
+  
+}
+
+
+export interface Request {
+  id: number;
+  user: SimpleUser; 
+  origin_address: Address; 
+  destination_address: Address; 
+  
+}
+
+
+export interface Offer {
+  id: number;
+  amount: number; 
+  request: Request;
+
+}
+
+
+export interface Order {
+  id: number;
+  is_completed: boolean;
+  order_status_id: number;
+  offer: Offer; }
