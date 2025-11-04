@@ -88,17 +88,19 @@ async submitForm() {
         return; 
     }
 
-    const dataParaEnviar = { /* ...tus datos de DNI... */ };
+    const dataParaEnviar = { 
+      dni: String(this.formData.dni),
+      dni_frente_base64: this.frontDniImage,
+      dni_dorso_base64: this.backDniImage
+    };
 
     this.apiService.registerCourier(dataParaEnviar).subscribe({ 
-      next: async (response) => { // <-- 1. Hacemos 'async'
+      next: async (response) => { 
       
         if (response.courier && response.courier.id) {
           
-          // Guardamos el ID (para la pág. de la moto, si la necesitás)
           await this.userService.setCourierId(response.courier.id);
 
-          // Guardar User en Preferences
           const user = await this.userService.getCurrentUser();
           if (user) {
             user.courier = response.courier; 
@@ -107,9 +109,7 @@ async submitForm() {
           
           this.router.navigateByUrl('/kdt-form2');
 
-        } else {
-          console.error('La API no devolvió un objeto "courier"');
-        }
+        } 
       },
       error: (err) => { /* ... manejo de error ... */ }
     });
