@@ -5,15 +5,16 @@ import { RouterModule } from '@angular/router';
 import { Preferences } from '@capacitor/preferences'; 
 import { UserService } from 'src/app/services/user';
 import { Router } from '@angular/router';
+import { Preferences } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, RouterModule] 
+  imports: [IonicModule, CommonModule, RouterModule]
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent {
 
   // Variable pública para guardar el rol ('user' o 'kdt')
   public userRole: string | null = null;
@@ -28,6 +29,9 @@ export class MenuComponent implements OnInit {
   //  si el rol pudiera cambiar sin recargar la app
   ionViewWillEnter() {
     this.loadUserRole(); 
+
+  constructor(private navController: NavController) {
+    this.loadUserRole();
   }
 
   async loadUserRole() {
