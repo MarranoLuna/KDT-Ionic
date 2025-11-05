@@ -51,7 +51,7 @@ export class AddressPage implements AfterViewInit {
 
   savedAddresses: Address[] = [];
   isLoading = true;
-  apiUrl = 'http://localhost:8000/api';
+  apiUrl = 'https://kdtapp.openit.ar/api';
 
   constructor(
     private ngZone: NgZone,

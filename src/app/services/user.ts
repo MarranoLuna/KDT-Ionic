@@ -17,7 +17,7 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class UserService {
 
-    public apiUrl = 'http://localhost:8000/api';
+    public apiUrl = 'https://kdtapp.openit.ar/api';
   private COURIER_ID_KEY = 'courier_id'; 
   private currentUser: any = null;
   

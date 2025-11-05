@@ -23,7 +23,7 @@ export interface UserData {
 
 export class ApiService {
 
-	public apiUrl = 'http://localhost:8000/api';
+	public apiUrl = 'https://kdtapp.openit.ar/api';
 
 
 	constructor(
