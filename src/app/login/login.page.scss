@@ -40,6 +40,7 @@ ion-item {
     background-color: #FFFFFF;
     border-radius: 1rem;
     border: none;
+    --color: #000000;
   }
 }
 
@@ -81,3 +82,11 @@ ion-checkbox {
   font-size: 1.3rem;
   padding: 0.5rem !important;
 }
+:root(.dark) {
+
+ 
+  ion-input {
+
+  
+    --color: #000000;
+  }}
