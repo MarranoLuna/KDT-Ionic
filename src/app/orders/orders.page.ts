@@ -37,10 +37,16 @@ export class OrdersPage implements OnInit {
     this.isLoading = true;
     const loading = await this.global.presentLoading('Cargando pedidos...');
     const { value: token } = await Preferences.get({ key: 'authToken' });
-    if (!token) { /* ... manejo de error ... */ return; }
+    if (!token) { 
+      loading.dismiss(); 
+      return; 
+    }
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
     
-    this.http.get<any[]>(`${this.apiUrl}/orders`, { headers, withCredentials: true }).subscribe({
+   
+    const url = `${this.apiUrl}/user/my-orders`; 
+
+    this.http.get<any[]>(url, { headers, withCredentials: true }).subscribe({
       next: (data) => {
         this.orders = data;
         this.isLoading = false;

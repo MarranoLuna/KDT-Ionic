@@ -48,11 +48,11 @@
 					<ion-icon name="archive-outline" slot="start"></ion-icon>
 					<ion-label>Historial</ion-label>
 				</ion-item>
-				<ion-item routerLink="/kdt-ganancias" routerDirection="root" menuClose>
+				<ion-item routerLink="/kdt-earnings" routerDirection="root" menuClose>
 					<ion-icon name="cash-outline" slot="start"></ion-icon>
 					<ion-label>Mis Ganancias</ion-label>
 				</ion-item>
-				<ion-item routerLink="/kdt-ganancias" routerDirection="root" menuClose>
+				<ion-item routerLink="/kdt-vehicle" routerDirection="root" menuClose>
 					<ion-icon name="car-sport-outline" slot="start"></ion-icon>
 					<ion-label>Mis Vehiculos</ion-label>
 				</ion-item>
@@ -73,7 +73,7 @@
 		<ng-container *ngIf="userRole === 'user'">
 			<ion-footer>
 				<ion-toolbar>
-					<ion-button expand="block" color="warning" routerLink="/be-kdt" menuClose>
+					<ion-button expand="block" color="warning" (click)="onBecomeCourierClick()" menuClose>
 						<ion-icon name="rocket-outline" slot="start"></ion-icon>
 						¡Ser cadete!
 					</ion-button>

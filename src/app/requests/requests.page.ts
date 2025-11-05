@@ -297,4 +297,4 @@ export class RequestsPage implements OnInit {
         });
     }
 
-} // Fin de la clase
+} 

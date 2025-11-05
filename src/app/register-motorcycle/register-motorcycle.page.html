@@ -92,6 +92,18 @@
 <form #myForm="ngForm">
 
   <ion-list>
+
+  <h3>Escriba la patente</h3>
+    <ion-item>
+    <ion-input 
+      placeholder="Patente..."
+      [(ngModel)]="registration_plate" 
+      name="registration_plate"
+      required 
+      errorText="Complete este campo"
+      >
+    </ion-input>
+  </ion-item>
   
 
   <h3>Seleccione la marca</h3>

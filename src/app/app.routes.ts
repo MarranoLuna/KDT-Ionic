@@ -126,6 +126,33 @@ export const routes: Routes = [
   loadComponent: () => import('./orders/orders.page').then( m => m.OrdersPage),
   canActivate: [authGuard, userGuard] // Protegida para usuarios
 },
+  {
+    path: 'order-detail/:id',
+    loadComponent: () => import('./order-detail/order-detail.page').then( m => m.OrderDetailPage)
+  },
+  {
+    path: 'kdt-historial',
+    loadComponent: () => import('./kdt-historial/kdt-historial.page').then( m => m.KdtHistorialPage)
+  },
+  {
+    path: 'kdt-earnings',
+    loadComponent: () => import('./kdt-earnings/kdt-earnings.page').then( m => m.KdtEarningsPage)
+  },
+  {
+    path: 'kdt-vehicle',
+    loadComponent: () => import('./kdt-vehicle/kdt-vehicle.page').then( m => m.KdtVehiclePage)
+  },
+  {
+    path: 'order-map',
+    loadComponent: () => import('./order-map/order-map.page').then( m => m.OrderMapPage)
+  },
+
+  {
+    path: 'order-map',
+    loadComponent: () => import('./order-map/order-map.page').then( m => m.OrderMapPage)
+  },
+  
+
 ];
 
 

@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="warning"> <ion-buttons slot="start">
+      <ion-back-button defaultHref="/kdt-home" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Historial de pedidos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div *ngIf="isLoading" class="ion-text-center ion-padding-top">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando historial...</p>
+  </div>
+
+  <div *ngIf="!isLoading && orderHistory.length === 0" class="ion-text-center ion-padding-top">
+    <p>No tienes pedidos completados en tu historial.</p>
+  </div>
+
+  <ion-card *ngFor="let order of orderHistory" class="request-card">
+    <ion-card-header>
+      <ion-card-title>Pedido #{{ order.id }}</ion-card-title>
+      <ion-card-subtitle class="ion-text-end" [color]="order.status?.name === 'Completado' ? 'success' : 'danger'">
+        {{ order.status?.name || 'Estado Desconocido' }}
+      </ion-card-subtitle>
+      <ion-card-subtitle class="ion-text-end">
+        {{ order.updated_at | date:'dd/MM/yyyy HH:mm' }}
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-label>
+          <p><strong>Origen:</strong> {{ order.offer.request?.origin_address?.address }}</p>
+          <p><strong>Destino:</strong> {{ order.offer.request?.destination_address?.address }}</p>
+          <p><strong>Cliente:</strong> {{ order.offer.request?.user?.firstname }}</p>
+          <p><strong>Tu Ganancia:</strong> {{ order.offer.price| currency:'ARS':'symbol' }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

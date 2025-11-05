@@ -6,7 +6,10 @@ import { Router } from '@angular/router';
 import { ApiService } from './api';
 import { tap } from 'rxjs/operators';
 import { LoginResponse } from '../interfaces/interfaces';
-
+import { HttpClient } from '@angular/common/http';
+import { from} from 'rxjs'; 
+import { switchMap } from 'rxjs/operators'; 
+import { HttpHeaders } from '@angular/common/http';
 
 
 @Injectable({
@@ -14,9 +17,15 @@ import { LoginResponse } from '../interfaces/interfaces';
 })
 export class UserService {
 
+    public apiUrl = 'https://kdtapp.openit.ar/api';
+  private COURIER_ID_KEY = 'courier_id'; 
+  private currentUser: any = null;
+  
+
   constructor(
         private apiService: ApiService, // Inyectamos ApiService
-        private router: Router
+        private router: Router,
+        private http: HttpClient
     ) { }
 
 
@@ -72,7 +81,89 @@ export class UserService {
         }
         return null;
     }
-}
+
+    public async setCourierId(id: number) {
+      await Preferences.set({
+      key: this.COURIER_ID_KEY,
+      value: id.toString() // Lo guardamos como string
+      });
+      console.log('Courier ID guardado en Preferences:', id);
+    }
+
+    public async getCourierId(): Promise<number | null> {
+      const { value } = await Preferences.get({ key: this.COURIER_ID_KEY });
+          console.log('Buscando ID del courier. Valor encontrado:', value); 
+      if (value) {
+      return parseInt(value, 10); 
+      }
+      return null;
+    }
 
 
+    public async hasCourierApplication(): Promise<boolean> {
+  
+        // 1. Leemos al usuario desde el almacenamiento (Preferences)
+        const user = await this.getCurrentUser(); 
 
+        // 2. Comprobamos si el usuario y la relación 'courier' existen
+        if (user && user.courier) {
+            // Si 'user' existe Y 'user.courier' no es null,
+            // significa que ya tiene un registro de cadete.
+            return true;
+        }
+    
+        return false;
+    }
+
+   registerBicycle(data: { color: string, brand_id: number }): Observable<any> {
+    
+    // 1. Obtiene el token
+    return from(Preferences.get({ key: 'authToken' })).pipe(
+      
+      // 2. Usa switchMap para "cambiar" a la llamada HTTP
+      switchMap(tokenData => {
+        if (!tokenData.value) {
+          throw new Error('Token de autenticación no encontrado.');
+        }
+
+        // 3. Crea las cabeceras (headers)
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${tokenData.value}`,
+          'Accept': 'application/json'
+        });
+
+        // 4. Llama a la API con los datos Y las cabeceras
+        return this.http.post(`${this.apiUrl}/vehicles/register-bicycle`, data, { headers });
+      })
+    );
+  }
+
+  registerMotorcycle(data: { 
+    model: string, 
+    color: string, 
+    registration_plate: string, 
+    brand_id: number 
+  }): Observable<any> {
+
+    // 1. Obtiene el token
+    return from(Preferences.get({ key: 'authToken' })).pipe(
+      
+      // 2. Usa switchMap
+      switchMap(tokenData => {
+        if (!tokenData.value) {
+          throw new Error('Token de autenticación no encontrado.');
+        }
+
+        // 3. Crea las cabeceras
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${tokenData.value}`,
+          'Accept': 'application/json'
+        });
+
+        // 4. Llama a la API con los datos Y las cabeceras
+        return this.http.post(`${this.apiUrl}/vehicles/register-motorcycle`, data, { headers });
+      })
+    );
+  }
+
+  }
