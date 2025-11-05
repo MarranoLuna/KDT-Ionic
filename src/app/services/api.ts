@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap, from, throwError } from 'rxjs';
+import { Observable, from, throwError } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 import { Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
@@ -23,12 +23,13 @@ export interface UserData {
 
 export class ApiService {
 
-	public apiUrl = 'http://localhost:8000/api';
+	private apiUrl = 'http://localhost:8000/api'; // para probar en navegador
+	//private apiUrl = 'http://10.0.2.2:8000/api'; // para probar en android studio
+	///public apiUrl = 'https://kdtapp.openit.ar/api';
 
 
 	constructor(
-		private http: HttpClient,
-		//private router: Router
+		private http: HttpClient
 	) { }
 
 
@@ -71,6 +72,11 @@ export class ApiService {
 		return this.http.post(`${this.apiUrl}/register`, userData, { headers });
 	}
 
+	async savePushNotificationsToken(tokenData: any): Promise<Observable<any>> { //// GUARDAR EL TOKEN DE NOTIFICACIONES PUSH EN LA BBDD
+		const headers = await this.createHeadersWithToken();
+		return this.http.post(`${this.apiUrl}/registerPushToken`, tokenData, { headers });
+	}
+
 
 	registerCourier(data: any): Observable<any> {
 		// 1. Convierte la promesa de Preferences (obtener token) en un Observable
@@ -99,74 +105,62 @@ export class ApiService {
 	///// FUNCIONES DE NEW REQUEST----------------------------------------------------------------------------
 
 	async createRequest(data: any) {
-		const { value: token } = await Preferences.get({ key: 'authToken' }); //// obtiene el token de sesión
-		const headers = new HttpHeaders({  /// acá ingresamos el token en el header
-			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${token}`
-		});
+		const headers = await this.createHeadersWithToken();
 		return this.http.post(`${this.apiUrl}/requests/create`, data, { headers, withCredentials: true }); /// enviamos los datos y devolvemos la respuesta. Hay que ver que los datos estén bien antes de llamar a esta función!
 	}
 
 	deleteRequest(id: number): Observable<any> {
-  return from(Preferences.get({ key: 'authToken' })).pipe(
-    switchMap(token => {
-      if (!token || !token.value) {
-        return throwError(() => new Error('Token de autenticación no encontrado'));
-      }
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${token.value}`,
-        'Accept': 'application/json'
-      });
+		return from(Preferences.get({ key: 'authToken' })).pipe(
+			switchMap(token => {
+				if (!token || !token.value) {
+					return throwError(() => new Error('Token de autenticación no encontrado'));
+				}
+				const headers = new HttpHeaders({
+					'Authorization': `Bearer ${token.value}`,
+					'Accept': 'application/json'
+				});
 
-      return this.http.delete<any>(
-        `${this.apiUrl}/requests/${id}`,
-        { headers } 
-      );
-    })
-  );
-}
+				return this.http.delete<any>(
+					`${this.apiUrl}/requests/${id}`,
+					{ headers }
+				);
+			})
+		);
+	}
 
-updateRequest(request: any): Observable<any> {
+	updateRequest(request: any): Observable<any> {
 
-  return from(Preferences.get({ key: 'authToken' })).pipe(
-    switchMap(token => {
-      if (!token || !token.value) {
-        return throwError(() => new Error('Token de autenticación no encontrado'));
-      }
+		return from(Preferences.get({ key: 'authToken' })).pipe(
+			switchMap(token => {
+				if (!token || !token.value) {
+					return throwError(() => new Error('Token de autenticación no encontrado'));
+				}
 
-      // 2. Crea los headers con el token
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${token.value}`,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json' 
-      });
+				// 2. Crea los headers con el token
+				const headers = new HttpHeaders({
+					'Authorization': `Bearer ${token.value}`,
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				});
 
-   
-      return this.http.put<any>(
-        `${this.apiUrl}/requests/${request.id}`,
-        request, 
-        { headers } 
-      );
-    })
-  );
-}
+
+				return this.http.put<any>(
+					`${this.apiUrl}/requests/${request.id}`,
+					request,
+					{ headers }
+				);
+			})
+		);
+	}
 
 	///// SOLICITUDES -  REQUESTS----------------------------------------------------------------------------
 	async getRequests() {
-		const { value: token } = await Preferences.get({ key: 'authToken' }); //// obtiene el token de sesión
-		const headers = new HttpHeaders({  /// acá ingresamos el token en el header
-			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${token}`
-		});
+		const headers = await this.createHeadersWithToken();
 		return this.http.get<any>(`${this.apiUrl}/requests`, { headers, withCredentials: true }); /// enviamos los datos y devolvemos la respuesta. Hay que ver que los datos estén bien antes de llamar a esta función!
 	}
 
 	async getRequestOffers(requestId: number) {
-		const { value: token } = await Preferences.get({ key: 'authToken' }); //// obtiene el token de sesión
-		const headers = new HttpHeaders({  /// 
-			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${token}`
-		});
+		const headers = await this.createHeadersWithToken();
 		return this.http.get<any>(`${this.apiUrl}/requests/${requestId}/offers`, { headers, withCredentials: true });
 	}
 
@@ -213,6 +207,12 @@ updateRequest(request: any): Observable<any> {
 		);
 	}
 
+	/// VISTA DE CADETE ---------------------------------------------------------------------------------------------------
+	async getAvailableRequests() {
+		const headers = await this.createHeadersWithToken();
+		this.http.get<any[]>(`${this.apiUrl}/requests/available`, { headers, withCredentials: true })
+	}
+
 	// getBrands(): Observable<Brand[]> {
 	//   return this.http.get<Brand[]>(`${this.apiUrl}/brands`);
 	// }
@@ -235,111 +235,119 @@ updateRequest(request: any): Observable<any> {
 		);
 	}
 
+	async createHeadersWithToken() { // CREA LOS HEADERS PARA CADA PETICIÓN CON EL TOKEN DE AUTORIZACIÓN DEL USUARIO
+		const { value: token } = await Preferences.get({ key: 'authToken' }); //// obtiene el token de sesión
+		const headers = new HttpHeaders({  /// acá ingresamos el token en el header
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${token}`
+		});
+		return headers;
+	}
 	toggleCourierStatus(): Observable<ToggleStatusResponse> {
-    return this.getToken().pipe(
-      switchMap(token => {
-        // getToken() ya lanza un error si no lo encuentra,
-        // así que podemos asumir que 'token' existe aquí.
-        const headers = this.createAuthHeaders(token as string);
-        
-        // Hacemos la llamada POST a la ruta de Laravel
-        return this.http.post<ToggleStatusResponse>(
-          `${this.apiUrl}/courier/toggle-status`,
-          {}, // Cuerpo vacío
-          { headers }
-        );
-      })
-    );
-  }
+		return this.getToken().pipe(
+			switchMap(token => {
+				// getToken() ya lanza un error si no lo encuentra,
+				// así que podemos asumir que 'token' existe aquí.
+				const headers = this.createAuthHeaders(token as string);
 
-  /** OBTIENE EL PEDIDO ACTIVO*/
-  getActiveOrder(): Observable<Order | null> { // Es Order o null
-    return from(Preferences.get({ key: 'authToken' })).pipe(
-      switchMap(token => {
-        if (!token || !token.value) {
-          return throwError(() => new Error('Token no encontrado'));
-        }
-        
-        const headers = new HttpHeaders({
-          'Authorization': `Bearer ${token.value}`,
-          'Accept': 'application/json'
-        });
-        
-        return this.http.get<Order | null>(`${this.apiUrl}/courier/active-order`, { headers });
-      })
-    );
-  }
+				// Hacemos la llamada POST a la ruta de Laravel
+				return this.http.post<ToggleStatusResponse>(
+					`${this.apiUrl}/courier/toggle-status`,
+					{}, // Cuerpo vacío
+					{ headers }
+				);
+			})
+		);
+	}
 
-  /** COMPLETA EL PEDIDO*/
-  completeOrder(orderId: number): Observable<any> {
-    return from(Preferences.get({ key: 'authToken' })).pipe(
-      switchMap(token => {
-        if (!token || !token.value) {
-          return throwError(() => new Error('Token no encontrado'));
-        }
-        
-        const headers = new HttpHeaders({
-          'Authorization': `Bearer ${token.value}`,
-          'Accept': 'application/json'
-        });
-        
-        // Es un POST, pero no necesita body, por eso enviamos {}
-        return this.http.post<any>(`${this.apiUrl}/orders/${orderId}/complete`, {}, { headers });
-      })
-    );
-  }
+	/** OBTIENE EL PEDIDO ACTIVO*/
+	getActiveOrder(): Observable<Order | null> { // Es Order o null
+		return from(Preferences.get({ key: 'authToken' })).pipe(
+			switchMap(token => {
+				if (!token || !token.value) {
+					return throwError(() => new Error('Token no encontrado'));
+				}
 
-  getOrderDetail(orderId: number): Observable<Order> {
-  return from(Preferences.get({ key: 'authToken' })).pipe(
-    switchMap(token => {
-      if (!token || !token.value) {
-        return throwError(() => new Error('Token no encontrado'));
-      }
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${token.value}`,
-        'Accept': 'application/json'
-      });
+				const headers = new HttpHeaders({
+					'Authorization': `Bearer ${token.value}`,
+					'Accept': 'application/json'
+				});
 
-      return this.http.get<Order>(`${this.apiUrl}/orders/${orderId}/details`, { headers });
-    })
-  );
-}
+				return this.http.get<Order | null>(`${this.apiUrl}/courier/active-order`, { headers });
+			})
+		);
+	}
 
- getOrderHistory(): Observable<Order[]> { 
-    return from(Preferences.get({ key: 'authToken' })).pipe(
-      switchMap(token => {
-        if (!token || !token.value) {
-          return throwError(() => new Error('Token no encontrado'));
-        }
-        
-        const headers = new HttpHeaders({
-          'Authorization': `Bearer ${token.value}`,
-          'Accept': 'application/json'
-        });
-        
-        // Llama a la nueva ruta que creamos en Laravel
-        return this.http.get<Order[]>(`${this.apiUrl}/courier/order-history`, { headers });
-      })
-    );
-  }
+	/** COMPLETA EL PEDIDO*/
+	completeOrder(orderId: number): Observable<any> {
+		return from(Preferences.get({ key: 'authToken' })).pipe(
+			switchMap(token => {
+				if (!token || !token.value) {
+					return throwError(() => new Error('Token no encontrado'));
+				}
 
-  //manejar mensaje de inicio segun hay o no solicitudes activAS
-  getAvailableRequestsCount(): Observable<{ available_count: number }> {
-    return from(Preferences.get({ key: 'authToken' })).pipe(
-      switchMap(token => {
-        if (!token || !token.value) {
-          return throwError(() => new Error('Token no encontrado'));
-        }
-        
-        const headers = new HttpHeaders({
-          'Authorization': `Bearer ${token.value}`,
-          'Accept': 'application/json'
-        });
-        
-        // Llama a la nueva ruta que creamos en Laravel
-        return this.http.get<{ available_count: number }>(`${this.apiUrl}/requests/available-count`, { headers });
-      })
-    );
-  }
+				const headers = new HttpHeaders({
+					'Authorization': `Bearer ${token.value}`,
+					'Accept': 'application/json'
+				});
+
+				// Es un POST, pero no necesita body, por eso enviamos {}
+				return this.http.post<any>(`${this.apiUrl}/orders/${orderId}/complete`, {}, { headers });
+			})
+		);
+	}
+
+	getOrderDetail(orderId: number): Observable<Order> {
+		return from(Preferences.get({ key: 'authToken' })).pipe(
+			switchMap(token => {
+				if (!token || !token.value) {
+					return throwError(() => new Error('Token no encontrado'));
+				}
+				const headers = new HttpHeaders({
+					'Authorization': `Bearer ${token.value}`,
+					'Accept': 'application/json'
+				});
+
+				return this.http.get<Order>(`${this.apiUrl}/orders/${orderId}/details`, { headers });
+			})
+		);
+	}
+
+	getOrderHistory(): Observable<Order[]> {
+		return from(Preferences.get({ key: 'authToken' })).pipe(
+			switchMap(token => {
+				if (!token || !token.value) {
+					return throwError(() => new Error('Token no encontrado'));
+				}
+
+				const headers = new HttpHeaders({
+					'Authorization': `Bearer ${token.value}`,
+					'Accept': 'application/json'
+				});
+
+				// Llama a la nueva ruta que creamos en Laravel
+				return this.http.get<Order[]>(`${this.apiUrl}/courier/order-history`, { headers });
+			})
+		);
+	}
+
+	//manejar mensaje de inicio segun hay o no solicitudes activAS
+	getAvailableRequestsCount(): Observable<{ available_count: number }> {
+		return from(Preferences.get({ key: 'authToken' })).pipe(
+			switchMap(token => {
+				if (!token || !token.value) {
+					return throwError(() => new Error('Token no encontrado'));
+				}
+
+				const headers = new HttpHeaders({
+					'Authorization': `Bearer ${token.value}`,
+					'Accept': 'application/json'
+				});
+
+				// Llama a la nueva ruta que creamos en Laravel
+				return this.http.get<{ available_count: number }>(`${this.apiUrl}/requests/available-count`, { headers });
+			})
+		);
+	}
 
 }

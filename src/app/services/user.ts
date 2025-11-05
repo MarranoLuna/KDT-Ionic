@@ -17,7 +17,7 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class UserService {
 
-    public apiUrl = 'http://localhost:8000/api';
+    public apiUrl = 'https://kdtapp.openit.ar/api';
   private COURIER_ID_KEY = 'courier_id'; 
   private currentUser: any = null;
   
@@ -51,9 +51,6 @@ export class UserService {
     }
 
     // Verifica si el usuario está logueado y redirige si no lo está
-    /*
-    
-    */
     async verifyLogin(): Promise<void> {
         const { value } = await Preferences.get({ key: 'authToken' });
         if (!value) {
@@ -68,7 +65,6 @@ export class UserService {
     }
 
     // --- Métodos para manejar datos locales del usuario ---
-
     public async saveUser(user: UserData): Promise<void> {
         await Preferences.set({ key: 'user', value: JSON.stringify(user) });
     }

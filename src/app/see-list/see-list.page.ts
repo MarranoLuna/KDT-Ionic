@@ -1,10 +1,11 @@
-import { Component, OnInit,  } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, LoadingController, ToastController, AlertController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Preferences } from '@capacitor/preferences';
 import { RouterModule } from '@angular/router';
+import { Global } from 'src/app/services/global';
 
 
 @Component({
@@ -18,15 +19,16 @@ export class SeeListPage implements OnInit {
 
   availableRequests: any[] = [];
   isLoading = true;
-  private apiUrl = 'http://localhost:8000/api'; 
+  private apiUrl = 'http://localhost:8000/api'; /// cambiar para usar API
   constructor(
     private http: HttpClient,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
+    private global: Global,
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ionViewWillEnter() {
     this.loadAvailableRequests();
@@ -36,12 +38,12 @@ export class SeeListPage implements OnInit {
     this.isLoading = true;
     const { value: token } = await Preferences.get({ key: 'authToken' });
     if (!token) {
-        this.isLoading = false;
-        return;
+      this.isLoading = false;
+      return;
     }
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
 
-this.http.get<any[]>(`${this.apiUrl}/requests/available`, { headers, withCredentials: true }).subscribe({
+    this.http.get<any[]>(`${this.apiUrl}/requests/available`, { headers, withCredentials: true }).subscribe({
       next: (data) => {
         this.availableRequests = data; // Ya no hay que filtrar
         this.isLoading = false;
@@ -54,7 +56,7 @@ this.http.get<any[]>(`${this.apiUrl}/requests/available`, { headers, withCredent
     });
   }
 
-async makeOffer(request: any) {
+  async makeOffer(request: any) {
     const alert = await this.alertCtrl.create({
       header: 'Ingresá tu Oferta',
       message: `¿Cuánto querés cobrar por la solicitud #${request.id}?`,
@@ -76,7 +78,7 @@ async makeOffer(request: any) {
               this.presentToast('Por favor, ingresá un precio válido.', 'danger');
               return false; // Evita que se cierre el alert
             }
-            
+
             // Si el precio es válido, llamamos a la API
             await this.sendOfferToApi(request.id, data.price);
             return true; // Cierra el alert
@@ -85,9 +87,10 @@ async makeOffer(request: any) {
       ]
     });
     await alert.present();
+    
   }
 
-async sendOfferToApi(requestId: number, price: number) {
+  async sendOfferToApi(requestId: number, price: number) {
     const loading = await this.loadingCtrl.create({ message: 'Enviando oferta...' });
     await loading.present();
 
@@ -95,18 +98,18 @@ async sendOfferToApi(requestId: number, price: number) {
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
     const body = { price: price }; // El cuerpo de la petición solo necesita el precio
 
-    this.http.post(`${this.apiUrl}/requests/${requestId}/offers`, body, { headers, withCredentials: true }).subscribe({
+    this.http.post(`${this.apiUrl}/requests/${requestId}/offers_1`, body, { headers, withCredentials: true }).subscribe({
       next: (offer) => {
         loading.dismiss();
         this.presentToast('¡Oferta enviada con éxito!', 'success');
-       const requestIndex = this.availableRequests.findIndex(req => req.id === requestId);
-      if (requestIndex !== -1) {
-        // Le agregamos una propiedad para saber que ya ofertamos
-        this.availableRequests[requestIndex].hasOffered = true; 
-      }
+        const requestIndex = this.availableRequests.findIndex(req => req.id === requestId);
+        if (requestIndex !== -1) {
+          // Le agregamos una propiedad para saber que ya ofertamos
+          this.availableRequests[requestIndex].hasOffered = true;
+        }
       },
 
-      
+
       error: (err) => {
         loading.dismiss();
         console.error('Error al enviar la oferta', err);
@@ -116,7 +119,7 @@ async sendOfferToApi(requestId: number, price: number) {
     });
   }
 
- async presentToast(message: string, color: 'success' | 'danger') {
+  async presentToast(message: string, color: 'success' | 'danger') {
     const toast = await this.toastCtrl.create({ message, duration: 2000, color, position: 'top' });
     await toast.present();
   }

@@ -104,6 +104,7 @@ export class RequestsPage implements OnInit {
         if (this.editingId) { this.cancelEditing(); }
 
         const request = this.requests.find(r => r.id === id);
+
         // Carga ofertas si se abre el detalle y el estado es 'Con Ofertas' (ej: ID 2)
         if (isOpening && !this.offers[id] && (request?.request_status_id === 2)) {
             await this.loadOffersForRequest(id);

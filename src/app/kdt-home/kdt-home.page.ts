@@ -9,7 +9,7 @@ import { ApiService, } from '../services/api';
 import { ToastController } from '@ionic/angular';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MenuComponent } from '../menu/menu.component';
-import {  ToggleStatusResponse, Order } from '../interfaces/interfaces';
+import { ToggleStatusResponse, Order } from '../interfaces/interfaces';
 import { Router, NavigationExtras } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 
@@ -20,7 +20,7 @@ import { lastValueFrom } from 'rxjs';
   templateUrl: './kdt-home.page.html',
   styleUrls: ['./kdt-home.page.scss'],
   standalone: true,
-  imports: [IonicModule,CommonModule, FormsModule, GoogleMapsModule, RouterModule, MenuComponent]
+  imports: [IonicModule, CommonModule, FormsModule, GoogleMapsModule, RouterModule, MenuComponent]
 })
 export class KdtHomePage implements OnInit {
 
@@ -52,49 +52,49 @@ export class KdtHomePage implements OnInit {
     private router: Router,
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ionViewWillEnter() {
     this.loadUserData();
     this.loadActiveOrder();
   }
 
-  
 
-async loadUserData() {
-  const { value } = await Preferences.get({ key: 'user' });
-  if (value) {
-    const user = JSON.parse(value);
-   
-    this.userName = `${user.firstname || ''} ${  ''}`.trim();
-    if (!this.userName) {
-        this.userName = 'Usuario'; 
+
+  async loadUserData() {
+    const { value } = await Preferences.get({ key: 'user' });
+    if (value) {
+      const user = JSON.parse(value);
+
+      this.userName = `${user.firstname || ''} ${''}`.trim();
+      if (!this.userName) {
+        this.userName = 'Usuario';
+      }
+    } else {
+      this.userName = 'Usuario';
     }
-  } else {
-      this.userName = 'Usuario'; 
   }
-}
 
-// Llama a la API para ver si hay un pedido en curso
+  // Llama a la API para ver si hay un pedido en curso
   loadActiveOrder() {
-  // Solo mostramos el spinner la primera vez
-  if (this.isFirstLoad) {
-    this.isLoadingOrder = true;
-  }
-
-  this.apiService.getActiveOrder().subscribe({
-    next: (order) => {
-      this.currentOrder = order;
-      this.isLoadingOrder = false; // Oculta el spinner
-      this.isFirstLoad = false; // Marcamos que la primera carga ya pasó
-    },
-    error: (err) => {
-      console.error("Error cargando pedido activo", err);
-      this.isLoadingOrder = false; // Oculta el spinner en caso de error
-      this.isFirstLoad = false;
+    // Solo mostramos el spinner la primera vez
+    if (this.isFirstLoad) {
+      this.isLoadingOrder = true;
     }
-  });
-}
+
+    this.apiService.getActiveOrder().subscribe({
+      next: (order) => {
+        this.currentOrder = order;
+        this.isLoadingOrder = false; // Oculta el spinner
+        this.isFirstLoad = false; // Marcamos que la primera carga ya pasó
+      },
+      error: (err) => {
+        console.error("Error cargando pedido activo", err);
+        this.isLoadingOrder = false; // Oculta el spinner en caso de error
+        this.isFirstLoad = false;
+      }
+    });
+  }
 
   // El botónpara refrescar
   handleRefresh(event: any) {
@@ -110,46 +110,46 @@ async loadUserData() {
     });
   }
 
-goToActiveOrder() {
-  if (this.currentOrder && this.currentOrder.id) {
-      
+  goToActiveOrder() {
+    if (this.currentOrder && this.currentOrder.id) {
+
       this.router.navigate(['/order-detail', this.currentOrder.id]);
-    
+
     } else {
-      
+
       // Esto solo pasaría si la API devuelve algo raro.
       console.error("Se intentó navegar, pero currentOrder no tiene un ID:", this.currentOrder);
       this.presentToast("No se pudo cargar el pedido. Intenta refrescar.", "danger");
-      
-      this.loadActiveOrder(); 
+
+      this.loadActiveOrder();
     }
-}
+  }
 
 
-toggleStatus() {
+  toggleStatus() {
     // evita clics múltiples si ya está cargando
     if (this.isToggling) {
-      return; 
+      return;
     }
-    this.isToggling = true; 
+    this.isToggling = true;
 
     const previousState = this.isKdtActive;
     this.isKdtActive = !this.isKdtActive; // Actualización optimista de la UI
     console.log('Estado KDT cambiado a:', this.isKdtActive ? 'Activo' : 'Inactivo');
 
     this.apiService.toggleCourierStatus().subscribe({
-      
 
-      next: (response: ToggleStatusResponse) => { 
-        this.isKdtActive = response.new_status; 
+
+      next: (response: ToggleStatusResponse) => {
+        this.isKdtActive = response.new_status;
         this.isToggling = false;
-        
+
         const message = response.new_status ? 'Ahora estás ACTIVO' : 'Ahora estás INACTIVO';
         this.presentToast(message, 'success');
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error al cambiar el estado', err);
-        this.isKdtActive = previousState; 
+        this.isKdtActive = previousState;
         this.isToggling = false;
         this.presentToast('Error al cambiar tu estado. Intenta de nuevo.', 'danger');
       }
@@ -184,7 +184,7 @@ toggleStatus() {
       // Asigna los resultados
       this.currentOrder = order;
       this.availableRequestCount = requestData.available_count;
-      
+
     } catch (err) {
       console.error("Error cargando datos del dashboard", err);
       this.presentToast("Error al refrescar los datos", "danger");

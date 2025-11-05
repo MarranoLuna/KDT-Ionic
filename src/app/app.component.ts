@@ -11,5 +11,7 @@ import { IonicModule } from '@ionic/angular';
   ]
 })
 export class AppComponent {
+  public userRole: string | null = null;
+  
   constructor() { }
 }
