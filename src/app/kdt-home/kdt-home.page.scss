@@ -4,12 +4,11 @@ ion-content {
 }
 ion-header.header-container {
   background: white; 
-  padding-bottom: 20px; 
+  padding-bottom: 1rem; 
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
   border-bottom-left-radius: 28px;
   border-bottom-right-radius: 28px;
   z-index: 10;
-  position: relative; 
 }
 
 // Barra de herramientas (solo para el botón de menú)
@@ -19,11 +18,6 @@ ion-header ion-toolbar {
   padding-top: 5px; 
 }
 
-// Contenido dentro de la cabecera
-.header-content {
-  margin-top: -15px; // Sube el contenido un poco más
- 
-}
 
 // Sección del perfil (avatar + nombre)
 .profile-header {
