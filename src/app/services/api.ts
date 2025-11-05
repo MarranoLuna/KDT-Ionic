@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, from, throwError } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
-import { LoginResponse } from '../interfaces/interfaces';
 import { Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { LoginResponse, Brand, Order, ToggleStatusResponse } from '../interfaces/interfaces';
@@ -24,7 +23,7 @@ export interface UserData {
 
 export class ApiService {
 
-	///private apiUrl = 'http://localhost:8000/api'; 
+	///private apiUrl = 'http://localhost:8000/api'; // para probar en navegador
 	private apiUrl = 'http://10.0.2.2:8000/api'; // para probar en android studio
 	///public apiUrl = 'https://kdtapp.openit.ar/api';
 
