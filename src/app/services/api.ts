@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap, from, throwError } from 'rxjs';
+import { Observable, from, throwError } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
-import { Router } from '@angular/router';
 import { LoginResponse } from '../interfaces/interfaces';
 import { switchMap } from 'rxjs/operators';
 import { Brand } from '../interfaces/interfaces';
@@ -23,12 +22,11 @@ export interface UserData {
 
 export class ApiService {
 
-	public apiUrl = 'http://localhost:8000/api';
-
+	///private apiUrl = 'http://localhost:8000/api'; 
+	private apiUrl = 'http://10.0.2.2:8000/api'; // para probar en android studio
 
 	constructor(
-		private http: HttpClient,
-		//private router: Router
+		private http: HttpClient
 	) { }
 
 
@@ -71,6 +69,11 @@ export class ApiService {
 		return this.http.post(`${this.apiUrl}/register`, userData, { headers });
 	}
 
+	async savePushNotificationsToken(tokenData: any): Promise<Observable<any>>{ //// GUARDAR EL TOKEN DE NOTIFICACIONES PUSH EN LA BBDD
+		const headers = await this.createHeadersWithToken();
+		return this.http.post(`${this.apiUrl}/registerPushToken`, tokenData, {headers});
+	}
+
 
 	registerCourier(data: any): Observable<any> {
 		// 1. Convierte la promesa de Preferences (obtener token) en un Observable
@@ -99,11 +102,7 @@ export class ApiService {
 	///// FUNCIONES DE NEW REQUEST----------------------------------------------------------------------------
 
 	async createRequest(data: any) {
-		const { value: token } = await Preferences.get({ key: 'authToken' }); //// obtiene el token de sesión
-		const headers = new HttpHeaders({  /// acá ingresamos el token en el header
-			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${token}`
-		});
+		const headers = await this.createHeadersWithToken();
 		return this.http.post(`${this.apiUrl}/requests/create`, data, { headers, withCredentials: true }); /// enviamos los datos y devolvemos la respuesta. Hay que ver que los datos estén bien antes de llamar a esta función!
 	}
 
@@ -118,20 +117,12 @@ export class ApiService {
 
 	///// SOLICITUDES -  REQUESTS----------------------------------------------------------------------------
 	async getRequests() {
-		const { value: token } = await Preferences.get({ key: 'authToken' }); //// obtiene el token de sesión
-		const headers = new HttpHeaders({  /// acá ingresamos el token en el header
-			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${token}`
-		});
+		const headers = await this.createHeadersWithToken();
 		return this.http.get<any>(`${this.apiUrl}/requests`, { headers, withCredentials: true }); /// enviamos los datos y devolvemos la respuesta. Hay que ver que los datos estén bien antes de llamar a esta función!
 	}
 
 	async getRequestOffers(requestId: number) {
-		const { value: token } = await Preferences.get({ key: 'authToken' }); //// obtiene el token de sesión
-		const headers = new HttpHeaders({  /// 
-			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${token}`
-		});
+		const headers = await this.createHeadersWithToken();
 		return this.http.get<any>(`${this.apiUrl}/requests/${requestId}/offers`, { headers, withCredentials: true });
 	}
 
@@ -200,5 +191,13 @@ export class ApiService {
 		);
 	}
 
+	async createHeadersWithToken(){ // CREA LOS HEADERS PARA CADA PETICIÓN CON EL TOKEN DE AUTORIZACIÓN DEL USUARIO
+		const { value: token } = await Preferences.get({ key: 'authToken' }); //// obtiene el token de sesión
+		const headers = new HttpHeaders({  /// acá ingresamos el token en el header
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${token}`
+		});
+		return headers;
+	}
 
 }

@@ -19,7 +19,7 @@ export class OrdersPage implements OnInit {
 
   orders: any[] = [];
   isLoading = true;
-  private apiUrl = this.API.apiUrl; // Usar la URL del servicio
+  private apiUrl = 'http://localhost:8000/api' // CORREGIR Y SEPARAR FUNCIONES Usar la URL del servicio
 
   constructor(
     private http: HttpClient, // Usaremos http directo si no tienes getOrders en ApiService

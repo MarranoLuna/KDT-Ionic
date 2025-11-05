@@ -25,6 +25,7 @@ export class IndexPage {
   constructor(
     private router: Router,
   ) {
+    alert('✅ TypeScript ejecutándose correctamente');
     this.verifyLogin();
   }
 
