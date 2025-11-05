@@ -31,7 +31,7 @@ export class OrderDetailPage implements OnInit {
   currentOrder: any = null; // Usamos 'any' como en tu 'orders.page'
   isCompleting: boolean = false;
   isLoading: boolean = true;
-  private apiUrl = this.API.apiUrl; // Obtenemos la URL como en 'orders.page'
+  private apiUrl = 'http://localhost:8000/api'; // Obtenemos la URL como en 'orders.page'
 
   constructor(
     private router: Router,
