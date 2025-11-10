@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserData } from './api'; 
+import { UserData } from '../interfaces/interfaces';
 import { Observable } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 import { Router } from '@angular/router';
@@ -18,6 +18,7 @@ import { HttpHeaders } from '@angular/common/http';
 export class UserService {
 
     public apiUrl = 'https://kdtapp.openit.ar/api';
+   // private apiUrl = 'http://localhost:8000/api';
   private COURIER_ID_KEY = 'courier_id'; 
   private currentUser: any = null;
   

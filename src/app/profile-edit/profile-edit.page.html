@@ -11,8 +11,9 @@
   <div class="header-section">
     <div class="welcome-section">
       <ion-avatar class="large-avatar">
-        <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Avatar">
+    <img [src]="userData.avatar || 'https://ionicframework.com/docs/img/demos/avatar.svg'" alt="Avatar">
       </ion-avatar>
+      <a class="edit-photo-link" (click)="changeAvatar()">Editar foto</a>
     </div>
   </div>
 
