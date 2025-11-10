@@ -52,6 +52,9 @@ export interface Request {
   origin_address?: Address; 
   destination_address?: Address; 
   courier?: SimpleUser;
+  title: string;
+  description?: string;
+  payment_method: string;
 }
 
 
@@ -75,4 +78,9 @@ export interface Order {
   status?: OrderStatus;
   created_at: string; 
   updated_at: string;
+}
+
+export interface EarningsResponse {
+  total_earnings: number;
+  completed_orders: Order[];
 }
