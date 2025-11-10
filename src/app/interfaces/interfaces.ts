@@ -51,6 +51,7 @@ export interface Request {
   courier?: SimpleUser;
   title: string;
   description?: string;
+  payment_method: string;
 }
 
 
