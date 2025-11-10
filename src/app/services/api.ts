@@ -14,6 +14,7 @@ export interface UserData {
 	password: string;
 	birthday: string;
 	courier?: any;
+	avatar: string;
 }
 
 

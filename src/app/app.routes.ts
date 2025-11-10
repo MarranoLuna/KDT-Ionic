@@ -151,10 +151,12 @@ export const routes: Routes = [
     path: 'order-map',
     loadComponent: () => import('./order-map/order-map.page').then( m => m.OrderMapPage)
   },
+
   {
     path: 'kdt-earnings',
     loadComponent: () => import('./kdt-earnings/kdt-earnings.page').then( m => m.KdtEarningsPage)
   },
+
 
 ];
 

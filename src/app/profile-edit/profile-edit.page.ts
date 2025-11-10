@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService, UserData } from 'src/app/services/api';
 import { UserService } from 'src/app/services/user';
 import { Router } from '@angular/router';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import {
   IonHeader, 
   IonToolbar, 
@@ -16,7 +18,6 @@ import {
   IonButton,
   LoadingController,
   IonLabel,
-
 } from '@ionic/angular/standalone';
 
 import { FormsModule } from '@angular/forms';
@@ -40,7 +41,7 @@ import { RouterLink } from '@angular/router';
 })
 export class ProfileEditPage implements OnInit {
 
-  userData: UserData = { id: 0, firstname: '', lastname: '', email: '', password: '', birthday: '' };
+  userData: UserData = { id: 0, firstname: '', lastname: '', email: '', password: '', birthday: '', avatar: '' };
 
   currentUserId: number | null = null;
 
@@ -49,7 +50,7 @@ export class ProfileEditPage implements OnInit {
     private userService: UserService,
     private loadingCtrl: LoadingController,
     private router: Router
-  ) { }
+  ) { defineCustomElements(window); }
 
 
   async ngOnInit() {
@@ -76,39 +77,59 @@ export class ProfileEditPage implements OnInit {
   }
 
 
+  async changeAvatar() {
+    console.log('Abriendo cámara para avatar');
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: true, // Cambiado a 'true', es mejor para un avatar (permite recortar)
+        resultType: CameraResultType.DataUrl, // ¡Perfecto! Nos da base64
+        source: CameraSource.Prompt, 
+        promptLabelHeader: 'Seleccionar Foto',
+        promptLabelPhoto: 'Elegir de la galería',
+        promptLabelPicture: 'Tomar foto con la cámara'
+      });
+
+      if (image.dataUrl) {
+        // 4. ASIGNA LA IMAGEN AL OBJETO 'userData'
+        // El HTML [src] se actualizará automáticamente.
+        this.userData.avatar = image.dataUrl;
+      }
+    } catch (error) {
+      console.error('Error al cambiar el avatar', error);
+    }
+  }
+
 
 
   //Guardar los datos
   async saveChanges() {
     if (!this.userData.id) {
-      console.error('No hay un ID de usuario para actualizar.');
-      return;
+    console.error('No hay un ID de usuario para actualizar.');
+    return;
     }
 
     const loading = await this.loadingCtrl.create({ message: 'Guardando cambios...' });
     await loading.present();
-
     // Paso 1: Enviar los datos actualizados a la API
     this.apiService.updateUserData(this.userData.id, this.userData).subscribe({
-      // Ojo: la función 'next' ahora es 'async' para poder usar 'await' dentro
-      next: async (response) => {
-        console.log('Usuario actualizado en la API:', response);
-        
-        // Paso 2: Actualizar los datos en Capacitor Preferences
-        await this.userService.saveUser(this.userData);
-        console.log('Datos locales actualizados en Preferences.');
+    next: async (response) => {
+    console.log('Usuario actualizado en la API:', response);
 
-        await loading.dismiss();
-        
-        // Navegar de vuelta al perfil del usuario
-        this.router.navigate(['/profile']);
-      },
-      error: async (error) => {
-        console.error('Error al actualizar el usuario:', error);
-        await loading.dismiss();
-        // Aquí podrías mostrar una alerta de error al usuario
-      }
-    });
-  }
-}
+    //Guardamos la respuesta del servidor 
+    await this.userService.saveUser(response);
+    console.log('Datos locales actualizados en Preferences.');
+
+    await loading.dismiss();
+
+    // Navegar de vuelta al perfil del usuario
+    this.router.navigate(['/home']);
+    },
+    error: async (error) => {
+    console.error('Error al actualizar el usuario:', error);
+    await loading.dismiss();
+    }
+});
+ 
+}}
 

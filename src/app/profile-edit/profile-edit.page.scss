@@ -1,8 +1,17 @@
 .welcome-section {
   display: flex;
+  flex-direction: column; /* <-- AÑADE ESTO: Apila el avatar y el enlace */
   justify-content: center;
   align-items: center;
   padding: 20px;
+}
+
+/* CSS para el nuevo enlace (sin el margen grande) */
+.edit-photo-link {
+  color: #000000;
+  font-size: 1.1rem;
+  margin-top: 10px; /* <-- Un margen pequeño y fijo, en lugar de 10% */
+  text-decoration: none; /* Opcional: para quitar el subrayado */
 }
 
 .large-avatar {

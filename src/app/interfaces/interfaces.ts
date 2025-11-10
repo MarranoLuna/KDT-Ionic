@@ -1,12 +1,15 @@
 
 export interface UserData {
-  id: number;
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  birthday: string;
+	id?: number;
+	firstname: string;
+	lastname: string;
+	email: string;
+	password: string;
+	birthday: string;
+	courier?: any;
+	avatar: string;
 }
+
 export interface SimpleUser {
   id: number;
   firstname: string;
