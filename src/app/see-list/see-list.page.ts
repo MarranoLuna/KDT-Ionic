@@ -106,7 +106,7 @@ export class SeeListPage implements OnInit {
         const requestIndex = this.availableRequests.findIndex(req => req.id === requestId);
         if (requestIndex !== -1) {
           // Le agregamos una propiedad para saber que ya ofertamos
-          this.availableRequests[requestIndex].hasOffered = true;
+          this.availableRequests[requestIndex].has_offered = true;
         }
       },
 
