@@ -19,8 +19,8 @@ export class SeeListPage implements OnInit {
 
   availableRequests: any[] = [];
   isLoading = true;
-  //private apiUrl = 'https://kdtapp.openit.ar/api'; /// cambiar para usar API
-  private apiUrl = 'http://localhost:8000/api'
+  private apiUrl = 'https://kdtapp.openit.ar/api'; /// cambiar para usar API
+  //private apiUrl = 'http://localhost:8000/api'
   constructor(
     private http: HttpClient,
     private loadingCtrl: LoadingController,
