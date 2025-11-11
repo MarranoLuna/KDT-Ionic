@@ -33,7 +33,7 @@
           <p><strong>Origen:</strong> {{ order.offer.request?.origin_address?.address }}</p>
           <p><strong>Destino:</strong> {{ order.offer.request?.destination_address?.address }}</p>
           <p><strong>Cliente:</strong> {{ order.offer.request?.user?.firstname }}</p>
-          <p><strong>Tu Ganancia:</strong> {{ order.offer.price| currency:'ARS':'symbol' }}</p>
+          <p><strong>Tu Ganancia:</strong> {{ order.offer.price| currency:'':'symbol' }}</p>
         </ion-label>
       </ion-item>
     </ion-card-content>
