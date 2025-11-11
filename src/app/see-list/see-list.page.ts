@@ -19,8 +19,8 @@ export class SeeListPage implements OnInit {
 
   availableRequests: any[] = [];
   isLoading = true;
-  private apiUrl = 'https://kdtapp.openit.ar/api'; /// cambiar para usar API
-  //private apiUrl = 'http://localhost:8000/api'
+  //private apiUrl = 'https://kdtapp.openit.ar/api'; /// cambiar para usar API
+  private apiUrl = 'http://localhost:8000/api'
   constructor(
     private http: HttpClient,
     private loadingCtrl: LoadingController,
@@ -88,7 +88,7 @@ export class SeeListPage implements OnInit {
       ]
     });
     await alert.present();
-    
+
   }
 
   async sendOfferToApi(requestId: number, price: number) {
@@ -99,7 +99,7 @@ export class SeeListPage implements OnInit {
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
     const body = { price: price }; // El cuerpo de la petición solo necesita el precio
 
-   this.http.post(`${this.apiUrl}/requests/${requestId}/offers`, body, { headers, withCredentials: true }).subscribe({
+    this.http.post(`${this.apiUrl}/requests/${requestId}/make_offer`, body, { headers, withCredentials: true }).subscribe({
       next: (offer) => {
         loading.dismiss();
         this.presentToast('¡Oferta enviada con éxito!', 'success');
