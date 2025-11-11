@@ -214,6 +214,21 @@ export class ApiService {
 		this.http.get<any[]>(`${this.apiUrl}/requests/available`, { headers, withCredentials: true })
 	}
 
+	/// VEHÍCULOS ---------------------------------------------------------------------------------------------------
+	async getVehicles(){
+		const headers = await this.createHeadersWithToken();
+		return this.http.get<any>(`${this.apiUrl}/vehicles`, { headers, withCredentials: true })
+	}
+
+	async changeVehicle(vehicle_id:number){
+		const headers = await this.createHeadersWithToken();
+		return this.http.post<any>(`${this.apiUrl}/change_vehicle`,{"vehicle_id":vehicle_id}, { headers, withCredentials: true })
+	}
+	async deleteVehicle(vehicle_id:number){
+		const headers = await this.createHeadersWithToken();
+		return this.http.post<any>(`${this.apiUrl}/delete_vehicle`,{"vehicle_id":vehicle_id}, { headers, withCredentials: true })
+	}
+
 	// getBrands(): Observable<Brand[]> {
 	//   return this.http.get<Brand[]>(`${this.apiUrl}/brands`);
 	// }

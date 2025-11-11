@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ToastController, LoadingController } from '@ionic/angular';
+import { ToastController, LoadingController, AlertController} from '@ionic/angular';
 import { Preferences } from '@capacitor/preferences';
 import { Router } from '@angular/router';
 
@@ -10,6 +10,7 @@ export class Global {
 	constructor(
 		private toastController: ToastController,
 		private loadingController: LoadingController,
+		private AlertController: AlertController,
 		private router: Router
 	) { }
 
@@ -41,14 +42,28 @@ export class Global {
 	}
 
 	// Verifica si el usuario está logueado y redirige si no lo está
-    async verifyLogin(): Promise<void> {
-        const { value } = await Preferences.get({ key: 'authToken' });
-        if (!value) {
-            this.router.navigate(['/login']);
-        }
-    }
+	async verifyLogin(): Promise<void> {
+		const { value } = await Preferences.get({ key: 'authToken' });
+		if (!value) {
+			this.router.navigate(['/login']);
+		}
+	}
 
 	recargarPagina() {
 		window.location.reload();
+	}
+
+	async presentInputAlert(title:string, message:string, inputs:any, confirmHandler: (data: any) => void) {
+		const alert = await this.AlertController.create({
+			header: title,
+			message: message,
+			inputs: inputs,
+			buttons: [
+				{ text: 'Cancelar', role: 'cancel' },
+				{text: 'Confirmar', handler:confirmHandler}
+			]
+		});
+		await alert.present();
+		return alert;
 	}
 }

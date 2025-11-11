@@ -1,0 +1,48 @@
+.vehicle_model {
+    text-transform: uppercase;
+}
+ion-header{
+    height: 10%;
+    ion-toolbar{
+        height: 100%;
+    }
+}
+
+ion-list {
+    height: 80%;
+    overflow: auto;
+}
+
+ion-card {
+    border-radius: 1.7rem;
+
+    ion-button {
+        padding: 0;
+        width: 40%;
+        font-size: 1rem;
+        margin-inline: 5%;
+    }
+}
+
+ion-card-title {
+    font-size: 1.5rem;
+}
+
+ion-card-subtitle {
+    font-size: 1.1rem;
+}
+
+ion-card-content {
+    text-align: center;
+}
+
+.card_footer {
+    width: 100%;
+    padding-bottom: 0.8rem;
+}
+
+ion-footer{
+    height: 10%;
+    text-align: center;
+    padding:0.7rem;
+}
