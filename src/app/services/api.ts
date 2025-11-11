@@ -172,9 +172,15 @@ export class ApiService {
 	}
 
 	updateUserData(userId: number, data: UserData): Observable<UserData> {
-		const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-		return this.http.put<UserData>(`${this.apiUrl}/users/${userId}`, data, { headers });
-	}
+        return this.getToken().pipe(
+            switchMap(token => {
+                const headers = this.createAuthHeaders(token as string);
+
+                // 3. Lanza la petición PUT con los headers correctos
+                return this.http.put<UserData>(`${this.apiUrl}/users/${userId}`, data, { headers });
+            })
+        );
+    }
 
 	/// Nuevo método para guardar una dirección
 	saveAddress(addressData: any): Observable<any> {
