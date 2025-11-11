@@ -155,7 +155,11 @@ export const routes: Routes = [
   {
     path: 'kdt-earnings',
     loadComponent: () => import('./kdt-earnings/kdt-earnings.page').then( m => m.KdtEarningsPage)
+  },  {
+    path: 'new-vehicle',
+    loadComponent: () => import('./new-vehicle/new-vehicle.page').then( m => m.NewVehiclePage)
   },
+
 
 
 ];
