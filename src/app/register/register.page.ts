@@ -94,7 +94,6 @@ export class RegisterPage {
 
         const validationErrors = e.error.errors;
         let errorMessage = 'Verifica los siguientes campos:\n';
-
    
         for (const key in validationErrors) {
           if (Object.prototype.hasOwnProperty.call(validationErrors, key)) {

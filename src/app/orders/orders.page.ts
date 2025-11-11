@@ -19,8 +19,8 @@ export class OrdersPage implements OnInit {
 
   orders: any[] = [];
   isLoading = true;
-  private apiUrl = 'https://kdtapp.openit.ar/api' // CORREGIR Y SEPARAR FUNCIONES Usar la URL del servicio
-
+  //private apiUrl = 'http://localhost:8000/api' // CORREGIR Y SEPARAR FUNCIONES Usar la URL del servicio
+  private apiUrl = 'https://kdtapp.openit.ar/api'
   constructor(
     private http: HttpClient, // Usaremos http directo si no tienes getOrders en ApiService
     private global: Global,

@@ -31,7 +31,8 @@ export class OrderDetailPage implements OnInit {
   currentOrder: any = null; // Usamos 'any' como en tu 'orders.page'
   isCompleting: boolean = false;
   isLoading: boolean = true;
-  private apiUrl = 'http://localhost:8000/api'; // Obtenemos la URL como en 'orders.page'
+  //private apiUrl = 'http://localhost:8000/api';
+  private apiUrl ='https://kdtapp.openit.ar/api' 
 
   constructor(
     private router: Router,

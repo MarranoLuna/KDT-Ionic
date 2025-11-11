@@ -6,10 +6,44 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">kdt-earnings</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+
+  <div *ngIf="isLoading" class="ion-text-center ion-padding-top">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Calculando tus ganancias...</p>
+  </div>
+
+  <div *ngIf="!isLoading">
+    
+    <ion-card class="total-earnings-card">
+      <ion-card-content class="ion-text-center">
+        <ion-label>
+          <p>Ganancias Totales (Completadas)</p>
+          <h1>{{ totalEarnings | currency:'$':'symbol' }}</h1>
+        </ion-label>
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-item lines="none" class="ion-margin-top">
+      <ion-label>
+        <h2>Desglose de Pedidos</h2>
+      </ion-label>
+    </ion-item>
+
+    <div *ngIf="completedOrders.length === 0" class="ion-text-center ion-padding">
+      <p>Aún no tienes pedidos completados.</p>
+    </div>
+
+    <ion-list *ngIf="completedOrders.length > 0" lines="full">
+      <ion-item *ngFor="let order of completedOrders">
+        <ion-label>
+          <h3>{{ order.offer.request?.title || ('Pedido #' + order.id) }}</h3>
+          <p>{{ order.updated_at | date:'dd/MM/yyyy HH:mm' }}</p>
+        </ion-label>
+        <span slot="end" class="earning-amount">+ {{ order.offer.price | currency:'ARS':'symbol' }}</span>
+      </ion-item>
+    </ion-list>
+
+  </div>
+
 </ion-content>
