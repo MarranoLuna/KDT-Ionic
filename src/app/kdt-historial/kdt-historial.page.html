@@ -17,26 +17,41 @@
     <p>No tienes pedidos completados en tu historial.</p>
   </div>
 
-  <ion-card *ngFor="let order of orderHistory" class="request-card">
-    <ion-card-header>
-      <ion-card-title>Pedido #{{ order.id }}</ion-card-title>
-      <ion-card-subtitle class="ion-text-end" [color]="order.status?.name === 'Completado' ? 'success' : 'danger'">
-        {{ order.status?.name || 'Estado Desconocido' }}
-      </ion-card-subtitle>
-      <ion-card-subtitle class="ion-text-end">
-        {{ order.updated_at | date:'dd/MM/yyyy HH:mm' }}
-      </ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-item lines="none">
-        <ion-label>
-          <p><strong>Origen:</strong> {{ order.offer.request?.origin_address?.address }}</p>
-          <p><strong>Destino:</strong> {{ order.offer.request?.destination_address?.address }}</p>
-          <p><strong>Cliente:</strong> {{ order.offer.request?.user?.firstname }}</p>
-          <p><strong>Tu Ganancia:</strong> {{ order.offer.price| currency:'':'symbol' }}</p>
-        </ion-label>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
+ <ion-card *ngFor="let order of orderHistory" class="request-card">
+  <ion-card-header>
+    
+    <ion-card-title>
+      Pedido #{{ order.id }}
+    </ion-card-title>
+    
+    <ion-card-subtitle class="ion-text-end" [color]="order.status?.name === 'Completado' ? 'success' : 'danger'">
+      {{ order.status?.name || 'Estado Desconocido' }}
+    </ion-card-subtitle>
+    <ion-card-subtitle class="ion-text-end">
+      {{ order.updated_at | date:'dd/MM/yyyy HH:mm' }}
+    </ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    
+    <ion-item lines="none" class="detail-item">
+      <ion-label>
+        <p><strong>Origen:</strong> {{ order.offer.request?.origin_address?.address }}</p>
+        <p><strong>Destino:</strong> {{ order.offer.request?.destination_address?.address }}</p>
+        <p><strong>Cliente:</strong> {{ order.offer.request?.user?.firstname }}</p>
+      </ion-label>
+    </ion-item>
+    
+    <ion-item lines="none" class="earnings-item">
+      <ion-label>
+        <strong>Tu Ganancia:</strong>
+      </ion-label>
+      <span slot="end" class="earnings-amount">
+        {{ order.offer.price | currency:'':'symbol' }}
+      </span>
+    </ion-item>
+
+  </ion-card-content>
+</ion-card>
 
 </ion-content>
