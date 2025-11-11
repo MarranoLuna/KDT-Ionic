@@ -44,6 +44,13 @@
         <span class="label">Descripción:</span>
         <p>{{ request.description }}</p>
         <p class="user-info">
+
+          <span class="label">Forma de pago:</span>
+        <p>{{ request.payment_method }}</p>
+        <p class="user-info">
+
+  
+        <p class="user-info">
           <ion-icon name="person-circle-outline" color="medium"></ion-icon>
           Solicitado por: <strong>{{ request.user?.firstname }} {{ request.user?.lastname }}</strong>
         </p>

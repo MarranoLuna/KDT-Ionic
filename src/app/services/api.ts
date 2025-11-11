@@ -4,7 +4,7 @@ import { Observable, from, throwError } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 import { Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { LoginResponse, Brand, Order, ToggleStatusResponse } from '../interfaces/interfaces';
+import { LoginResponse, Brand, Order, ToggleStatusResponse, EarningsResponse } from '../interfaces/interfaces';
 
 export interface UserData {
 	id?: number;
@@ -357,4 +357,21 @@ export class ApiService {
 		);
 	}
 
-}
+
+	getEarnings(): Observable<EarningsResponse> { 
+    return from(Preferences.get({ key: 'authToken' })).pipe(
+      switchMap(token => {
+        if (!token || !token.value) {
+          return throwError(() => new Error('Token no encontrado'));
+        }
+        
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token.value}`,
+          'Accept': 'application/json'
+        });
+        
+        return this.http.get<EarningsResponse>(`${this.apiUrl}/courier/earnings`, { headers });
+      })
+    );
+
+}}
