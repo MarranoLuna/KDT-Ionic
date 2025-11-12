@@ -6,7 +6,20 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
+
+  <ion-segment 
+    (ionChange)="onFilterChange($event)" 
+    [value]="currentFilter"
+    class="ion-padding-horizontal">
+    
+    <ion-segment-button value="today">
+      <ion-label>Hoy</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="total">
+      <ion-label>Total</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 
   <div *ngIf="isLoading" class="ion-text-center ion-padding-top">
     <ion-spinner name="crescent"></ion-spinner>
@@ -15,26 +28,26 @@
 
   <div *ngIf="!isLoading">
     
-    <ion-card class="total-earnings-card">
+    <ion-card class="total-earnings-card ion-margin-horizontal">
       <ion-card-content class="ion-text-center">
         <ion-label>
-          <p>Ganancias Totales (Completadas)</p>
-          <h1>{{ totalEarnings | currency:'$':'symbol' }}</h1>
+          <p>{{ currentFilter === 'today' ? 'Ganancias de Hoy' : 'Ganancias Totales' }}</p>
+          <h1>{{ totalEarnings | currency:'ARS':'symbol' }}</h1>
         </ion-label>
       </ion-card-content>
     </ion-card>
     
-    <ion-item lines="none" class="ion-margin-top">
+    <ion-item lines="none" class="ion-padding-horizontal">
       <ion-label>
         <h2>Desglose de Pedidos</h2>
       </ion-label>
     </ion-item>
 
     <div *ngIf="completedOrders.length === 0" class="ion-text-center ion-padding">
-      <p>Aún no tienes pedidos completados.</p>
+      <p>{{ currentFilter === 'today' ? 'No tienes pedidos completados hoy.' : 'No tienes pedidos en tu historial.' }}</p>
     </div>
 
-    <ion-list *ngIf="completedOrders.length > 0" lines="full">
+    <ion-list *ngIf="completedOrders.length > 0" lines="full" class="ion-padding-horizontal">
       <ion-item *ngFor="let order of completedOrders">
         <ion-label>
           <h3>{{ order.offer.request?.title || ('Pedido #' + order.id) }}</h3>
