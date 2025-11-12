@@ -373,7 +373,7 @@ export class ApiService {
 	}
 
 
-	getEarnings(): Observable<EarningsResponse> { 
+	getEarnings(filter: 'today' | 'total'): Observable<EarningsResponse> { 
     return from(Preferences.get({ key: 'authToken' })).pipe(
       switchMap(token => {
         if (!token || !token.value) {
@@ -385,8 +385,10 @@ export class ApiService {
           'Accept': 'application/json'
         });
         
-        return this.http.get<EarningsResponse>(`${this.apiUrl}/courier/earnings`, { headers });
+        // ¡Añadimos el parámetro de filtro a la URL!
+        const url = `${this.apiUrl}/courier/earnings?filter=${filter}`;
+        
+        return this.http.get<EarningsResponse>(url, { headers });
       })
-    );
-
-}}
+    );}
+}
