@@ -88,7 +88,7 @@ export class SeeListPage implements OnInit {
       ]
     });
     await alert.present();
-
+    
   }
 
   async sendOfferToApi(requestId: number, price: number) {
@@ -108,6 +108,7 @@ export class SeeListPage implements OnInit {
           // Le agregamos una propiedad para saber que ya ofertamos
           this.availableRequests[requestIndex].has_offered = true;
         }
+        this.global.recargarPagina();
       },
 
 
