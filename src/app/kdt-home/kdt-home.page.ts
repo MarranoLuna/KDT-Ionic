@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
 import { ApiService, } from '../services/api';
 import { ToastController } from '@ionic/angular';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MenuComponent } from '../menu/menu.component';
+import { KdtMenuComponent } from '../components/kdt-menu/kdt-menu.component';
 import { ToggleStatusResponse, Order } from '../interfaces/interfaces';
 import { Router, NavigationExtras } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
@@ -20,7 +20,7 @@ import { lastValueFrom } from 'rxjs';
   templateUrl: './kdt-home.page.html',
   styleUrls: ['./kdt-home.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, GoogleMapsModule, RouterModule, MenuComponent]
+  imports: [IonicModule, CommonModule, FormsModule, GoogleMapsModule, RouterModule, KdtMenuComponent]
 })
 export class KdtHomePage implements OnInit {
 

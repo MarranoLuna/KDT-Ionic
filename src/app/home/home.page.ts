@@ -4,7 +4,7 @@ import { Global } from 'src/app/services/global';
 import { OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
-import { MenuComponent } from '../menu/menu.component';
+import { UserMenuComponent } from '../components/user-menu/user-menu.component';
 // CAMBIO 1: Importa la interfaz UserData
 import { ApiService, UserData } from '../services/api';
 import { Preferences } from '@capacitor/preferences';
@@ -15,7 +15,7 @@ import { LoadingController } from '@ionic/angular';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [ RouterLink, MenuComponent, IonicModule]})
+  imports: [ RouterLink, UserMenuComponent, IonicModule]})
 
 export class HomePage implements OnInit {
 
