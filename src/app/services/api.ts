@@ -214,11 +214,7 @@ export class ApiService {
 		);
 	}
 
-	/// VISTA DE CADETE ---------------------------------------------------------------------------------------------------
-	async getAvailableRequests() {
-		const headers = await this.createHeadersWithToken();
-		this.http.get<any[]>(`${this.apiUrl}/requests/available`, { headers, withCredentials: true })
-	}
+	
 
 	/// VEHÍCULOS ---------------------------------------------------------------------------------------------------
 	async getVehicles(){
@@ -300,6 +296,81 @@ export class ApiService {
 		);
 	}
 
+
+
+	// funciones de see-list
+
+	getAvailableRequests(): Observable<any[]> { 
+    return from(Preferences.get({ key: 'authToken' })).pipe(
+      switchMap(token => {
+        if (!token || !token.value) {
+          return throwError(() => new Error('Token no encontrado'));
+        }
+        const headers = new HttpHeaders({ 'Authorization': `Bearer ${token.value}` });
+        
+        return this.http.get<any[]>(`${this.apiUrl}/requests/available`, { headers, withCredentials: true });
+      })
+    );
+  }
+
+  makeOffer(requestId: number, price: number): Observable<any> {
+    return from(Preferences.get({ key: 'authToken' })).pipe(
+      switchMap(token => {
+        if (!token || !token.value) {
+          return throwError(() => new Error('Token no encontrado'));
+        }
+        const headers = new HttpHeaders({ 'Authorization': `Bearer ${token.value}` });
+        const body = { price: price };
+        const url = `${this.apiUrl}/requests/${requestId}/make_offer`; // O '/offers' si la renombraste
+        
+        return this.http.post<any>(url, body, { headers, withCredentials: true });
+      })
+    );
+  }
+
+  // funciones orders-detail
+
+  getOrderDetail(orderId: number | string): Observable<Order> {
+    return from(Preferences.get({ key: 'authToken' })).pipe(
+      switchMap(token => {
+        if (!token || !token.value) {
+          return throwError(() => new Error('Token no encontrado'));
+        }
+        
+        // Usamos tu helper 'createAuthHeaders' o creamos uno
+        const headers = new HttpHeaders({ 
+          'Authorization': `Bearer ${token.value}`,
+          'Accept': 'application/json'
+        });
+        
+        // Llama a la ruta de detalles que ya creamos
+        return this.http.get<Order>(`${this.apiUrl}/orders/${orderId}/details`, { headers });
+      })
+    );
+  }
+
+  //funciones de orders.page.ts
+
+  getUserOrders(): Observable<Order[]> { 
+    return from(Preferences.get({ key: 'authToken' })).pipe(
+      switchMap(token => {
+        if (!token || !token.value) {
+          return throwError(() => new Error('Token no encontrado'));
+        }
+        
+        
+        const headers = new HttpHeaders({ 
+          'Authorization': `Bearer ${token.value}`,
+          'Accept': 'application/json'
+        });
+        
+
+        return this.http.get<Order[]>(`${this.apiUrl}/user/my-orders`, { headers, withCredentials: true });
+      })
+    );
+  }
+
+
 	/** COMPLETA EL PEDIDO*/
 	completeOrder(orderId: number): Observable<any> {
 		return from(Preferences.get({ key: 'authToken' })).pipe(
@@ -319,21 +390,7 @@ export class ApiService {
 		);
 	}
 
-	getOrderDetail(orderId: number): Observable<Order> {
-		return from(Preferences.get({ key: 'authToken' })).pipe(
-			switchMap(token => {
-				if (!token || !token.value) {
-					return throwError(() => new Error('Token no encontrado'));
-				}
-				const headers = new HttpHeaders({
-					'Authorization': `Bearer ${token.value}`,
-					'Accept': 'application/json'
-				});
-
-				return this.http.get<Order>(`${this.apiUrl}/orders/${orderId}/details`, { headers });
-			})
-		);
-	}
+	
 
 	getOrderHistory(): Observable<Order[]> {
 		return from(Preferences.get({ key: 'authToken' })).pipe(

@@ -1,12 +1,13 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, LoadingController, ToastController, AlertController } from '@ionic/angular';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Preferences } from '@capacitor/preferences';
 import { RouterModule } from '@angular/router';
 import { Global } from 'src/app/services/global';
-
+import { ApiService } from '../services/api'; 
+import { Request } from '../interfaces/interfaces'; 
+import { HttpErrorResponse } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-see-list',
@@ -17,16 +18,15 @@ import { Global } from 'src/app/services/global';
 })
 export class SeeListPage implements OnInit {
 
-  availableRequests: any[] = [];
+  availableRequests: Request[] = []; //interfaz 
   isLoading = true;
-  private apiUrl = 'https://kdtapp.openit.ar/api'; /// cambiar para usar API
-  //private apiUrl = 'http://localhost:8000/api'
+
   constructor(
-    private http: HttpClient,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
     private global: Global,
+    private apiService: ApiService 
   ) { }
 
   ngOnInit() { }
@@ -37,19 +37,13 @@ export class SeeListPage implements OnInit {
 
   async loadAvailableRequests() {
     this.isLoading = true;
-    const { value: token } = await Preferences.get({ key: 'authToken' });
-    if (!token) {
-      this.isLoading = false;
-      return;
-    }
-    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
-
-    this.http.get<any[]>(`${this.apiUrl}/requests/available`, { headers, withCredentials: true }).subscribe({
-      next: (data) => {
-        this.availableRequests = data; // Ya no hay que filtrar
+    
+    this.apiService.getAvailableRequests().subscribe({
+      next: (data: Request[]) => {
+        this.availableRequests = data;
         this.isLoading = false;
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Error al cargar solicitudes disponibles', err);
         this.isLoading = false;
         this.presentToast('No se pudieron cargar las solicitudes.', 'danger');
@@ -57,7 +51,8 @@ export class SeeListPage implements OnInit {
     });
   }
 
-  async makeOffer(request: any) {
+  
+  async makeOffer(request: Request) { 
     const alert = await this.alertCtrl.create({
       header: 'Ingresá tu Oferta',
       message: `¿Cuánto querés cobrar por la solicitud #${request.id}?`,
@@ -66,7 +61,7 @@ export class SeeListPage implements OnInit {
           name: 'price',
           type: 'number',
           placeholder: 'Ej: 500',
-          min: 0, // No permitir precios negativos
+          min: 0,
         },
       ],
       buttons: [
@@ -74,53 +69,69 @@ export class SeeListPage implements OnInit {
         {
           text: 'Ofertar',
           handler: async (data) => {
-            // Validamos que se haya ingresado un precio
             if (!data.price || data.price <= 0) {
               this.presentToast('Por favor, ingresá un precio válido.', 'danger');
-              return false; // Evita que se cierre el alert
+              return false; 
             }
 
-            // Si el precio es válido, llamamos a la API
-            await this.sendOfferToApi(request.id, data.price);
-            return true; // Cierra el alert
+      
+            try {
+              
+              await this.sendOfferToApi(request, data.price);
+              
+              request.has_offered = true; 
+              this.presentToast('¡Oferta enviada con éxito!', 'success');
+              
+              return true; 
+
+            } catch (error) {
+             
+              console.error('Error al enviar la oferta', error);
+              
+              let message = 'No se pudo enviar la oferta.';
+              
+              if (error instanceof HttpErrorResponse) {
+                if (error.status === 409) { 
+                  message = error.error.message || 'Ya has enviado una oferta.';
+                  request.has_offered = true; 
+                } else if (error.error && error.error.message) {
+                  message = error.error.message;
+                }
+              }
+              
+              this.presentToast(message, 'danger');
+              return false; 
+            }
           }
         }
       ]
     });
     await alert.present();
-    
   }
 
-  async sendOfferToApi(requestId: number, price: number) {
+  //envía la oferta al ApiService
+   
+  async sendOfferToApi(request: Request, price: number) {
     const loading = await this.loadingCtrl.create({ message: 'Enviando oferta...' });
     await loading.present();
 
-    const { value: token } = await Preferences.get({ key: 'authToken' });
-    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
-    const body = { price: price }; // El cuerpo de la petición solo necesita el precio
+    try {
+      const offer = await lastValueFrom(
+        this.apiService.makeOffer(request.id, price)
+      );
+      
+      loading.dismiss();
+      this.global.recargarPagina(); 
+      return offer;
 
-    this.http.post(`${this.apiUrl}/requests/${requestId}/make_offer`, body, { headers, withCredentials: true }).subscribe({
-      next: (offer) => {
-        loading.dismiss();
-        this.presentToast('¡Oferta enviada con éxito!', 'success');
-        const requestIndex = this.availableRequests.findIndex(req => req.id === requestId);
-        if (requestIndex !== -1) {
-          // Le agregamos una propiedad para saber que ya ofertamos
-          this.availableRequests[requestIndex].has_offered = true;
-        }
-        this.global.recargarPagina();
-      },
-
-
-      error: (err) => {
-        loading.dismiss();
-        console.error('Error al enviar la oferta', err);
-        const message = err.error?.message || 'No se pudo enviar la oferta.';
-        this.presentToast(message, 'danger');
-      }
-    });
+    } catch (err) { 
+      loading.dismiss();
+      console.error('Error en la llamada API de sendOfferToApi', err);
+      throw err; 
+    }
   }
 
+  
   async presentToast(message: string, color: 'success' | 'danger') {
     const toast = await this.toastCtrl.create({ message, duration: 2000, color, position: 'top' });
     await toast.present();

@@ -10,7 +10,7 @@ import { paperPlaneOutline,
   checkmarkDoneCircleOutline,
   locateOutline,chevronDownOutline, locationOutline, trashOutline, exitOutline,rocketOutline, cubeOutline, notificationsOutline,newspaperOutline,cartOutline,
    peopleOutline,personCircleOutline, homeOutline, cloud, cloudUploadOutline, listOutline, addCircleOutline, cashOutline, archiveOutline, mapOutline, swapHorizontalOutline, 
-   eye, flagOutline, pinOutline, carSportOutline} from 'ionicons/icons';
+   eye, flagOutline, pinOutline, carSportOutline, cardOutline} from 'ionicons/icons';
 
 addIcons({
   'paperPlaneOutline':paperPlaneOutline,
@@ -39,6 +39,7 @@ addIcons({
   'flag-outline': flagOutline,
   'pin-outline':pinOutline,
   'car-sport-outline': carSportOutline,
+  'card-outline': cardOutline,
 
 }); 
 

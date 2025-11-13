@@ -55,6 +55,7 @@ export interface Request {
   title: string;
   description?: string;
   payment_method: string;
+  has_offered?: boolean;
 }
 
 
@@ -62,9 +63,13 @@ export interface Offer {
   id: number;
   amount: number; 
   price: number; 
+  payment_method: string;
   request?: Request;
+  courier?: {
+    id: number;
+    user: SimpleUser; 
+  }}
 
-}
 export interface OrderStatus {
   id: number;
   name: string;
@@ -78,6 +83,7 @@ export interface Order {
   status?: OrderStatus;
   created_at: string; 
   updated_at: string;
+  title: Request;
 }
 
 export interface EarningsResponse {

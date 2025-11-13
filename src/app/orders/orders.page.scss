@@ -1,12 +1,29 @@
-ion-content {
-  --background: var(--ion-background-color);
+// Quita el padding izquierdo del ion-item de detalles
+.detail-item {
+  --inner-padding-start: 0;
+  --padding-start: 0;
+
+  p {
+    font-size: 1.2em;
+    margin: 4px 0; // Un poco de espacio entre párrafos
+  }
 }
-.container {
-    text-align: center;  
-    width: 100%; 
-    align-items: flex-end;      
-    position: relative; 
-    height: 500px;     
+
+// Quita el padding y añade espacio al item del precio
+.earnings-item {
+  --inner-padding-start: 0;
+  --padding-start: 0;
+  margin-top: 8px; // Espacio entre los detalles y el precio
+   p {
+    font-size: 0.9em;
+    margin: 4px 0; // Un poco de espacio entre párrafos
+  }
+  // Estilo para el monto
+  .earnings-amount {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--ion-color-dark); // O el color que prefieras
+  }
 }
 
 img {
@@ -16,9 +33,7 @@ img {
     align-items: flex-end;   
 }
 
-p{
-  font-size: 1em;
-}
+
 
   .image{
     opacity: 0.5;
@@ -28,16 +43,4 @@ p{
     left: 50%;         
     transform: translateX(-50%);
     z-index: 1000;    
-}
-
-.custom-note{
-  display: flex;
-  justify-content: center;  
-  text-align: center;
-  gap: 20px;                
-  flex-wrap: wrap;          
-  margin: 10px auto;
-  max-width: 440px;         
-
-  
 }
