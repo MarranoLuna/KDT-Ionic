@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ApiService } from '../services/api';
 import { Global } from '../services/global';
+import { RouterLink, Router } from '@angular/router';
 
 @Component({
   selector: 'app-kdt-vehicle',
@@ -13,7 +14,7 @@ import { Global } from '../services/global';
   imports: [
     CommonModule,
     FormsModule,
-
+    RouterLink,
     IonicModule
   ]
 })
@@ -23,11 +24,13 @@ export class KdtVehiclePage implements OnInit {
   constructor(
     private API: ApiService,
     private global: Global,
+    private router:Router
   ) { }
 
   async ngOnInit() {
     this.showVehicles();
   }
+  
 
   async showVehicles() {
     const loading = await this.global.presentLoading("Cargando vehículos...");
