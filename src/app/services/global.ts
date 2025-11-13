@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { ToastController, LoadingController, AlertController} from '@ionic/angular';
 import { Preferences } from '@capacitor/preferences';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
+
 
 @Injectable({
 	providedIn: 'root' // para que este archivo esté disponible en toda la app
@@ -11,7 +13,8 @@ export class Global {
 		private toastController: ToastController,
 		private loadingController: LoadingController,
 		private AlertController: AlertController,
-		private router: Router
+		private router: Router,
+		private NavController: NavController 
 	) { }
 
 	// ACA ESCRIBIMOS TODAS LAS FUNCIONES GLOBALES QUE QUEREMOS USAR EN LA APP (LA API FUNCIONA DE LA MISMA MANERA)
@@ -65,5 +68,9 @@ export class Global {
 		});
 		await alert.present();
 		return alert;
+	}
+
+	go_back(){
+		this.NavController.back();
 	}
 }

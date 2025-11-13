@@ -12,8 +12,8 @@
 	<ion-list *ngIf="vehicles.length != 0">
 
 		<ion-card *ngFor="let vehicle of vehicles" class="vehicle-card" [ngStyle]="{
-    'background-color': vehicle.is_selected ? '#f7f4cb' : '#ffffff'
-    }">
+    		'background-color': vehicle.is_selected ? '#f7f4cb' : '#ffffff'
+    	}">
 			<ion-card-header>
 				<ion-card-title>
 					{{ vehicle.vehicle_type.name}} {{ vehicle.motorcycle_brand?.name || vehicle.bicycle_brand?.name }}
@@ -41,17 +41,17 @@
 				</svg>
 			</ion-card-content>
 			<div class="card_footer">
-				<ion-button [disabled]="vehicle.is_selected" (click)="select_vehicle(vehicle)"> 
+				<ion-button [disabled]="vehicle.is_selected" (click)="select_vehicle(vehicle)">
 					Seleccionar
 				</ion-button>
-				<ion-button (click)="edit_vehicle(vehicle)" color="danger"> 
-					Eliminar 
+				<ion-button (click)="edit_vehicle(vehicle)" color="danger">
+					Eliminar
 				</ion-button>
 			</div>
 		</ion-card>
 
 	</ion-list>
 	<ion-footer>
-		<ion-button (click)="new_vehicle()"> Nuevo Vehículo </ion-button>
+		<ion-button routerLink="/new-vehicle"> Nuevo Vehículo </ion-button>
 	</ion-footer>
 </ion-content>

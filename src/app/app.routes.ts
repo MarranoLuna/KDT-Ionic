@@ -12,154 +12,155 @@ export const routes: Routes = [
   },
   {
     path: 'index',
-    loadComponent: () => import('./index/index.page').then( m => m.IndexPage)
+    loadComponent: () => import('./index/index.page').then(m => m.IndexPage)
   },
   {
     path: 'login',
-    loadComponent: () => import('./login/login.page').then( m => m.LoginPage)
+    loadComponent: () => import('./login/login.page').then(m => m.LoginPage)
   },
   {
     path: 'register',
-    loadComponent: () => import('./register/register.page').then( m => m.RegisterPage)
+    loadComponent: () => import('./register/register.page').then(m => m.RegisterPage)
   },
   {
     path: 'home',
-    loadComponent: () => import('./home/home.page').then( m => m.HomePage),
+    loadComponent: () => import('./home/home.page').then(m => m.HomePage),
     canActivate: [authGuard, userGuard] // Requiere login Y ser 'user'
   },
 
   {
     path: 'new-requests',
-    loadComponent: () => import('./new-requests/new-requests.page').then( m => m.NewRequestsPage),
+    loadComponent: () => import('./new-requests/new-requests.page').then(m => m.NewRequestsPage),
     canActivate: [authGuard, userGuard] // Requiere login Y ser 'user'
   },
   {
     path: 'requests',
-    loadComponent: () => import('./requests/requests.page').then( m => m.RequestsPage),
+    loadComponent: () => import('./requests/requests.page').then(m => m.RequestsPage),
     canActivate: [authGuard, userGuard] // Requiere login Y ser 'user'
   },
 
   {
     path: 'orders',
-    loadComponent: () => import('./orders/orders.page').then( m => m.OrdersPage)
+    loadComponent: () => import('./orders/orders.page').then(m => m.OrdersPage)
   },
   {
     path: 'request-sent',
-    loadComponent: () => import('./request-sent/request-sent.page').then( m => m.RequestSentPage)
+    loadComponent: () => import('./request-sent/request-sent.page').then(m => m.RequestSentPage)
   },
   {
     path: 'forgot-password',
-    loadComponent: () => import('./forgot-password/forgot-password.page').then( m => m.ForgotPasswordPage)
+    loadComponent: () => import('./forgot-password/forgot-password.page').then(m => m.ForgotPasswordPage)
   },
   {
     path: 'notifications',
-    loadComponent: () => import('./notifications/notifications.page').then( m => m.NotificationsPage)
+    loadComponent: () => import('./notifications/notifications.page').then(m => m.NotificationsPage)
   },
-  
+
   {
     path: 'address',
-    loadComponent: () => import('./address/address.page').then( m => m.AddressPage),
+    loadComponent: () => import('./address/address.page').then(m => m.AddressPage),
     canActivate: [authGuard, userGuard] // Requiere login Y ser 'user'
   },
-    {
-      path: 'profile-edit',
-    loadComponent: () => import('./profile-edit/profile-edit.page').then( m => m.ProfileEditPage),
+  {
+    path: 'profile-edit',
+    loadComponent: () => import('./profile-edit/profile-edit.page').then(m => m.ProfileEditPage),
     canActivate: [authGuard] // Solo requiere estar logueado
   },
   {
     path: 'edit-password',
-    loadComponent: () => import('./edit-password/edit-password.page').then( m => m.EditPasswordPage)
+    loadComponent: () => import('./edit-password/edit-password.page').then(m => m.EditPasswordPage)
   },
   {
     path: 'register-motorcycle',
-    loadComponent: () => import('./register-motorcycle/register-motorcycle.page').then( m => m.RegisterMotorcyclePage)
+    loadComponent: () => import('./register-motorcycle/register-motorcycle.page').then(m => m.RegisterMotorcyclePage)
   },
   {
     path: 'register-bicycle',
-    loadComponent: () => import('./register-bicycle/register-bicycle.page').then( m => m.RegisterBicyclePage)
+    loadComponent: () => import('./register-bicycle/register-bicycle.page').then(m => m.RegisterBicyclePage)
   },
-    {
+  {
 
     path: 'be-kdt',
-    loadComponent: () => import('./be-kdt/be-kdt.page').then( m => m.BeKDTPage)
+    loadComponent: () => import('./be-kdt/be-kdt.page').then(m => m.BeKDTPage)
   },
   {
     path: 'kdt-form',
-    loadComponent: () => import('./kdt-form/kdt-form.page').then( m => m.KdtFormPage)
+    loadComponent: () => import('./kdt-form/kdt-form.page').then(m => m.KdtFormPage)
   },
   {
     path: 'kdt-form2',
-    loadComponent: () => import('./kdt-form2/kdt-form2.page').then( m => m.KdtForm2Page)
+    loadComponent: () => import('./kdt-form2/kdt-form2.page').then(m => m.KdtForm2Page)
   },
 
   {
     path: 'request-sent-kdt',
-    loadComponent: () => import('./request-sent-kdt/request-sent-kdt.page').then( m => m.RequestSentKdtPage)
+    loadComponent: () => import('./request-sent-kdt/request-sent-kdt.page').then(m => m.RequestSentKdtPage)
   },
   {
     path: 'validate-vehicle',
-    loadComponent: () => import('./validate-vehicle/validate-vehicle.page').then( m => m.ValidateVehiclePage )
+    loadComponent: () => import('./validate-vehicle/validate-vehicle.page').then(m => m.ValidateVehiclePage)
   },
   {
     path: 'kdt-home',
-    loadComponent: () => import('./kdt-home/kdt-home.page').then( m => m.KdtHomePage),
-     canActivate: [authGuard, kdtGuard] // Requiere login Y ser 'kdt'
+    loadComponent: () => import('./kdt-home/kdt-home.page').then(m => m.KdtHomePage),
+    canActivate: [authGuard, kdtGuard] // Requiere login Y ser 'kdt'
   },
   {
     path: 'see-list',
-    loadComponent: () => import('./see-list/see-list.page').then( m => m.SeeListPage),
+    loadComponent: () => import('./see-list/see-list.page').then(m => m.SeeListPage),
     canActivate: [authGuard, kdtGuard] // Protegida para KDTs logueados
   },
 
-{
-    path: 'offer-list/:requestId', 
-    loadComponent: () => import('./offer-list/offer-list.page').then( m => m.OfferListPage),
+  {
+    path: 'offer-list/:requestId',
+    loadComponent: () => import('./offer-list/offer-list.page').then(m => m.OfferListPage),
     canActivate: [authGuard, userGuard] // Protegida para usuarios
   },
   {
     path: 'offer-list',
-    loadComponent: () => import('./offer-list/offer-list.page').then( m => m.OfferListPage)
+    loadComponent: () => import('./offer-list/offer-list.page').then(m => m.OfferListPage)
   },
 
   {
-  path: 'orders',
-  loadComponent: () => import('./orders/orders.page').then( m => m.OrdersPage),
-  canActivate: [authGuard, userGuard] // Protegida para usuarios
-},
+    path: 'orders',
+    loadComponent: () => import('./orders/orders.page').then(m => m.OrdersPage),
+    canActivate: [authGuard, userGuard] // Protegida para usuarios
+  },
   {
     path: 'order-detail/:id',
-    loadComponent: () => import('./order-detail/order-detail.page').then( m => m.OrderDetailPage)
+    loadComponent: () => import('./order-detail/order-detail.page').then(m => m.OrderDetailPage)
   },
   {
     path: 'kdt-historial',
-    loadComponent: () => import('./kdt-historial/kdt-historial.page').then( m => m.KdtHistorialPage)
+    loadComponent: () => import('./kdt-historial/kdt-historial.page').then(m => m.KdtHistorialPage)
   },
   {
     path: 'kdt-earnings',
-    loadComponent: () => import('./kdt-earnings/kdt-earnings.page').then( m => m.KdtEarningsPage)
+    loadComponent: () => import('./kdt-earnings/kdt-earnings.page').then(m => m.KdtEarningsPage)
   },
   {
     path: 'kdt-vehicle',
-    loadComponent: () => import('./kdt-vehicle/kdt-vehicle.page').then( m => m.KdtVehiclePage)
+    loadComponent: () => import('./kdt-vehicle/kdt-vehicle.page').then(m => m.KdtVehiclePage)
   },
   {
     path: 'order-map',
-    loadComponent: () => import('./order-map/order-map.page').then( m => m.OrderMapPage)
+    loadComponent: () => import('./order-map/order-map.page').then(m => m.OrderMapPage)
   },
 
   {
     path: 'order-map',
-    loadComponent: () => import('./order-map/order-map.page').then( m => m.OrderMapPage)
+    loadComponent: () => import('./order-map/order-map.page').then(m => m.OrderMapPage)
   },
 
   {
     path: 'kdt-earnings',
-    loadComponent: () => import('./kdt-earnings/kdt-earnings.page').then( m => m.KdtEarningsPage)
-  },  {
-    path: 'new-vehicle',
-    loadComponent: () => import('./new-vehicle/new-vehicle.page').then( m => m.NewVehiclePage)
+    loadComponent: () => import('./kdt-earnings/kdt-earnings.page').then(m => m.KdtEarningsPage)
   },
-
+  {
+    path: 'new-vehicle',
+    loadComponent: () => import('./new-vehicle/new-vehicle.page').then(m => m.NewVehiclePage)
+  },
+  
 
 
 ];
@@ -167,7 +168,7 @@ export const routes: Routes = [
 
 
 
- 
+
 ;
 
 
