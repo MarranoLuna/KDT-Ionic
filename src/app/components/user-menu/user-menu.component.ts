@@ -12,16 +12,16 @@ import {
 } from '@ionic/angular/standalone';
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss'],
+  selector: 'app-user-menu',
+  templateUrl: './user-menu.component.html',
+  styleUrls: ['./user-menu.component.scss'],
   standalone: true,
   imports: [CommonModule, RouterModule, IonMenu,
     IonHeader, IonToolbar, IonTitle, IonContent,
     IonList, IonItem, IonIcon, IonLabel, IonFooter, IonButton, IonItemDivider,
   ]
 })
-export class MenuComponent implements OnInit {
+export class UserMenuComponent implements OnInit {
 
   public userRole: string | null = null;
 
@@ -64,3 +64,4 @@ export class MenuComponent implements OnInit {
     }
   }
 }
+
