@@ -24,9 +24,9 @@ export interface UserData {
 
 export class ApiService {
 
-	private apiUrl = 'http://localhost:8000/api'; // para probar en navegador
+	//private apiUrl = 'http://localhost:8000/api'; // para probar en navegador
 	//private apiUrl = 'http://10.0.2.2:8000/api'; // para probar en android studio
-	//public apiUrl = 'https://kdtapp.openit.ar/api';
+	public apiUrl = 'https://kdtapp.openit.ar/api';
 
 
 	constructor(
@@ -384,7 +384,6 @@ export class ApiService {
 					'Accept': 'application/json'
 				});
 
-				// Es un POST, pero no necesita body, por eso enviamos {}
 				return this.http.post<any>(`${this.apiUrl}/orders/${orderId}/complete`, {}, { headers });
 			})
 		);

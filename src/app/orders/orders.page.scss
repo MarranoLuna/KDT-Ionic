@@ -44,3 +44,17 @@ img {
     transform: translateX(-50%);
     z-index: 1000;    
 }
+
+.request-card {
+  margin-bottom: 16px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+
+.completed-bg {
+  --background: #e4e4e4; 
+  ion-item {
+    --background: transparent; 
+  }
+}
+

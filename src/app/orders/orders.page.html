@@ -1,55 +1,60 @@
-<ion-header>
-  <ion-toolbar color="warning">
-    <ion-buttons slot="start">
-    <ion-back-button defaultHref="/home" text=""></ion-back-button>
-    </ion-buttons>
-    <ion-title>Pedidos</ion-title>
-  </ion-toolbar>
-</ion-header>
+      <ion-header>
+      <ion-toolbar color="warning">
+      <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text=""></ion-back-button>
+      </ion-buttons>
+      <ion-title>Pedidos</ion-title>
+      </ion-toolbar>
+      </ion-header>
 
 
-<ion-content class="ion-padding">
+      <ion-content class="ion-padding">
 
-  <div *ngIf="isLoading" class="ion-text-center">
-    <ion-spinner name="crescent"></ion-spinner>
-    <p>Cargando pedidos...</p>
-  </div>
-  <div *ngIf="!isLoading && orders.length === 0" class="ion-text-center">
-    <p>No tienes pedidos activos.</p>
-    <div class="container">
-        <img src="assets/orders.png" />
+      <div *ngIf="isLoading" class="ion-text-center">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Cargando pedidos...</p>
       </div>
-  </div>
+      <div *ngIf="!isLoading && orders.length === 0" class="ion-text-center">
+      <p>No tienes pedidos activos.</p>
+      <div class="container">
+      <img src="assets/orders.png" />
+      </div>
+      </div>
 
-  <ion-card *ngFor="let order of orders" class="request-card">
-    <ion-card-header>
-      <ion-card-title>Pedido: {{ order.offer.request?.title }}</ion-card-title>
-      <ion-card-subtitle class="ion-text-end" color="success">
-        {{ order.status?.name || 'En Proceso' }}
-      </ion-card-subtitle>
-       <ion-card-subtitle class="ion-text-end">
+      <ion-card *ngFor="let order of orders" 
+          class="request-card"
+          [class.completed-bg]="order.status?.name === 'Completada'">
+  <ion-card-header>
+    <ion-card-title>Pedido: {{ order.offer.request?.title }}</ion-card-title>
+    
+    <ion-card-subtitle class="ion-text-end" 
+                       [color]="order.status?.name === 'Completada' ? 'danger' : 'success'">
+      {{ order.status?.name || 'En Proceso' }}
+    </ion-card-subtitle>
+    
+    <ion-card-subtitle class="ion-text-end">
       {{ order.updated_at | date:'dd/MM/yyyy HH:mm' }}
     </ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content>
-<ion-item lines="none" class="earnings-item">
-        <ion-label>
-          <p><strong>Origen:</strong> {{ order.offer.request?.origin_address?.address }}</p>
-<p><strong>Destino:</strong> {{ order.offer.request?.destination_address?.address }}</p>
-          <p><strong>KDT Asignado:</strong> {{ order.offer.courier?.user?.firstname }} {{ order.offer.courier?.user?.lastname }}</p>
-          </ion-label>
-          </ion-item>
-          <ion-item lines="none" class="earnings-item">
-            <ion-label>
-           <p><strong>Precio Final:</strong> 
-        </ion-label>
-        <span slot="end" class="earnings-amount">
-          {{ order.offer.price | currency:'$' }}
-         </span> 
-      
-          
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
 
-</ion-content>
+      <ion-card-content>
+      <ion-item lines="none" class="earnings-item">
+      <ion-label>
+        <p><strong>Origen:</strong> {{ order.offer.request?.origin_address?.address }}</p>
+        <p><strong>Destino:</strong> {{ order.offer.request?.destination_address?.address }}</p>
+        <p><strong>KDT Asignado:</strong> {{ order.offer.courier?.user?.firstname }} {{ order.offer.courier?.user?.lastname }}</p>
+        </ion-label>
+        </ion-item>
+      <ion-item lines="none" class="earnings-item">
+      <ion-label>
+        <p><strong>Precio Final:</strong> 
+      </ion-label>
+      <span slot="end" class="earnings-amount">
+      {{ order.offer.price | currency:'$' }}
+      </span> 
+
+      </ion-item>
+      </ion-card-content>
+      </ion-card>
+
+      </ion-content>
