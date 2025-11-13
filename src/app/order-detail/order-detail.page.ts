@@ -118,7 +118,8 @@ this.global.presentToast("No se encontraron datos para este pedido.", 'warning')
  const navigationExtras: NavigationExtras = { 
    state: {
    originAddress: origen,
-   destinationAddress: destino
+   destinationAddress: destino,
+   orderId: this.currentOrder.id
    }
    };
 
