@@ -1,4 +1,12 @@
 // Quita el padding izquierdo del ion-item de detalles
+
+ion-card-subtitle{
+  font-size: 1.5rem ;
+}
+.fecha{
+  margin:0;
+  font-size: 0.9rem ;
+}
 .detail-item {
   --inner-padding-start: 0;
   --padding-start: 0;
@@ -8,16 +16,22 @@
     margin: 4px 0; // Un poco de espacio entre párrafos
   }
 }
+ion-card-header{
+  margin:0 !important;
+  padding-bottom:0;
+}
 
 // Quita el padding y añade espacio al item del precio
 .earnings-item {
   --inner-padding-start: 0;
   --padding-start: 0;
   margin-top: 8px; // Espacio entre los detalles y el precio
-   p {
+
+  p {
     font-size: 0.9em;
     margin: 4px 0; // Un poco de espacio entre párrafos
   }
+
   // Estilo para el monto
   .earnings-amount {
     font-size: 1.2rem;
@@ -27,22 +41,22 @@
 }
 
 img {
-    max-width: 100%; 
-    opacity: 0.5;
-    bottom: 0;  
-    align-items: flex-end;   
+  max-width: 100%;
+  opacity: 0.5;
+  bottom: 0;
+  align-items: flex-end;
 }
 
 
 
-  .image{
-    opacity: 0.5;
-    --bottom: 0;
-    position: fixed;
-    width: 100%;
-    left: 50%;         
-    transform: translateX(-50%);
-    z-index: 1000;    
+.image {
+  opacity: 0.5;
+  --bottom: 0;
+  position: fixed;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
 }
 
 .request-card {
@@ -52,9 +66,9 @@ img {
 
 
 .completed-bg {
-  --background: #e4e4e4; 
+  --background: #e4e4e4;
+
   ion-item {
-    --background: transparent; 
+    --background: transparent;
   }
 }
-

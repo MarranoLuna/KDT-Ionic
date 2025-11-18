@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="warning">
     <ion-buttons slot="start">
-           <ion-back-button defaultHref="/home" text=""></ion-back-button>
+      <ion-back-button defaultHref="/home" text=""></ion-back-button>
     </ion-buttons>
     <ion-title>Solicitudes Disponibles</ion-title>
   </ion-toolbar>
@@ -18,7 +18,10 @@
     <p>No hay solicitudes disponibles por el momento.</p>
   </div>
 
-  <ion-card *ngFor="let request of availableRequests" class="request-card">
+  <ion-card *ngFor="let request of availableRequests" class="request-card" [ngStyle]="{
+          'background-color': request.has_offered ? '#dedede': '#fcf7e6'
+        }"
+  >
     <ion-card-content>
       <div class="card-header">
         <div class="address-section">
@@ -49,7 +52,7 @@
         <p>{{ request.payment_method }}</p>
         <p class="user-info">
 
-  
+
         <p class="user-info">
           <ion-icon name="person-circle-outline" color="medium"></ion-icon>
           Solicitado por: <strong>{{ request.user?.firstname }} {{ request.user?.lastname }}</strong>
@@ -58,7 +61,7 @@
 
       <ng-container *ngIf="!request.has_offered">
         <ion-button fill="clear" size="small" class="ofertar-button" (click)="makeOffer(request)">
-         Ofertar
+          Ofertar
         </ion-button>
       </ng-container>
       <ng-container *ngIf="request.has_offered">

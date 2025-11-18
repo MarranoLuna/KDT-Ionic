@@ -6,6 +6,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { Preferences } from '@capacitor/preferences';
 import { RouterModule } from '@angular/router';
 import { ApiService, } from '../services/api';
+import { Global } from '../services/global';
 import { ToastController } from '@ionic/angular';
 import { HttpErrorResponse } from '@angular/common/http';
 import { KdtMenuComponent } from '../components/kdt-menu/kdt-menu.component';
@@ -50,6 +51,7 @@ export class KdtHomePage implements OnInit {
     private apiService: ApiService,
     private toastCtrl: ToastController,
     private router: Router,
+    private global: Global
   ) { }
 
   ngOnInit() { }
@@ -104,7 +106,7 @@ export class KdtHomePage implements OnInit {
         event.target.complete(); // Le dice al <ion-refresher> que termine
       },
       error: (err) => {
-        this.presentToast("Error al refrescar", "danger");
+        this.global.presentToast("Error al refrescar", "danger");
         event.target.complete(); // También debe terminar si hay error
       }
     });
@@ -119,7 +121,7 @@ export class KdtHomePage implements OnInit {
 
       // Esto solo pasaría si la API devuelve algo raro.
       console.error("Se intentó navegar, pero currentOrder no tiene un ID:", this.currentOrder);
-      this.presentToast("No se pudo cargar el pedido. Intenta refrescar.", "danger");
+      this.global.presentToast("No se pudo cargar el pedido. Intenta refrescar.", "danger");
 
       this.loadActiveOrder();
     }
@@ -144,14 +146,14 @@ export class KdtHomePage implements OnInit {
         this.isKdtActive = response.new_status;
         this.isToggling = false;
 
-        const message = response.new_status ? 'Ahora estás ACTIVO' : 'Ahora estás INACTIVO';
-        this.presentToast(message, 'success');
+        const message = response.new_status ? 'Ahora puedes completar pedidos' : 'Estás INACTIVO';
+        this.global.presentToast(message, 'success');
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error al cambiar el estado', err);
         this.isKdtActive = previousState;
         this.isToggling = false;
-        this.presentToast('Error al cambiar tu estado. Intenta de nuevo.', 'danger');
+        this.global.presentToast('Error al cambiar tu estado. Intenta de nuevo.', 'danger');
       }
     });
   }
@@ -187,7 +189,7 @@ export class KdtHomePage implements OnInit {
 
     } catch (err) {
       console.error("Error cargando datos del dashboard", err);
-      this.presentToast("Error al refrescar los datos", "danger");
+      this.global.presentToast("Error al refrescar los datos", "danger");
     } finally {
       // Pase lo que pase, oculta el spinner y/o el refresher
       this.isLoadingOrder = false;

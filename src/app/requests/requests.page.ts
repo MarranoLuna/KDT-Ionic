@@ -154,7 +154,7 @@ export class RequestsPage implements OnInit {
                     const index = this.requests.findIndex(r => r.id === request.id);
                     if (index !== -1) {
                         this.requests[index].request_status_id = 3; // Asumimos 3 = Aceptado
-                        this.requests[index].status = { name: 'Aceptado' };
+                        this.requests[index].status = { name: 'ACEPTADA' };
                     }
                     this.expandedId = null; // Cierra el detalle
                 });
