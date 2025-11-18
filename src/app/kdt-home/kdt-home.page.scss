@@ -1,5 +1,7 @@
-div, ng-container {
+ng-container {
   font-family: 'Helvetica Neue', sans-serif;
+  height: 100%;
+  overflow: auto;
 }
 .menu_but{
   position: absolute;
@@ -29,20 +31,11 @@ ion-header.header-container {
   gap: 2rem; // Espacio entre avatar y nombre
 }
 
-// Avatar
-.avatar {
-  width: 6rem; // Tamaño ajustado al diseño
-  height: 6rem;
-  border-radius: 50%;
-  border: 4px solid var(--ion-color-warning); // Borde naranja
-  overflow: hidden;
-  background-color: #949393; // Color de fondo por si la imagen falla
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+ion-avatar {
+  width: 6.5rem; // Tamaño ajustado al diseño
+  height: 6.5rem;
+  border: 4px solid var(--ion-color-warning); // Borde naranja
 }
 // Botón de estado (Activo/Inactivo)
 .status-toggle {
@@ -106,7 +99,6 @@ ion-header.header-container {
 .status-toggle.inactive-status {
   background: var(--ion-color-danger);
 }
-
 
 ion-footer {
   background: #f4edeb;

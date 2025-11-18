@@ -25,9 +25,9 @@
 		</ion-toolbar>
 
 		<div class="profile-header">
-			<div class="avatar">
-				<img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Avatar">
-			</div>
+			<ion-avatar>
+				<img [src]="userAvatar || 'https://ionicframework.com/docs/img/demos/avatar.svg'" alt="Avatar">
+			</ion-avatar>
 			<div class="profile-info">
 				<h1>Hola {{ userName }}!</h1>
 				<div class="status-toggle" (click)="toggleStatus()" [ngClass]="{
@@ -46,14 +46,14 @@
 		</p>
 
 		<!-- <ng-container *ngIf="availableRequestCount > 0; else noRequests">
-  <p class="status-message">
-    ¡Hay {{ availableRequestCount }} solicitudes esperando su oferta!
-  </p>
-</ng-container>
+		<p class="status-message">
+			¡Hay {{ availableRequestCount }} solicitudes esperando su oferta!
+		</p>
+		</ng-container>
 
-<ng-template #noRequests>
-  <p class="status-message-empty">No hay solicitudes activas por el momento.</p>
-</ng-template> -->
+		<ng-template #noRequests>
+		<p class="status-message-empty">No hay solicitudes activas por el momento.</p>
+		</ng-template> -->
 
 		<div class="location-info">
 			<span>Gualeguaychú, 5 km</span>
@@ -62,7 +62,7 @@
 
 	</ion-header>
 
-	<ion-content [fullscreen]="true">
+	<ion-content [fullscreen]="true" class="map-container">
 
 		<ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
 			<ion-refresher-content></ion-refresher-content>
