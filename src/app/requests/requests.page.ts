@@ -133,7 +133,7 @@ export class RequestsPage implements OnInit {
     async acceptOffer(request: any, offer: any) {
         const alert = await this.alertCtrl.create({
             header: 'Confirmar Aceptación',
-            message: `¿Aceptar la oferta de ${offer.courier?.firstname || 'KDT'} por $${offer.price}?`,
+            message: `¿Aceptar la oferta de ${offer.courier.user.firstname + ' '+offer.courier.user.lastname || 'KDT'} por $${offer.price}?`,
             buttons: [
                 { text: 'Cancelar', role: 'cancel' },
                 { text: 'Aceptar', handler: () => this.sendAcceptanceToApi(request, offer) }
