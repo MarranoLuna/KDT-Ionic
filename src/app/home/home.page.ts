@@ -29,12 +29,14 @@ constructor(
   private apiService: ApiService,
   private loadingCtrl: LoadingController,
  ) {
+  console.log("Entra al home");
  // Es mejor quitar la llamada a 'mostrarUSer()' de aquí
     // y dejar que los 'lifecycle hooks' (ngOnInit/ionViewWillEnter) se encarguen.
 }
 
   // 'ngOnInit' se ejecuta solo la PRIMERA vez que se carga la página.
 async ngOnInit() {
+  console.log("ngoninit")
     await this.loadUserData();
 }
 
@@ -42,6 +44,7 @@ async ngOnInit() {
   // Esto se ejecuta CADA VEZ que entras a la página (ej: al volver de editar perfil).
   // Así nos aseguramos que el avatar esté siempre actualizado.
   async ionViewWillEnter() {
+    console.log("ionviewwillenter")
   this.userData = await this.userService.getCurrentUser();
   console.log('URL del avatar:', this.userData?.avatar); // <-- AÑADE ESTO
 }

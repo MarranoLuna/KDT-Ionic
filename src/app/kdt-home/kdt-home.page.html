@@ -1,53 +1,51 @@
 <app-kdt-menu></app-kdt-menu>
 
 <div *ngIf="isLoadingOrder" class="loading-container">
-  <ion-spinner name="crescent"></ion-spinner>
-  <p>Buscando pedidos activos...</p>
+	<ion-spinner name="crescent"></ion-spinner>
+	<h2>Buscando pedidos activos...</h2>
 </div>
 
 
 <ng-container *ngIf="!isLoadingOrder">
 
-  <ion-header class="ion-no-border header-container">
-    <ion-toolbar>
-      <ion-menu-button class="menu_but">
-        <svg width="64px" height="64px" viewBox="0 0 1024 1024" class="icon" version="1.1"
-          xmlns="http://www.w3.org/2000/svg" fill="#fa9a00" stroke="#fa9a00">
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-          <g id="SVGRepo_iconCarrier">
-            <path
-              d="M128 469.3333h768v85.333334H128zM128 213.333333h768v85.333334H128zM128 725.333333h768v85.333334H128z"
-              fill="#fa9a00"></path>
-          </g>
-        </svg>
-      </ion-menu-button>
-    </ion-toolbar>
+	<ion-header class="ion-no-border header-container">
+		<ion-toolbar>
+			<ion-menu-button class="menu_but">
+				<svg width="64px" height="64px" viewBox="0 0 1024 1024" class="icon" version="1.1"
+					xmlns="http://www.w3.org/2000/svg" fill="#fa9a00" stroke="#fa9a00">
+					<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+					<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+					<g id="SVGRepo_iconCarrier">
+						<path
+							d="M128 469.3333h768v85.333334H128zM128 213.333333h768v85.333334H128zM128 725.333333h768v85.333334H128z"
+							fill="#fa9a00"></path>
+					</g>
+				</svg>
+			</ion-menu-button>
+		</ion-toolbar>
 
-    <div class="header-content ion-padding-start ion-padding-end">
-      <div class="profile-header">
-        <div class="avatar">
-          <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Avatar">
-        </div>
-        <div class="profile-info">
-          <h1>Hola {{ userName }}!</h1>
-        </div>
-      </div>
+		<div class="profile-header">
+			<div class="avatar">
+				<img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Avatar">
+			</div>
+			<div class="profile-info">
+				<h1>Hola {{ userName }}!</h1>
+				<div class="status-toggle" (click)="toggleStatus()" [ngClass]="{
+					'inactive-status': !isKdtActive, 
+					'toggling-status': isToggling 
+				}">
+					<div class="status-indicator"></div>
+					<span>{{ isKdtActive ? 'Activo' : 'Inactivo' }}</span>
+					<ion-icon name="chevron-down-outline"></ion-icon>
+				</div>
+			</div>
+		</div>
 
-      <div class="status-toggle" (click)="toggleStatus()" [ngClass]="{
-            'inactive-status': !isKdtActive, 
-            'toggling-status': isToggling 
-         }">
-        <div class="status-indicator"></div>
-        <span>{{ isKdtActive ? 'Activo' : 'Inactivo' }}</span>
-        <ion-icon name="chevron-down-outline"></ion-icon>
-      </div>
+		<p class="status-message">
+			¡Hay solicitudes esperando tu oferta!
+		</p>
 
-      <p class="status-message">
-        ¡Hay solicitudes esperando su oferta!
-      </p>
-
-      <!-- <ng-container *ngIf="availableRequestCount > 0; else noRequests">
+		<!-- <ng-container *ngIf="availableRequestCount > 0; else noRequests">
   <p class="status-message">
     ¡Hay {{ availableRequestCount }} solicitudes esperando su oferta!
   </p>
@@ -57,42 +55,43 @@
   <p class="status-message-empty">No hay solicitudes activas por el momento.</p>
 </ng-template> -->
 
-      <div class="location-info">
-        <span>Gualeguaychú, 5 km</span>
-        <ion-icon name="chevron-down-outline"></ion-icon>
-      </div>
-    </div>
-  </ion-header>
+		<div class="location-info">
+			<span>Gualeguaychú, 5 km</span>
+			<ion-icon name="chevron-down-outline"></ion-icon>
+		</div>
 
-  <ion-content [fullscreen]="true">
+	</ion-header>
 
-    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-      <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
+	<ion-content [fullscreen]="true">
 
-    <google-map height="100%" width="100%" [center]="mapCenter" [zoom]="mapZoom" [options]="mapOptions">
-    </google-map>
+		<ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+			<ion-refresher-content></ion-refresher-content>
+		</ion-refresher>
 
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="fab-locate">
-      <ion-fab-button>
-        <ion-icon name="locate-outline"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
-  </ion-content>
+		<google-map height="100%" width="100%" [center]="mapCenter" [zoom]="mapZoom" [options]="mapOptions">
+		</google-map>
 
-  <ion-footer class="ion-no-border ion-padding">
-    <ion-toolbar>
+		<ion-fab vertical="bottom" horizontal="end" slot="fixed" class="fab-locate">
+			<ion-fab-button>
+				<ion-icon name="locate-outline"></ion-icon>
+			</ion-fab-button>
+		</ion-fab>
+	</ion-content>
 
-      <ion-button *ngIf="!currentOrder" expand="block" color="warning" routerLink="/see-list">
-        Ver en lista
-      </ion-button>
+	<ion-footer class="ion-no-border ion-padding">
+		<ion-toolbar>
 
-      <ion-button *ngIf="currentOrder" (click)="goToActiveOrder()" expand="block" color="warning" class="pulse-button">
-        <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
-        ¡VER PEDIDO ACTIVO!
-      </ion-button>
+			<ion-button *ngIf="!currentOrder" expand="block" color="warning" routerLink="/see-list">
+				Ver en lista
+			</ion-button>
 
-    </ion-toolbar>
-  </ion-footer>
+			<ion-button *ngIf="currentOrder" (click)="goToActiveOrder()" expand="block" color="warning"
+				class="pulse-button">
+				<ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+				¡VER PEDIDO ACTIVO!
+			</ion-button>
+
+		</ion-toolbar>
+	</ion-footer>
 
 </ng-container>

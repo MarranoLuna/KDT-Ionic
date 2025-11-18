@@ -28,7 +28,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
 body {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Helvetica Neue', sans-serif;
+  user-select: none;
 }
 
 ion-toolbar {
@@ -71,6 +72,7 @@ ion-select{
 
 ion-content {
   font-size: 1.4rem;
+  font-family: 'Helvetica Neue', sans-serif;
   --background: #f4edebcf;
 }
 
@@ -86,10 +88,6 @@ ion-button {
 
 ion-button:active {
   --background: #b36e00;
-}
-
-body {
-  user-select: none;
 }
 
 .tostada {
