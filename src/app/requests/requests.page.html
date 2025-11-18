@@ -17,7 +17,7 @@
           'background-color': request.status?.name == 'OFERTADA' ? '#def2a0' : request.status?.name == 'ACEPTADA' ? '#a7a8a3' : '#ffffff'
         }">
 		<ion-card-header>
-			<ion-card-title>{{'#' + request.id }}: {{ request.title}}</ion-card-title>
+			<ion-card-title> {{ request.title}}</ion-card-title>
 			<ion-card-subtitle class="ion-text-end status-label" [ngStyle]="{
         		'color': request.status?.name == 'OFERTADA' ? 'rgb(8, 63, 0)' : 'grey'
         		}">
