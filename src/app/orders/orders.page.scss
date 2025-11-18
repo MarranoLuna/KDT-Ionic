@@ -20,7 +20,18 @@ ion-card-header{
   margin:0 !important;
   padding-bottom:0;
 }
-
+ion-card-title{
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+.delivered_img{
+  position: absolute;
+  width: 80%;
+  top:15%;
+  left:10%;
+  z-index: 1001;
+  opacity: 0.8;
+}
 // Quita el padding y añade espacio al item del precio
 .earnings-item {
   --inner-padding-start: 0;

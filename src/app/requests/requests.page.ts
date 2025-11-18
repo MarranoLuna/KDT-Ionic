@@ -297,5 +297,8 @@ export class RequestsPage implements OnInit {
             }
         });
     }
+    goHome(){
+        this.global.go_home();
+    }
 
 } 

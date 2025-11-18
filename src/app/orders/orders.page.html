@@ -23,9 +23,10 @@
 
   <ion-card *ngFor="let order of orders" class="request-card"
     [class.completed-bg]="order.status?.name === 'Completada'">
+    <img *ngIf="order.status?.name === 'Completada'" src="../../assets/delivered.png" class="delivered_img"/>
     <ion-card-header>
       <ion-card-title>#{{ order.offer.request?.id }}: {{ order.offer.request?.title }}</ion-card-title>
-      <ion-card-subtitle class="ion-text-end" [color]="order.status?.name === 'Completada' ? 'danger' : 'success'">
+      <ion-card-subtitle class="ion-text-end" [color]="order.status?.name === 'Completada' ? 'grey' : 'success'">
         {{ order.status?.name || 'En Proceso' }}
       </ion-card-subtitle>
       <p class="ion-text-end fecha">

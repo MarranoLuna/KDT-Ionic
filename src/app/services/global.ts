@@ -73,4 +73,7 @@ export class Global {
 	go_back(){
 		this.NavController.back();
 	}
+	go_home(){
+		this.NavController.navigateRoot('/home');
+	}
 }

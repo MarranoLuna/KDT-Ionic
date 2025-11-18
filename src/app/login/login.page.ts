@@ -42,18 +42,16 @@ export class LoginPage {
     }
 
     async onLogin() {
-        /*
+        
         const loading = await this.loadingCtrl.create({
             message: 'Iniciando sesión...',
             spinner: 'crescent'
-        })
-        
+        }) 
         loading.present();
-        */
-
+        
         this.userService.login(this.credentials).subscribe({//?envia las credenciales a userService (la misma API) y recibe la respuesta
             next: async (response: any) => {
-                //await loading.dismiss();
+                await loading.dismiss();
                 try {
                     this.registerNotifications();
                     this.saveUser(response);
@@ -66,7 +64,7 @@ export class LoginPage {
             },
 
             error: async (error: HttpErrorResponse) => {
-                //await loading.dismiss();
+                await loading.dismiss();
                 console.log("hubo un error");
                 this.global.presentToast('Usuario o contraseña incorrectos ❌', 'danger');
             }

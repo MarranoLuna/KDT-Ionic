@@ -26,6 +26,7 @@ import { lastValueFrom } from 'rxjs';
 export class KdtHomePage implements OnInit {
 
   userName: string = '';
+  userAvatar : string = "";
   isKdtActive: boolean = true;
   courier: any;
   isToggling: boolean = false;
@@ -69,6 +70,7 @@ export class KdtHomePage implements OnInit {
       const user = JSON.parse(value);
 
       this.userName = `${user.firstname || ''} ${''}`.trim();
+      this.userAvatar = user.avatar || '';
       if (!this.userName) {
         this.userName = 'Usuario';
       }
