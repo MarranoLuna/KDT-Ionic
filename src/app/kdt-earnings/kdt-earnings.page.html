@@ -37,11 +37,7 @@
       </ion-card-content>
     </ion-card>
     
-    <ion-item lines="none" class=" ion-margin-horizontal">
-      <ion-label>
-        <h2>Desglose de Pedidos</h2>
-      </ion-label>
-    </ion-item>
+   
 
     <div *ngIf="completedOrders.length === 0" class="ion-text-center ion-padding">
       <p>{{ currentFilter === 'today' ? 'No tienes pedidos completados hoy.' : 'No tienes pedidos en tu historial.' }}</p>
