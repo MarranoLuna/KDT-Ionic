@@ -21,7 +21,7 @@
   <ion-card-header>
     
     <ion-card-title>
-      Pedido #{{ order.id }}
+      Pedido: {{ order.offer.request?.title}}
     </ion-card-title>
     
     <ion-card-subtitle class="ion-text-end" [color]="order.status?.name === 'Completado' ? 'success' : 'danger'">

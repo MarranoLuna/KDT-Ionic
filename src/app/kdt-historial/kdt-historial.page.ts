@@ -38,9 +38,9 @@ export class KdtHistorialPage implements OnInit {
     this.isLoading = true;
     this.apiService.getOrderHistory().subscribe({
       next: (data) => {
-        this.orderHistory = data; // <-- ¡ARREGLADO!
+        this.orderHistory = data; 
         this.isLoading = false;
-        console.log('Historial cargado:', this.orderHistory); // <-- ¡ARREGLADO!
+        console.log('Historial cargado:', this.orderHistory); 
       },
       error: (err) => {
         console.error('Error cargando historial', err);
