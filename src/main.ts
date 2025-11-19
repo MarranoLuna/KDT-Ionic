@@ -11,7 +11,8 @@ import { paperPlaneOutline,
   locateOutline,chevronDownOutline, locationOutline, trashOutline, exitOutline,rocketOutline, cubeOutline, notificationsOutline,newspaperOutline,cartOutline,
    peopleOutline,personCircleOutline, homeOutline, cloud, cloudUploadOutline, listOutline, addCircleOutline, cashOutline, archiveOutline, mapOutline, swapHorizontalOutline, 
    eye, flagOutline, pinOutline, carSportOutline, cardOutline,
-   informationCircleOutline, } from 'ionicons/icons';
+   informationCircleOutline,
+   documentTextOutline, } from 'ionicons/icons';
 
 addIcons({
   'paperPlaneOutline':paperPlaneOutline,
@@ -42,7 +43,7 @@ addIcons({
   'car-sport-outline': carSportOutline,
   'card-outline': cardOutline,
   'information-circle-outline': informationCircleOutline,
-
+  'document-text-outline': documentTextOutline,
 }); 
 
 import { provideHttpClient } from '@angular/common/http';

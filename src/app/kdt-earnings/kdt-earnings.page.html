@@ -37,7 +37,7 @@
       </ion-card-content>
     </ion-card>
     
-    <ion-item lines="none" class="ion-padding-horizontal">
+    <ion-item lines="none" class=" ion-margin-horizontal">
       <ion-label>
         <h2>Desglose de Pedidos</h2>
       </ion-label>
@@ -47,7 +47,7 @@
       <p>{{ currentFilter === 'today' ? 'No tienes pedidos completados hoy.' : 'No tienes pedidos en tu historial.' }}</p>
     </div>
 
-    <ion-list *ngIf="completedOrders.length > 0" lines="full" class="ion-padding-horizontal">
+    <ion-list *ngIf="completedOrders.length > 0" lines="full" class=" ion-margin-horizontal">
       <ion-item *ngFor="let order of completedOrders">
         <ion-label>
           <h3>{{ order.offer.request?.title || ('Pedido #' + order.id) }}</h3>
