@@ -91,8 +91,7 @@ constructor(
           buttons: [{
             text: 'OK',
             handler: () => {
-              // Navegamos a otra página después de que el usuario presione OK
-              this.router.navigate(['/profile']); 
+              this.router.navigate(['/profile-edit']); 
             }
           }]
         });
