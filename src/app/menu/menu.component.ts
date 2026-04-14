@@ -4,11 +4,22 @@ import { NavController } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
 import { UserService } from 'src/app/services/user';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import {
-  IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList,
-  IonItem, IonIcon, IonLabel, IonFooter, IonButton, IonItemDivider
+  IonMenu,
+  IonAvatar,
+  IonContent,
+  IonLabel,
+  IonList,
+  IonMenuToggle,
+  IonItem,
+  IonIcon,
+  IonFooter,
+  IonToolbar,
+  IonButton,
+  IonHeader, IonTitle,
+  IonItemDivider
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -16,9 +27,33 @@ import {
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule, IonMenu,
-    IonHeader, IonToolbar, IonTitle, IonContent,
-    IonList, IonItem, IonIcon, IonLabel, IonFooter, IonButton, IonItemDivider,
+  imports: [
+	  IonMenu,
+    IonContent,
+    IonAvatar,
+    IonLabel,
+    IonList,
+    IonMenuToggle,
+    IonItem,
+    IonIcon,
+    IonFooter,
+    IonToolbar,
+    IonButton,
+    RouterLink, 
+    CommonModule, 
+    RouterModule, 
+    IonMenu,
+    IonHeader, 
+    IonToolbar, 
+    IonTitle, 
+    IonContent,
+    IonList, 
+    IonItem, 
+    IonIcon, 
+    IonLabel, 
+    IonFooter, 
+    IonButton, 
+    IonItemDivider,
   ]
 })
 export class MenuComponent implements OnInit {
@@ -29,7 +64,7 @@ export class MenuComponent implements OnInit {
     private navController: NavController,
     private userService: UserService,
     private router: Router
-  ) { 
+  ) {
   }
 
   async ngOnInit() {
